@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة مركز التابعين القرآني | غزة - فلسطين</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@300;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --emerald: #14453d; --gold: #c5a059; --cream: #f8faf9; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--cream); color: var(--emerald); scroll-behavior: smooth; }
+        .quran-font { font-family: 'Amiri', serif; }
+        
+        /* نظام التنقل الفوري لتقليل التشتت */
+        .page-node { display: none; min-height: 100vh; animation: fadeIn 0.5s ease-in-out; }
+        .page-node.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hero-bg {
+            background: linear-gradient(rgba(20, 69, 61, 0.92), rgba(20, 69, 61, 0.95)), 
+                        url('https://i.ibb.co/LzXN9YJ/quran-2.jpg');
+            background-size: cover; background-position: center;
+        }
+
+        .main-btn { 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .main-btn:hover { transform: scale(1.03); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        
+        .quiz-card { border: 2px solid #edf2f7; cursor: pointer; transition: 0.3s; }
+        .quiz-card:hover { border-color: var(--gold); background: #fdfaf3; }
+    </style>
+</head>
+<body>
+
+    <nav class="bg-[#14453d] text-white py-6 sticky top-0 z-50 border-b-2 border-[#c5a059]/40 shadow-2xl">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-5 cursor-pointer" onclick="navigateTo('home')">
+                <img src="https://i.ibb.co/X78F3B3/logo.png" class="w-16 h-16 border-2 border-[#c5a059] rounded-full bg-white/10">
+                <div>
+                    <h1 class="text-2xl font-bold quran-font">مركز التابعين القرآني</h1>
+                    <p class="text-[11px] text-[#c5a059] font-bold tracking-[0.2em]">فلسطين - غزة - المخيم الجديد</p>
+                </div>
+            </div>
+            
+            <div id="desktopNav" class="hidden lg:flex gap-10 font-bold text-base">
+                <button onclick="navigateTo('about')" class="hover:text-[#c5a059] transition">عن المركز</button>
+                <button onclick="navigateTo('staff')" class="hover:text-[#c5a059] transition">الهيئة الإدارية</button>
+                <button onclick="navigateTo('competitions')" class="hover:text-[#c5a059] transition">المسابقات</button>
+                <button onclick="navigateTo('donate')" class="bg-[#c5a059] text-[#14453d] px-6 py-2 rounded-full hover:brightness-110 transition">دعم المركز</button>
+            </div>
+
+            <button id="backBtn" onclick="navigateTo('home')" class="hidden bg-white/10 px-6 py-3 rounded-xl text-sm font-bold border border-white/20 hover:bg-white/20">
+                <i class="fas fa-home ml-2"></i> الرئيسية
+            </button>
+        </div>
+    </nav>
+
+    <div id="homePage" class="page-node active hero-bg flex items-center justify-center">
+        <div class="container mx-auto px-6 py-24 text-center text-white">
+            <h2 class="text-6xl md:text-8xl font-black quran-font mb-8 text-[#c5a059]">خطوة نحو الجنان</h2>
+            <p class="text-2xl md:text-3xl font-light italic mb-16 opacity-90">"خيركم من تعلم القرآن وعلمه"</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <button onclick="navigateTo('search')" class="main-btn bg-white/10 backdrop-blur-md p-10 rounded-[2.5rem] border border-white/20">
+                    <i class="fas fa-file-signature text-4xl text-[#c5a059] mb-4"></i>
+                    <span class="block text-xl font-bold">استعلام النتائج</span>
+                    <span class="text-xs opacity-60 mt-2 block">متابعة مستوى الطالب من السجل الرقمي</span>
+                </button>
+                <button onclick="navigateTo('about')" class="main-btn bg-white/10 backdrop-blur-md p-10 rounded-[2.5rem] border border-white/20">
+                    <i class="fas fa-history text-4xl text-[#c5a059] mb-4"></i>
+                    <span class="block text-xl font-bold">عن المركز</span>
+                    <span class="text-xs opacity-60 mt-2 block">رؤيتنا، رسالتنا، وإنجازاتنا في غزة</span>
+                </button>
+                <button onclick="navigateTo('competitions')" class="main-btn bg-white/10 backdrop-blur-md p-10 rounded-[2.5rem] border border-white/20">
+                    <i class="fas fa-trophy text-4xl text-[#c5a059] mb-4"></i>
+                    <span class="block text-xl font-bold">المسابقات</span>
+                    <span class="text-xs opacity-60 mt-2 block">تحديات تفاعلية وجوائز قيمة</span>
+                </button>
+                <button onclick="navigateTo('staff')" class="main-btn bg-white/10 backdrop-blur-md p-10 rounded-[2.5rem] border border-white/20 lg:col-start-1">
+                    <i class="fas fa-users text-4xl text-[#c5a059] mb-4"></i>
+                    <span class="block text-xl font-bold">هيئة الإدارة</span>
+                    <span class="text-xs opacity-60 mt-2 block">كادر النخبة والمحفظين المجازين</span>
+                </button>
+                <button onclick="navigateTo('donate')" class="main-btn bg-[#c5a059] p-10 rounded-[2.5rem] text-[#14453d]">
+                    <i class="fas fa-hand-holding-heart text-4xl mb-4"></i>
+                    <span class="block text-xl font-bold">سهم التبرع</span>
+                    <span class="text-xs opacity-80 mt-2 block">كن شريكاً في بناء جيل القرآن</span>
+                </button>
+                <button onclick="navigateTo('admin')" class="main-btn bg-white/10 backdrop-blur-md p-10 rounded-[2.5rem] border border-white/20">
+                    <i class="fas fa-lock text-4xl text-[#c5a059] mb-4"></i>
+                    <span class="block text-xl font-bold">لوحة التحكم</span>
+                    <span class="text-xs opacity-60 mt-2 block">إدارة البيانات (للموظفين فقط)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="aboutPage" class="page-node py-20">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <div class="bg-white p-12 rounded-[3rem] shadow-xl border-t-8 border-[#14453d]">
+                <h2 class="text-4xl font-black quran-font text-center mb-10">عن المركز وإنجازاته</h2>
+                <p class="text-xl leading-loose text-slate-700 text-justify mb-12">
+                    مركز التابعين القرآني في غزة - المخيم الجديد، ليس مجرد مؤسسة تعليمية، بل هو صرح إيماني يسعى لترسيخ قيم القرآن في نفوس الناشئة. يضم المركز أكثر من <b>250 طالباً</b> وأكثر من <b>250 طالبة</b>، يشرف عليهم طاقم من أمهر الحفاظ والمحفظات.
+                </p>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="p-8 bg-slate-50 rounded-3xl">
+                        <i class="fas fa-users text-3xl text-[#c5a059] mb-4"></i>
+                        <h4 class="text-3xl font-black">500+</h4>
+                        <p class="text-sm font-bold text-slate-400 uppercase">طالب وطالبة</p>
+                    </div>
+                    <div class="p-8 bg-slate-50 rounded-3xl">
+                        <i class="fas fa-certificate text-3xl text-[#c5a059] mb-4"></i>
+                        <h4 class="text-3xl font-black">30+</h4>
+                        <p class="text-sm font-bold text-slate-400 uppercase">محفظ ومحفظة مجازين</p>
+                    </div>
+                    <div class="p-8 bg-slate-50 rounded-3xl">
+                        <i class="fas fa-book-reader text-3xl text-[#c5a059] mb-4"></i>
+                        <h4 class="text-3xl font-black">100%</h4>
+                        <p class="text-sm font-bold text-slate-400 uppercase">كادر نخبوي</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="staffPage" class="page-node py-20">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <h2 class="text-4xl font-black quran-font text-center mb-16">الكادر الإداري والتعليمي</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="bg-white p-10 rounded-[2.5rem] shadow-lg border-r-8 border-[#c5a059]">
+                    <h3 class="text-2xl font-bold mb-4">مجلس الإدارة</h3>
+                    <p class="text-slate-600 leading-relaxed">تتكون الهيئة الإدارية من نخبة من التربويين الذين يسهرون على تنظيم الجداول، المسابقات، والتواصل مع أولياء الأمور لضمان بيئة تعليمية مثالية.</p>
+                </div>
+                <div class="bg-[#14453d] text-white p-10 rounded-[2.5rem] shadow-lg border-r-8 border-[#c5a059]">
+                    <h3 class="text-2xl font-bold mb-4 text-[#c5a059]">الطاقم التعليمي</h3>
+                    <p class="leading-relaxed font-light">أكثر من 30 معلماً ومعلمة من حفظة القرآن كاملين، حاصلين على دورات الأحكام العليا وإجازات السند المتصل بآل بيت النبوة، يجمعون بين العلم والتقوى.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="competitionsPage" class="page-node py-20">
+        <div id="quizApp" class="max-w-3xl mx-auto bg-white p-12 rounded-[3rem] shadow-2xl border-t-8 border-[#c5a059]">
+            <div id="quizStart">
+                <h2 class="text-3xl font-black quran-font text-center mb-6">اختبر حفظك</h2>
+                <p class="text-center text-slate-500 mb-10 text-lg">اختر الفئة التي تنتمي إليها لبدء الاختبار التفاعلي</p>
+                <div class="grid gap-6">
+                    <button onclick="runQuiz('براعم')" class="p-8 bg-slate-50 rounded-3xl text-right flex justify-between items-center hover:bg-slate-100 transition border-2 border-transparent hover:border-[#c5a059]">
+                        <div>
+                            <span class="block text-xl font-bold">مستوى البراعم</span>
+                            <span class="text-sm text-slate-400">قصار السور وأحكام بسيطة</span>
+                        </div>
+                        <i class="fas fa-chevron-left text-[#c5a059]"></i>
+                    </button>
+                    <button onclick="runQuiz('متوسط')" class="p-8 bg-slate-50 rounded-3xl text-right flex justify-between items-center hover:bg-slate-100 transition border-2 border-transparent hover:border-[#c5a059]">
+                        <div>
+                            <span class="block text-xl font-bold">المستوى المتقدم</span>
+                            <span class="text-sm text-slate-400">جزء عم وتبارك</span>
+                        </div>
+                        <i class="fas fa-chevron-left text-[#c5a059]"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="quizPlay" class="hidden">
+                <div class="flex justify-between items-center mb-10">
+                    <span id="qInfo" class="text-[#c5a059] font-bold">سؤال 1 من 3</span>
+                    <div class="w-24 h-2 bg-slate-100 rounded-full overflow-hidden"><div id="qBar" class="h-full bg-[#14453d] transition-all" style="width: 33%"></div></div>
+                </div>
+                <h3 id="qText" class="text-2xl font-bold mb-10 text-right leading-relaxed"></h3>
+                <div id="qOptions" class="grid gap-4"></div>
+            </div>
+
+            <div id="quizFinish" class="hidden text-center">
+                <div class="w-24 h-24 bg-[#c5a059]/10 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl text-[#c5a059]">⭐</div>
+                <h3 class="text-3xl font-black mb-4">انتهى الاختبار!</h3>
+                <p class="text-lg text-slate-500 mb-8">درجتك النهائية هي:</p>
+                <div class="text-7xl font-black text-[#14453d] mb-10" id="qScore">0/3</div>
+                <button onclick="navigateTo('competitions')" class="bg-[#14453d] text-white px-12 py-4 rounded-2xl font-bold text-lg">العودة للمسابقات</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="searchPage" class="page-node py-20">
+        <div class="max-w-2xl mx-auto bg-white p-12 rounded-[3rem] shadow-2xl border-t-8 border-[#14453d]">
+            <h2 class="text-3xl font-black quran-font text-center mb-10 text-[#14453d]">استعلام السجل الرقمي</h2>
+            <div class="space-y-8">
+                <input type="text" id="stdID" placeholder="أدخل رقم هوية الطالب" class="w-full p-6 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-3xl font-bold outline-none focus:border-[#c5a059]">
+                <button onclick="getStudentData()" class="w-full bg-[#14453d] text-white py-6 rounded-2xl font-bold text-xl shadow-lg hover:shadow-2xl transition uppercase tracking-widest">تأكيد الاستعلام</button>
+                <div id="resOutput" class="hidden p-8 bg-amber-50 rounded-3xl border-2 border-dashed border-[#c5a059]"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="donatePage" class="page-node py-20">
+        <div class="container mx-auto px-6 max-w-4xl text-center">
+            <h2 class="text-4xl font-black quran-font mb-16">ساهم في بناء جيل القرآن</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="bg-[#14453d] p-10 rounded-[3rem] text-white shadow-xl relative overflow-hidden">
+                    <h3 class="text-2xl font-bold mb-6 text-[#c5a059]">سهم كفالة طالب</h3>
+                    <p class="opacity-80 leading-relaxed mb-8">مساهمتك تضمن استمرار الحلقات وتوفير المصاحف والجوائز التحفيزية لأبنائنا في المخيم الجديد.</p>
+                    <button class="bg-white text-[#14453d] px-8 py-3 rounded-xl font-bold">بادر بالخير</button>
+                    <i class="fas fa-star absolute -bottom-5 -right-5 text-8xl text-white/5"></i>
+                </div>
+                <div class="bg-white p-10 rounded-[3rem] shadow-lg border-2 border-dashed border-[#c5a059]">
+                    <h3 class="text-2xl font-bold mb-6">الحسابات الرسمية</h3>
+                    <div class="space-y-4">
+                        <div class="bg-slate-50 p-5 rounded-2xl text-right">
+                            <span class="block text-[10px] text-slate-400 font-bold uppercase">بنك فلسطين</span>
+                            <span class="font-bold text-lg">0000-0000-0000</span>
+                        </div>
+                        <div class="bg-slate-50 p-5 rounded-2xl text-right">
+                            <span class="block text-[10px] text-slate-400 font-bold uppercase">باي بال</span>
+                            <span class="font-bold text-lg text-blue-600 underline">paypal@at-tabeen.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminPage" class="page-node py-20">
+        <div class="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-8">
+            <div class="bg-white p-12 rounded-[2.5rem] shadow-xl text-center border-b-8 border-emerald-600">
+                <i class="fas fa-chalkboard-teacher text-5xl text-emerald-600 mb-6"></i>
+                <h3 class="text-xl font-bold mb-8 uppercase tracking-widest">بوابة المحفظين</h3>
+                <input type="password" id="tSecret" placeholder="رمز الدخول" class="w-full p-4 bg-slate-100 rounded-xl mb-6 text-center text-xl">
+                <button onclick="login('teacher')" class="w-full bg-emerald-600 text-white py-4 rounded-xl font-bold shadow-lg">دخول</button>
+            </div>
+            <div class="bg-[#14453d] p-12 rounded-[2.5rem] shadow-xl text-center border-b-8 border-[#c5a059] text-white">
+                <i class="fas fa-shield-alt text-5xl text-[#c5a059] mb-6"></i>
+                <h3 class="text-xl font-bold mb-8 uppercase tracking-widest">إدارة النظام</h3>
+                <input type="password" id="aSecret" placeholder="الرمز السري" class="w-full p-4 bg-white/10 rounded-xl mb-6 text-center text-xl">
+                <button onclick="login('admin')" class="w-full bg-[#c5a059] text-[#14453d] py-4 rounded-xl font-bold shadow-lg">تأكيد</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t py-12 text-center">
+        <p class="text-[#14453d] font-bold quran-font text-2xl">مركز التابعين القرآني - غزة</p>
+        <p class="text-slate-400 text-xs mt-4 uppercase tracking-[0.4em] font-bold">Palestine - Gaza - Official Hub © 2026</p>
+    </footer>
+
+    <script>
+        // --- محرك التنقل ---
+        function navigateTo(id) {
+            document.querySelectorAll('.page-node').forEach(p => p.classList.remove('active'));
+            document.getElementById(id + 'Page').classList.add('active');
+            
+            const deskNav = document.getElementById('desktopNav');
+            const backBtn = document.getElementById('backBtn');
+            
+            if(id === 'home') {
+                deskNav.classList.remove('hidden');
+                backBtn.classList.add('hidden');
+            } else {
+                deskNav.classList.add('hidden');
+                backBtn.classList.remove('hidden');
+            }
+            window.scrollTo(0,0);
+        }
+
+        // --- محرك المسابقات ---
+        const quizRepo = {
+            'براعم': [
+                { q: "ما هو لقب سورة الفاتحة؟", options: ["أم الكتاب", "الزهراء", "المصحف"], correct: 0 },
+                { q: "ما هي السورة التي تنتهي جميع آياتها بحرف الراء؟", options: ["الفيل", "الكوثر", "القدر"], correct: 1 },
+                { q: "ما السورة التي تسمى 'قلب القرآن'؟", options: ["يس", "الرحمن", "الملك"], correct: 0 }
+            ],
+            'متوسط': [
+                { q: "كم عدد أجزاء القرآن الكريم؟", options: ["20", "30", "60"], correct: 1 },
+                { q: "أطول آية في القرآن الكريم هي آية..", options: ["الكرسي", "الدين", "المباهلة"], correct: 1 },
+                { q: "ما هي السورة التي لا تبدأ بالبسملة؟", options: ["التوبة", "النحل", "الفرقان"], correct: 0 }
+            ]
+        };
+
+        let qData = []; let qIdx = 0; let qScore = 0;
+
+        function runQuiz(level) {
+            qData = quizRepo[level]; qIdx = 0; qScore = 0;
+            document.getElementById('quizStart').classList.add('hidden');
+            document.getElementById('quizPlay').classList.remove('hidden');
+            document.getElementById('quizFinish').classList.add('hidden');
+            renderQ();
+        }
+
+        function renderQ() {
+            const current = qData[qIdx];
+            document.getElementById('qInfo').innerText = `سؤال ${qIdx + 1} من ${qData.length}`;
+            document.getElementById('qBar').style.width = ((qIdx + 1) / qData.length * 100) + '%';
+            document.getElementById('qText').innerText = current.q;
+            const container = document.getElementById('qOptions');
+            container.innerHTML = '';
+            current.options.forEach((opt, i) => {
+                const b = document.createElement('button');
+                b.className = "quiz-card p-6 rounded-2xl text-right font-bold text-lg";
+                b.innerText = opt;
+                b.onclick = () => {
+                    if(i === current.correct) qScore++;
+                    qIdx++;
+                    if(qIdx < qData.length) renderQ(); else finishQuiz();
+                };
+                container.appendChild(b);
+            });
+        }
+
+        function finishQuiz() {
+            document.getElementById('quizPlay').classList.add('hidden');
+            document.getElementById('quizFinish').classList.remove('hidden');
+            document.getElementById('qScore').innerText = `${qScore}/${qData.length}`;
+        }
+
+        // --- محرك الاستعلام ---
+        async function getStudentData() {
+            const id = document.getElementById('stdID').value;
+            const output = document.getElementById('resOutput');
+            if(!id) return alert("يرجى إدخال رقم الطالب");
+            output.classList.remove('hidden');
+            output.innerHTML = "<p class='text-center animate-pulse'>جاري جلب البيانات من السجل الرقمي في غزة...</p>";
+            try {
+                const response = await fetch(`https://script.google.com/macros/s/AKfycbx_Y3uEfu-HbXrwlVy4wZ3OGcRb43gqbFchRKknB-hYgrlZEq-D56ZIHUKXd5adRlGViw/exec?id=${id}`);
+                const data = await response.json();
+                if(data.name) {
+                    output.innerHTML = `
+                        <div class="text-center mb-6 border-b-2 border-[#c5a059] pb-4">
+                            <h3 class="text-2xl font-black text-[#14453d]">${data.name}</h3>
+                            <p class="text-[#c5a059] font-bold">طالب مجتهد في حلقاتنا</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div class="bg-white p-4 rounded-xl shadow-sm"><span class="text-[10px] block text-slate-400">الحفظ</span><span class="font-bold">${data.part}</span></div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm"><span class="text-[10px] block text-slate-400">التقدير</span><span class="font-bold text-emerald-600">${data.grade}</span></div>
+                            <div class="col-span-2 bg-white p-4 rounded-xl shadow-sm"><span class="text-[10px] block text-slate-400">المواظبة والسلوك</span><span class="font-bold">${data.attendance}</span></div>
+                        </div>`;
+                } else { output.innerHTML = "<p class='text-center text-red-600 font-bold'>عذراً، الرقم غير موجود في سجلاتنا.</p>"; }
+            } catch(e) { output.innerHTML = "<p class='text-center text-red-500'>خطأ في الاتصال بالشبكة.</p>"; }
+        }
+
+        // --- محرك الإدارة ---
+        function login(role) {
+            const pass = role === 'admin' ? document.getElementById('aSecret').value : document.getElementById('tSecret').value;
+            if(pass === "1234") { 
+                alert("تم التحقق بنجاح.. جاري فتح قاعدة البيانات");
+                window.open("https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit", "_blank");
+            } else { alert("رمز الدخول غير صحيح!"); }
+        }
+    </script>
+</body>
+</html>
