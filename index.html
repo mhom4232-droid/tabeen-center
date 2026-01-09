@@ -11,37 +11,25 @@
         :root { --deep-blue: #0f172a; --gold: #c5a059; --accent: #1e293b; }
         body { font-family: 'Tajawal', sans-serif; background: #f8fafc; color: var(--deep-blue); }
         .quran-font { font-family: 'Amiri', serif; }
-        
         .page-node { display: none; min-height: 80vh; animation: fadeIn 0.5s ease-out; }
         .page-node.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         .header-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-bottom: 4px solid var(--gold); }
-        
-        /* زر الواتساب برقمك الجديد */
-        .whatsapp-btn {
-            position: fixed; bottom: 25px; left: 25px;
-            background: #25d366; color: white;
-            width: 65px; height: 65px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 35px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            z-index: 1000; transition: 0.4s;
-        }
+        .whatsapp-btn { position: fixed; bottom: 25px; left: 25px; background: #25d366; color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 1000; transition: 0.4s; }
         .whatsapp-btn:hover { transform: scale(1.1) rotate(15deg); }
-
-        /* معرض الصور */
-        .gallery-card { overflow: hidden; border-radius: 20px; position: relative; cursor: pointer; }
-        .gallery-card img { transition: 0.5s; width: 100%; height: 200px; object-fit: cover; }
+        .gallery-card { overflow: hidden; border-radius: 20px; position: relative; cursor: pointer; height: 200px; }
+        .gallery-card img { transition: 0.5s; width: 100%; height: 100%; object-fit: cover; }
         .gallery-card:hover img { transform: scale(1.1); filter: brightness(0.7); }
         .gallery-overlay { position: absolute; bottom: 0; right: 0; left: 0; padding: 15px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; opacity: 0; transition: 0.3s; }
         .gallery-card:hover .gallery-overlay { opacity: 1; }
-
         .aya-bar { background: #f1f5f9; border-right: 4px solid var(--gold); padding: 10px 20px; border-radius: 10px; margin-bottom: 20px; }
+        .badge-gold { background: linear-gradient(to right, #c5a059, #e2c08d); color: white; padding: 2px 10px; border-radius: 50px; font-size: 10px; }
+        .points-badge { background: #1e293b; color: #c5a059; padding: 5px 15px; border-radius: 12px; font-weight: 800; border: 1px solid #c5a059; }
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/970567842183" target="_blank" class="whatsapp-btn shadow-2xl">
+    <a href="https://wa.me/970567842183" target="_blank" class="whatsapp-btn">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -67,58 +55,101 @@
                 <span class="text-gold text-sm font-bold mb-2">إجمالي ختمات المركز</span>
                 <span class="text-5xl font-black">١٤٥</span>
             </div>
-            <button onclick="navigateTo('search')" class="bg-gold text-white p-8 rounded-3xl font-bold text-2xl shadow-xl hover:brightness-110">بوابة استعلام الطالب</button>
+            <button onclick="navigateTo('search')" class="bg-gold text-white p-8 rounded-3xl font-bold text-2xl shadow-xl">بوابة النتائج والنقاط</button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div onclick="navigateTo('honor')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 cursor-pointer hover:border-gold transition text-center">
-                <i class="fas fa-award text-3xl text-gold mb-3"></i>
-                <h3 class="font-bold">لوحة الشرف</h3>
+                <i class="fas fa-award text-2xl text-gold mb-2"></i>
+                <h3 class="font-bold text-sm">لوحة الشرف</h3>
             </div>
             <div onclick="navigateTo('gallery')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 cursor-pointer hover:border-gold transition text-center">
-                <i class="fas fa-images text-3xl text-gold mb-3"></i>
-                <h3 class="font-bold">حصاد الصور</h3>
+                <i class="fas fa-images text-2xl text-gold mb-2"></i>
+                <h3 class="font-bold text-sm">حصاد الصور</h3>
+            </div>
+            <div onclick="navigateTo('rewards')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 cursor-pointer hover:border-gold transition text-center">
+                <i class="fas fa-gift text-2xl text-gold mb-2"></i>
+                <h3 class="font-bold text-sm">متجر الجوائز</h3>
             </div>
             <div onclick="navigateTo('about')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 cursor-pointer hover:border-gold transition text-center">
-                <i class="fas fa-map-marked-alt text-3xl text-gold mb-3"></i>
-                <h3 class="font-bold">موقعنا</h3>
+                <i class="fas fa-map-marked-alt text-2xl text-gold mb-2"></i>
+                <h3 class="font-bold text-sm">موقعنا</h3>
             </div>
-            <div onclick="navigateTo('competitions')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 cursor-pointer hover:border-gold transition text-center">
-                <i class="fas fa-trophy text-3xl text-gold mb-3"></i>
-                <h3 class="font-bold">المسابقات</h3>
+        </div>
+    </div>
+
+    <div id="rewardsPage" class="page-node py-16 px-6 max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-black quran-font">متجر جوائز التابعين</h2>
+            <p class="text-slate-500">استبدل نقاط حفظك بهدايا قيمة</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex justify-between items-center">
+                <div>
+                    <h4 class="font-bold">مجموعة قرطاسية فاخرة</h4>
+                    <p class="text-xs text-slate-400">تحتاج إلى 500 نقطة</p>
+                </div>
+                <div class="points-badge">500</div>
+            </div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex justify-between items-center">
+                <div>
+                    <h4 class="font-bold">رحلة ترفيهية مجانية</h4>
+                    <p class="text-xs text-slate-400">تحتاج إلى 1500 نقطة</p>
+                </div>
+                <div class="points-badge">1500</div>
             </div>
         </div>
     </div>
 
     <div id="galleryPage" class="page-node py-16 px-6 max-w-6xl mx-auto">
-        <h2 class="text-3xl font-black text-center mb-10 quran-font text-slate-800">معرض إنجازات المركز</h2>
+        <h2 class="text-3xl font-black text-center mb-10 quran-font">معرض إنجازات المركز</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="gallery-card bg-slate-200 shadow-lg">
-                <img src="https://images.unsplash.com/photo-1584281723350-13f5698b6711?q=80&w=600" alt="تكريم">
-                <div class="gallery-overlay"><p class="font-bold text-sm">حفل تكريم حفظة القرآن - رمضان</p></div>
-            </div>
-            <div class="gallery-card bg-slate-200 shadow-lg">
-                <img src="https://images.unsplash.com/photo-1590076241144-803239a5893d?q=80&w=600" alt="رحلة">
-                <div class="gallery-overlay"><p class="font-bold text-sm">رحلة طلاب التميز الصيفية</p></div>
-            </div>
-            <div class="gallery-card bg-slate-200 shadow-lg">
-                <img src="https://images.unsplash.com/photo-1523050853063-bd8012fbb230?q=80&w=600" alt="حلقة">
-                <div class="gallery-overlay"><p class="font-bold text-sm">جانب من حلقات السند المتصل</p></div>
-            </div>
+            <div class="gallery-card bg-slate-200 shadow-lg"><img src="https://images.unsplash.com/photo-1584281723350-13f5698b6711?q=80&w=600"><div class="gallery-overlay">تكريم الطلاب</div></div>
+            <div class="gallery-card bg-slate-200 shadow-lg"><img src="https://images.unsplash.com/photo-1590076241144-803239a5893d?q=80&w=600"><div class="gallery-overlay">الرحلات الصيفية</div></div>
+            <div class="gallery-card bg-slate-200 shadow-lg"><img src="https://images.unsplash.com/photo-1523050853063-bd8012fbb230?q=80&w=600"><div class="gallery-overlay">حلقات السند</div></div>
         </div>
     </div>
 
-    <div id="searchPage" class="page-node py-20 px-6 max-w-md mx-auto">...</div>
-    <div id="honorPage" class="page-node py-16 px-6 max-w-4xl mx-auto">...</div>
+    <div id="honorPage" class="page-node py-16 px-6 max-w-4xl mx-auto">
+        <h2 class="text-3xl font-black text-center mb-12 underline decoration-gold">نخبة التابعين</h2>
+        <div class="bg-white p-6 rounded-2xl shadow-sm flex items-center justify-between border-r-4 border-gold">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center text-gold"><i class="fas fa-user-graduate"></i></div>
+                <div>
+                    <h4 class="font-bold">أحمد محمد علي</h4>
+                    <div class="flex gap-2 mt-1"><span class="badge-gold">وسام المثابر</span> <span class="badge-gold" style="background:#1e293b;">10 أجزاء</span></div>
+                </div>
+            </div>
+            <div class="text-left"><span class="points-badge">★ 1250 نقطة</span></div>
+        </div>
+    </div>
+
+    <div id="searchPage" class="page-node py-20 px-6 max-w-md mx-auto">
+        <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl border-t-8 border-gold">
+            <h2 class="text-2xl font-black text-center mb-8">استعلام النتائج</h2>
+            <input type="text" id="stdInput" placeholder="رقم الهوية" class="w-full p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl mb-6 text-center text-2xl font-bold outline-none">
+            <button onclick="checkResult()" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold">تأكيد البحث</button>
+            <div id="resultBox" class="mt-8 hidden p-6 bg-slate-50 rounded-2xl border border-dashed border-gold text-center"></div>
+        </div>
+    </div>
 
     <script>
         function navigateTo(id) {
             document.querySelectorAll('.page-node').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById(id + 'Page');
-            if(target) target.classList.add('active');
+            document.getElementById(id + 'Page').classList.add('active');
             const backBtn = document.getElementById('backBtn');
             id === 'home' ? backBtn.classList.add('hidden') : backBtn.classList.remove('hidden');
             window.scrollTo(0,0);
+        }
+        function checkResult() {
+            const res = document.getElementById('resultBox');
+            res.classList.remove('hidden');
+            res.innerHTML = `<h4 class="text-xl font-black mb-2 text-slate-800">أحمد محمد علي</h4>
+                <p class="text-gold font-bold mb-4">نقاطك الحالية: 1250</p>
+                <div class="text-right text-sm space-y-2 font-bold">
+                    <p>📚 الجزء الحالي: الحادي عشر</p>
+                    <p>⭐ التقييم: ممتاز جداً</p>
+                </div>`;
         }
     </script>
 </body>
