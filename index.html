@@ -3,278 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مركز التابعين القرآني | المنصة الرسمية</title>
+    <title>مركز التابعين القرآني | النصيرات</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@300;500;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --royal-blue: #1a365d; --gold: #c5a059; --light-bg: #f8fafc; }
-        body { font-family: 'Tajawal', sans-serif; background: var(--light-bg); color: var(--royal-blue); scroll-behavior: smooth; }
+        :root { --royal-blue: #1e3a8a; --gold: #d4af37; --deep-gold: #b8860b; --bg: #f8fafc; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: #1e293b; overflow-x: hidden; }
         .quran-font { font-family: 'Amiri', serif; }
         
-        /* نظام الصفحات */
-        .page-node { display: none; min-height: 90vh; animation: fadeIn 0.6s ease; }
+        /* تأثير انزلاق الورق الفاخر */
+        .page-node { 
+            display: none; 
+            min-height: 90vh;
+            animation: paperSlide 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
         .page-node.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes paperSlide {
+            0% { opacity: 0; transform: translateX(50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
 
-        /* ستايلات مخصصة */
-        .header-gradient { background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%); border-bottom: 4px solid var(--gold); }
-        .btn-royal { background: var(--royal-blue); color: white; transition: 0.3s; border: 1px solid transparent; }
-        .btn-royal:hover { background: white; color: var(--royal-blue); border-color: var(--royal-blue); }
-        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(26, 54, 93, 0.1); border-radius: 2rem; }
+        .btn-modern {
+            background: linear-gradient(145deg, #1e3a8a, #1e40af);
+            color: white; border-radius: 15px;
+            transition: 0.4s; box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2);
+        }
+        .btn-modern:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(30, 58, 138, 0.4); }
         
-        /* شريط التبرع */
-        .progress-bar { height: 12px; background: #e2e8f0; border-radius: 10px; overflow: hidden; position: relative; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #edcf92); width: 65%; transition: 1s; }
-
-        /* زر الواتساب */
-        .whatsapp-float { position: fixed; bottom: 30px; left: 30px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: 0.3s; }
+        .glass-card { background: white; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.02); }
+        
+        .whatsapp-float { position: fixed; bottom: 30px; left: 30px; background: #25d366; color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 1000; box-shadow: 0 15px 30px rgba(37, 211, 102, 0.3); transition: 0.3s; }
         .whatsapp-float:hover { transform: scale(1.1); }
+
+        /* شريط التقدم للتبرع */
+        .progress-container { height: 12px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), #f3e0a2); width: 65%; transition: 1.5s ease-in-out; }
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/970567842183" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://wa.me/972567842183" class="whatsapp-float shadow-2xl" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-    <nav class="header-gradient text-white py-5 px-6 md:px-12 flex justify-between items-center sticky top-0 z-50 shadow-xl">
-        <div class="flex items-center gap-4 cursor-pointer" onclick="navigateTo('home')">
+    <nav class="bg-slate-900 text-white py-5 px-6 md:px-12 flex justify-between items-center sticky top-0 z-50 border-b-2 border-gold shadow-2xl">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
             <i class="fas fa-quran text-3xl text-gold"></i>
             <div>
                 <h1 class="text-xl md:text-2xl font-bold quran-font">مركز التابعين القرآني</h1>
-                <p class="text-[10px] text-gold font-bold tracking-widest uppercase">النصيرات - مدرسة العروبة</p>
+                <p class="text-[9px] text-gold font-bold tracking-[0.2em]">إدارة الأستاذ: إسماعيل نوفل</p>
             </div>
         </div>
         <div class="hidden lg:flex gap-8 font-bold text-sm">
             <button onclick="navigateTo('home')" class="hover:text-gold transition">الرئيسية</button>
             <button onclick="navigateTo('about')" class="hover:text-gold transition">من نحن</button>
             <button onclick="navigateTo('student')" class="hover:text-gold transition">صفحة الطالب</button>
-            <button onclick="navigateTo('donate')" class="bg-gold text-white px-6 py-2 rounded-full hover:bg-white hover:text-royal-blue transition">ادعمنا</button>
+            <button onclick="navigateTo('donate')" class="bg-gold px-6 py-2 rounded-full hover:brightness-110 transition">ادعمنا</button>
         </div>
-        <button id="backBtn" onclick="navigateTo('home')" class="hidden bg-white/10 px-4 py-2 rounded-xl text-xs font-bold border border-white/20">العودة</button>
+        <button id="backBtn" onclick="navigateTo('home')" class="hidden text-xs font-bold border-r-2 border-gold pr-4">العودة <i class="fas fa-chevron-left mr-2"></i></button>
     </nav>
 
-    <div id="homePage" class="page-node active py-12 px-6">
-        <div class="max-w-6xl mx-auto text-center mb-16">
-            <h2 class="text-5xl font-black mb-6 text-slate-800">صرح القرآن في النصيرات</h2>
-            <p class="text-xl text-slate-500 max-w-2xl mx-auto italic">تحت إشراف الأستاذ: محمد العصار</p>
-            <div class="flex justify-center gap-4 mt-10">
-                <button onclick="navigateTo('student')" class="btn-royal px-10 py-4 rounded-2xl font-black shadow-lg">دخول الطالب</button>
-                <button onclick="navigateTo('donate')" class="bg-gold text-white px-10 py-4 rounded-2xl font-black shadow-lg">سهم الخير</button>
-            </div>
+    <div id="homePage" class="page-node active py-16 px-6 max-w-5xl mx-auto text-center">
+        <h2 class="text-6xl font-black mb-6 text-slate-800 quran-font">بوابة النور الرقمية</h2>
+        <p class="text-xl text-slate-500 italic mb-12 italic">نسعى لبناء جيلٍ قرآنيٍ فريد في قلب النصيرات</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <button onclick="navigateTo('student')" class="btn-modern p-10 text-3xl font-black">
+                <i class="fas fa-user-graduate block mb-4 text-5xl text-gold"></i> دخول الطالب
+            </button>
+            <button onclick="navigateTo('donate')" class="bg-white border-2 border-slate-100 p-10 text-3xl font-black rounded-[25px] hover:border-gold transition">
+                <i class="fas fa-hand-holding-heart block mb-4 text-5xl text-red-500"></i> سهم الخير
+            </button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            <div onclick="navigateTo('about')" class="glass-card p-10 text-center cursor-pointer shadow-sm hover:shadow-xl transition">
-                <i class="fas fa-mosque text-4xl text-gold mb-6"></i>
-                <h3 class="text-2xl font-bold mb-2">عن المركز</h3>
-                <p class="text-slate-400">رسالتنا، مساجدنا، وإنجازاتنا في خدمة كتاب الله.</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div onclick="navigateTo('about')" class="glass-card p-6 cursor-pointer hover:border-gold border border-transparent transition">
+                <i class="fas fa-info-circle text-gold mb-2"></i>
+                <p class="font-bold text-sm">من نحن</p>
             </div>
-            <div onclick="navigateTo('student')" class="glass-card p-10 text-center cursor-pointer shadow-sm hover:shadow-xl transition border-t-4 border-gold">
-                <i class="fas fa-user-graduate text-4xl text-gold mb-6"></i>
-                <h3 class="text-2xl font-bold mb-2">صفحة الطالب</h3>
-                <p class="text-slate-400">الخطة التفاعلية، النتائج، ومراجعة الحفظ الدوري.</p>
+            <div onclick="navigateTo('gallery')" class="glass-card p-6 cursor-pointer hover:border-gold border border-transparent transition">
+                <i class="fas fa-images text-gold mb-2"></i>
+                <p class="font-bold text-sm">معرض الصور</p>
             </div>
-            <div onclick="navigateTo('donate')" class="glass-card p-10 text-center cursor-pointer shadow-sm hover:shadow-xl transition">
-                <i class="fas fa-hand-holding-heart text-4xl text-gold mb-6"></i>
-                <h3 class="text-2xl font-bold mb-2">بوابة التبرع</h3>
-                <p class="text-slate-400">ساهم في بناء أجيال قرآنية بلمسة وفاء.</p>
+            <div onclick="navigateTo('honor')" class="glass-card p-6 cursor-pointer hover:border-gold border border-transparent transition">
+                <i class="fas fa-award text-gold mb-2"></i>
+                <p class="font-bold text-sm">لوحة الشرف</p>
+            </div>
+            <div onclick="navigateTo('contact')" class="glass-card p-6 cursor-pointer hover:border-gold border border-transparent transition">
+                <i class="fas fa-phone text-gold mb-2"></i>
+                <p class="font-bold text-sm">اتصل بنا</p>
             </div>
         </div>
     </div>
 
     <div id="aboutPage" class="page-node py-16 px-6 max-w-5xl mx-auto">
-        <div class="glass-card p-10 md:p-16 shadow-2xl">
-            <h2 class="text-4xl font-black text-center mb-12 quran-font text-gold">بطاقة تعريف المركز</h2>
-            
-            <div class="grid md:grid-cols-2 gap-12 mb-16">
-                <div>
-                    <h3 class="text-2xl font-bold mb-4 border-r-4 border-gold pr-4">من نحن؟</h3>
-                    <p class="text-slate-600 leading-loose mb-6">مركز التابعين القرآني هو مؤسسة رائدة في مخيم النصيرات تعنى بتحفيظ القرآن الكريم وعلومه، يضم المركز كوكبة من الطلاب والطالبات الساعين لتاج الوقار.</p>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-blue-50 p-4 rounded-2xl"><span class="block text-2xl font-black">250</span> طالب</div>
-                        <div class="bg-pink-50 p-4 rounded-2xl"><span class="block text-2xl font-black">250</span> طالبة</div>
+        <div class="glass-card p-10 shadow-2xl border-t-8 border-royal-blue">
+            <h2 class="text-3xl font-black text-center mb-8 quran-font text-royal-blue italic text-gold">بطاقة تعريف المركز</h2>
+            <div class="grid md:grid-cols-2 gap-10 mb-10">
+                <div class="space-y-4">
+                    <h4 class="text-xl font-black border-r-4 border-gold pr-3">رسالة المركز</h4>
+                    <p class="text-slate-600 leading-relaxed">مركز التابعين هو صرح تعليمي متخصص في تحفيظ القرآن وعلومه، يخدم منطقة النصيرات بـ 4 مساجد مجهزة بالكامل.</p>
+                    <div class="flex gap-4">
+                        <div class="bg-blue-50 p-4 rounded-xl flex-1 text-center font-black">250 طالب</div>
+                        <div class="bg-pink-50 p-4 rounded-xl flex-1 text-center font-black">250 طالبة</div>
                     </div>
                 </div>
-                <div>
-                    <h3 class="text-2xl font-bold mb-4 border-r-4 border-gold pr-4">المساجد التابعة</h3>
-                    <ul class="space-y-3 font-bold text-slate-700">
-                        <li><i class="fas fa-check-circle text-gold ml-2"></i> مسجد التابعين (المقر الرئيسي)</li>
-                        <li><i class="fas fa-check-circle text-gold ml-2"></i> مسجد معاذ بن جبل</li>
-                        <li><i class="fas fa-check-circle text-gold ml-2"></i> مسجد ذو النورين</li>
-                        <li><i class="fas fa-check-circle text-gold ml-2"></i> مسجد التابعين للطالبات</li>
+                <div class="bg-slate-50 p-6 rounded-2xl">
+                    <h4 class="font-black mb-4">المساجد التابعة للإدارة:</h4>
+                    <ul class="space-y-2 text-sm font-bold">
+                        <li><i class="fas fa-mosque ml-2 text-gold"></i> مسجد التابعين (المقر)</li>
+                        <li><i class="fas fa-mosque ml-2 text-gold"></i> مسجد معاذ بن جبل</li>
+                        <li><i class="fas fa-mosque ml-2 text-gold"></i> مسجد ذو النورين</li>
+                        <li><i class="fas fa-mosque ml-2 text-gold"></i> مسجد التابعين للطالبات</li>
                     </ul>
                 </div>
             </div>
-
-            <hr class="my-10 opacity-10">
-
-            <div class="space-y-12">
-                <section>
-                    <h3 class="text-2xl font-black mb-6 text-green-700"><i class="fas fa-check-double ml-2"></i> مشاريع منجزة</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-4 bg-slate-50 rounded-xl font-bold">تخريج 50 حافظاً وحافظة العام الماضي</div>
-                        <div class="p-4 bg-slate-50 rounded-xl font-bold">تجهيز قاعات التحفيظ بأحدث الوسائل</div>
-                    </div>
-                </section>
-
-                <section>
-                    <h3 class="text-2xl font-black mb-6 text-orange-600"><i class="fas fa-hand-holding-usd ml-2"></i> مشاريع تحتاج دعم</h3>
-                    <p class="text-slate-500 italic mb-4">"ما نقص مال من صدقة.. صدقتك بـ 5 دولار قد تبدو لك صغيرة، لكنها عند الله عظيمة وبناءً لأجيال كاملة."</p>
-                    <button onclick="navigateTo('donate')" class="bg-orange-600 text-white px-6 py-2 rounded-full font-bold">ادعم مشروعاً الآن</button>
-                </section>
-
-                <section>
-                    <h3 class="text-2xl font-black mb-6 text-blue-700"><i class="fas fa-rocket ml-2"></i> مشاريع مستقبلية</h3>
-                    <div class="p-6 border-2 border-dashed border-blue-200 rounded-3xl">
-                        <p class="font-bold italic">إطلاق استوديو التابعين الصوتي • بناء الطابق الثاني للطالبات • رحلة العمرة السنوية للمتميزين</p>
-                    </div>
-                </section>
-            </div>
-
-            <div class="mt-16 text-center border-t pt-10">
-                <p class="font-bold text-slate-400 mb-4">مدير المركز: الأستاذ محمد العصار</p>
-                <div class="flex justify-center gap-6 text-2xl text-royal-blue">
-                    <a href="https://wa.me/970567842183"><i class="fab fa-whatsapp"></i></a>
-                    <i class="fab fa-facebook"></i>
-                    <i class="fab fa-instagram"></i>
-                </div>
-                <p class="mt-6 font-black">الموقع: النصيرات - المخيم الجديد - بجوار مدرسة العروبة</p>
+            <div class="text-center pt-8 border-t">
+                <p class="font-black text-lg mb-2 text-royal-blue">مدير المركز: الأستاذ إسماعيل نوفل</p>
+                <p class="text-slate-400 text-sm">الموقع: النصيرات - المخيم الجديد - بجوار مدرسة العروبة للبنات</p>
             </div>
         </div>
     </div>
 
-    <div id="studentPage" class="page-node py-16 px-6 max-w-4xl mx-auto">
-        <div id="loginSection" class="glass-card p-10 shadow-2xl text-center">
-            <i class="fas fa-user-lock text-5xl text-gold mb-6"></i>
-            <h2 class="text-2xl font-black mb-6">بوابة الطالب الخاصة</h2>
-            <div class="space-y-4">
-                <input type="text" id="stdID" placeholder="رقم الهوية" class="w-full p-4 border rounded-2xl text-center font-bold">
-                <input type="password" id="stdPass" placeholder="كلمة المرور" class="w-full p-4 border rounded-2xl text-center font-bold">
-                <button onclick="loginStudent()" class="w-full btn-royal py-4 rounded-2xl font-black">تسجيل الدخول</button>
-            </div>
+    <div id="studentPage" class="page-node py-16 px-6 max-w-lg mx-auto">
+        <div id="loginForm" class="glass-card p-10 text-center shadow-2xl">
+            <i class="fas fa-user-circle text-6xl text-royal-blue mb-6"></i>
+            <h2 class="text-2xl font-black mb-8">بوابة الطالب</h2>
+            <input type="text" id="stdID" placeholder="رقم الهوية" class="w-full p-4 border rounded-xl mb-4 text-center font-bold outline-none focus:border-gold">
+            <input type="password" id="stdPass" placeholder="كلمة المرور" class="w-full p-4 border rounded-xl mb-6 text-center font-bold outline-none focus:border-gold">
+            <button onclick="studentLogin()" class="w-full btn-modern py-4 font-black">دخول لوحة المتابعة</button>
         </div>
 
-        <div id="dashboard" class="hidden space-y-8">
-            <div class="glass-card p-8 flex flex-col md:flex-row items-center gap-8">
-                <div class="w-32 h-32 bg-slate-200 rounded-full border-4 border-gold overflow-hidden">
-                    <img src="https://cdn-icons-png.flaticon.com/512/194/194931.png" alt="صورة الطالب">
+        <div id="studentDashboard" class="hidden space-y-6">
+            <div class="glass-card p-8 text-center">
+                <div class="w-24 h-24 bg-slate-100 rounded-full mx-auto mb-4 border-2 border-gold flex items-center justify-center">
+                    <i class="fas fa-user text-3xl text-slate-400"></i>
                 </div>
-                <div class="text-center md:text-right">
-                    <h3 class="text-2xl font-black">أهلاً بك: <span id="stdNameDisplay">أحمد محمد</span></h3>
-                    <p class="text-gold font-bold">الحلقة: الشيخ أبو عبيدة</p>
-                </div>
+                <h3 class="text-xl font-black italic">أهلاً بك: <span id="sName">طالب متميز</span></h3>
             </div>
-
             <div class="glass-card p-8">
-                <h3 class="text-xl font-black mb-6 border-b pb-2">خطتي التفاعلية (جزء تبارك)</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="planGrid">
+                <h4 class="font-black mb-4 border-b pb-2 italic text-gold">خطة الجزء الحالية (تفاعلي)</h4>
+                <div class="grid grid-cols-2 gap-3" id="planGrid">
                     </div>
             </div>
-
-            <div class="grid md:grid-cols-2 gap-6 text-center">
-                <div class="glass-card p-6 bg-blue-900 text-white">
-                    <h4 class="font-bold mb-2 text-gold">المطلوب إنجازه هذا الأسبوع</h4>
-                    <p>سورة الملك + سورة القلم</p>
-                </div>
-                <div class="glass-card p-6 border-2 border-gold text-royal-blue font-black">
-                    <h4 class="font-bold mb-2">جوائزك الحالية</h4>
-                    <p>قريباً بفضل دعمكم..</p>
-                </div>
-            </div>
         </div>
     </div>
 
-    <div id="donatePage" class="page-node py-16 px-6 max-w-5xl mx-auto">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl font-black quran-font text-gold mb-4">بوابة المساهمة الوقفية</h2>
-            <p class="text-lg text-slate-600 max-w-2xl mx-auto italic">"كن أنت من يبذر البذرة، ونحن من يقيها بالرعاية لترى حصادك في الدنيا والآخرة."</p>
-        </div>
+    <div id="donatePage" class="page-node py-16 px-6 max-w-4xl mx-auto">
+        <div class="glass-card p-10 border-t-8 border-gold shadow-2xl">
+            <h2 class="text-3xl font-black text-center mb-8 text-royal-blue">سهم الخير والشفافية</h2>
+            
+            <div class="progress-container mb-4"><div class="progress-bar"></div></div>
+            <p class="text-center text-xs text-slate-400 mb-10 italic">بفضل الله، تم تحقيق 65% من هدف اليوم</p>
 
-        <div class="glass-card p-8 mb-12 border-2 border-gold shadow-gold/20">
-            <div class="flex justify-between items-end mb-4 font-bold">
-                <span>هدف الصدقة اليومي</span>
-                <span class="text-gold">تم تحقيق 65%</span>
+            <div class="bg-blue-50 p-8 rounded-3xl mb-8">
+                <h4 class="font-black mb-4 text-royal-blue"><i class="fas fa-heart ml-2 text-red-500"></i> نظام صدقة جارية عن ميت</h4>
+                <input type="text" id="deceasedName" placeholder="اكتب اسم من تهدي له الثواب (اختياري)" class="w-full p-4 rounded-xl border-2 border-dashed border-gold text-center font-bold mb-6">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button onclick="donateAction('كفالة جلسة')" class="bg-white p-6 rounded-2xl shadow-sm font-black flex justify-between items-center hover:scale-105 transition">
+                        <span>كفالة جلسة قرآنية</span>
+                        <span class="text-gold">5 $</span>
+                    </button>
+                    <button onclick="donateAction('دعم محفظين')" class="bg-white p-6 rounded-2xl shadow-sm font-black flex justify-between items-center hover:scale-105 transition">
+                        <span>سهم دعم محفظين</span>
+                        <span class="text-gold">5 $</span>
+                    </button>
+                </div>
             </div>
-            <div class="progress-bar mb-4"><div class="progress-fill"></div></div>
-            <p class="text-sm italic text-slate-500 text-center">تبرع بـ 5 دولار الآن لتكمل العداد وتشعل شمعة في قلب طالب علم.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="glass-card p-6 text-center border hover:border-gold transition cursor-pointer" onclick="processDonation('كفالة جلسة')">
-                <i class="fas fa-users text-3xl mb-4 text-gold"></i>
-                <h4 class="font-bold mb-2">سهم كفالة جلسة</h4>
-                <p class="text-xs text-slate-400 mb-4">دعم مباشر للحلقات</p>
-                <span class="text-xl font-black text-royal-blue">5 $</span>
-            </div>
-            <div class="glass-card p-6 text-center border hover:border-gold transition cursor-pointer" onclick="processDonation('ترميم مسجد')">
-                <i class="fas fa-tools text-3xl mb-4 text-gold"></i>
-                <h4 class="font-bold mb-2">سهم بناء وترميم</h4>
-                <p class="text-xs text-slate-400 mb-4">صدقة جارية في المساجد</p>
-                <span class="text-xl font-black text-royal-blue">10 $</span>
-            </div>
-            <div class="glass-card p-6 text-center border hover:border-gold transition cursor-pointer" onclick="processDonation('دعم المحفظين')">
-                <i class="fas fa-heart text-3xl mb-4 text-gold"></i>
-                <h4 class="font-bold mb-2">سهم دعم المحفظين</h4>
-                <p class="text-xs text-slate-400 mb-4">إكراماً لأهل القرآن</p>
-                <span class="text-xl font-black text-royal-blue">5 $</span>
-            </div>
-            <div class="glass-card p-6 text-center border hover:border-gold transition cursor-pointer" onclick="processDonation('شراء جزيئات')">
-                <i class="fas fa-book-open text-3xl mb-4 text-gold"></i>
-                <h4 class="font-bold mb-2">مشروع شراء أجزاء</h4>
-                <p class="text-xs text-slate-400 mb-4">توفير مصاحف للطلاب</p>
-                <span class="text-xl font-black text-royal-blue">5 $</span>
-            </div>
+            <p class="text-center text-sm italic text-slate-500 font-medium">تبرعك بـ 5 دولار فقط يصنع فارقاً عظيماً في مستقبل طلابنا.</p>
         </div>
     </div>
 
-    <div id="thanksSection" class="hidden fixed inset-0 z-[100] bg-royal-blue/95 flex items-center justify-center p-6 text-center">
-        <div class="glass-card p-10 max-w-md animate-bounce">
-            <i class="fas fa-check-circle text-6xl text-gold mb-6"></i>
-            <h2 class="text-3xl font-black text-royal-blue mb-4">تقبل الله منك!</h2>
-            <p class="text-lg leading-relaxed mb-6">لقد قمت بإنجاز عظيم اليوم. بـ 5 دولار فقط، ساهمت في بناء مستقبل حافظ جديد. تبرعك قد فلل عداد الخير لليوم!</p>
-            <button onclick="document.getElementById('thanksSection').classList.add('hidden')" class="btn-royal px-10 py-3 rounded-full font-bold">العودة للموقع</button>
+    <div id="thanksModal" class="hidden fixed inset-0 z-[100] bg-slate-900/90 flex items-center justify-center p-6 text-center">
+        <div class="bg-white p-10 rounded-[40px] max-w-md shadow-2xl">
+            <i class="fas fa-check-circle text-6xl text-green-500 mb-6"></i>
+            <h2 class="text-2xl font-black text-slate-800 mb-4 italic">تقبل الله طاعتكم</h2>
+            <p id="thanksMsg" class="text-slate-600 leading-relaxed mb-8"></p>
+            <button onclick="document.getElementById('thanksModal').classList.add('hidden')" class="btn-modern px-10 py-3 font-bold">إغلاق</button>
         </div>
     </div>
 
     <script>
         function navigateTo(id) {
             document.querySelectorAll('.page-node').forEach(p => p.classList.remove('active'));
-            document.getElementById(id + 'Page').classList.add('active');
+            const target = document.getElementById(id + 'Page');
+            if(target) target.classList.add('active');
+            
             const backBtn = document.getElementById('backBtn');
             id === 'home' ? backBtn.classList.add('hidden') : backBtn.classList.remove('hidden');
             window.scrollTo(0,0);
         }
 
-        // تسجيل الدخول التجريبي
-        function loginStudent() {
+        function studentLogin() {
             const id = document.getElementById('stdID').value;
-            if(id === "123") {
-                document.getElementById('loginSection').classList.add('hidden');
-                document.getElementById('dashboard').classList.remove('hidden');
-                renderPlan();
-            } else { alert("يرجى التأكد من البيانات"); }
+            if(id) {
+                document.getElementById('loginForm').classList.add('hidden');
+                document.getElementById('studentDashboard').classList.remove('hidden');
+                const grid = document.getElementById('planGrid');
+                const surahs = ["الملك", "القلم", "الحاقة", "المعارج", "نوح", "الجن"];
+                grid.innerHTML = "";
+                surahs.forEach(s => {
+                    grid.innerHTML += `<div class="p-3 border rounded-xl text-xs font-bold cursor-pointer hover:bg-gold hover:text-white transition" onclick="this.style.background='var(--gold)'; this.style.color='white'"><i class="fas fa-star ml-1 text-[8px]"></i> سورة ${s}</div>`;
+                });
+            }
         }
 
-        // خطة تفاعلية (جزء تبارك)
-        function renderPlan() {
-            const surahs = ["الملك", "القلم", "الحاقة", "المعارج", "نوح", "الجن", "المزمل", "المدثر"];
-            const grid = document.getElementById('planGrid');
-            grid.innerHTML = "";
-            surahs.forEach(s => {
-                grid.innerHTML += `
-                    <div class="p-4 border rounded-xl flex flex-col items-center gap-2 cursor-pointer hover:bg-gold hover:text-white transition" onclick="this.style.background='#c5a059'; this.style.color='white'">
-                        <i class="fas fa-star text-xs"></i>
-                        <span class="font-bold text-sm">سورة ${s}</span>
-                        <input type="checkbox" class="accent-royal-blue">
-                    </div>
-                `;
-            });
-        }
-
-        // نظام التبرع والشكر
-        function processDonation(type) {
-            document.getElementById('thanksSection').classList.remove('hidden');
-            console.log("تبرع لـ: " + type);
+        function donateAction(type) {
+            const deceased = document.getElementById('deceasedName').value;
+            const modal = document.getElementById('thanksModal');
+            const msg = document.getElementById('thanksMsg');
+            
+            msg.innerHTML = deceased 
+                ? `هذا السهم لـ <b>${type}</b> الآن في ميزان حسنات الفقيد <b>${deceased}</b>. شكراً لعطائك الراقي.` 
+                : `شكراً لمساهمتك في <b>${type}</b>. تبرعك بـ 5 دولار ملأ عداد الخير لهذا اليوم!`;
+            
+            modal.classList.remove('hidden');
         }
     </script>
 </body>
