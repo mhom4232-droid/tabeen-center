@@ -6,269 +6,467 @@
     <title>منصة التابعين العالمية | الصرح القرآني المتكامل</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
             --royal-blue: #001a35;
             --gold: #c5a059;
+            --gold-light: #e5c07b;
             --soft-bg: #f8fafc;
+            --text-main: #001a35;
         }
 
         body { 
             font-family: 'Tajawal', sans-serif; 
             background-color: var(--soft-bg); 
-            color: var(--royal-blue);
+            color: var(--text-main);
+            overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
         .quran-font { font-family: 'Amiri', serif; }
 
-        /* حل نهائي لمشكلة الخطوط في الخانات */
-        input, select, textarea {
-            color: #001a35 !important;
+        /* حل نهائي وجذري لمشكلة الخطوط في الخانات */
+        input, select, textarea, button {
+            color: var(--royal-blue) !important;
             background-color: #ffffff !important;
-            border: 2px solid #cbd5e1 !important;
+            border: 2px solid #e2e8f0 !important;
             font-weight: 800 !important;
-            padding: 12px 18px !important;
-            border-radius: 12px !important;
+            font-family: 'Tajawal', sans-serif !important;
         }
 
-        .page-node { display: none; opacity: 0; transform: translateY(20px); transition: all 0.5s ease-out; }
+        input::placeholder { color: #94a3b8 !important; font-weight: 500; }
+
+        /* نظام الانتقالات */
+        .page-node { display: none; opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .page-node.active { display: block; opacity: 1; transform: translateY(0); }
 
+        /* الكروت الملكية */
         .royal-card {
-            background: white; border-radius: 24px; padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04); transition: 0.3s;
-            border: 1px solid rgba(0,26,53,0.05);
+            background: white; border-radius: 30px; padding: 35px;
+            box-shadow: 0 15px 45px rgba(0,26,53,0.03); transition: 0.4s ease;
+            border: 1px solid rgba(197, 160, 89, 0.1); position: relative; overflow: hidden;
         }
-        .royal-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .royal-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 20px 50px rgba(197, 160, 89, 0.1); }
+        .royal-card::before {
+            content: ""; position: absolute; top: 0; right: 0; width: 5px; height: 100%;
+            background: var(--gold); opacity: 0; transition: 0.3s;
+        }
+        .royal-card:hover::before { opacity: 1; }
 
-        /* مساعد الذكاء الاصطناعي UI */
-        #ai-chat-box { height: 350px; overflow-y: auto; background: #f1f5f9; border-radius: 15px; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .msg { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 14px; font-weight: 600; line-height: 1.6; }
-        .msg.bot { background: var(--royal-blue); color: white; align-self: flex-start; }
-        .msg.user { background: var(--gold); color: white; align-self: flex-end; }
+        /* شريط التنبيهات */
+        .news-ticker { background: var(--royal-blue); color: white; padding: 12px; border-bottom: 3px solid var(--gold); font-size: 12px; font-weight: 700; }
+        .ticker-content { display: flex; animation: tickerScroll 40s linear infinite; white-space: nowrap; gap: 50px; }
+        @keyframes tickerScroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* أنظمة التحفيز */
+        .badge-spin { animation: spin 10s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         .heartbeat { animation: heart 2s infinite; }
-        @keyframes heart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes heart { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 
-        .badge-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; items-center; justify-center; font-size: 20px; }
+        /* شات الذكاء الاصطناعي */
+        #ai-chat-container { height: 450px; display: flex; flex-direction: column; background: #f1f5f9; border-radius: 20px; padding: 20px; overflow-y: auto; border: 2px inset #fff; }
+        .ai-bubble { max-width: 85%; padding: 15px 20px; border-radius: 20px; margin-bottom: 12px; font-size: 14px; font-weight: 700; line-height: 1.7; position: relative; }
+        .ai-bubble.bot { background: var(--royal-blue); color: white; align-self: flex-start; border-bottom-right-radius: 4px; }
+        .ai-bubble.user { background: var(--gold); color: white; align-self: flex-end; border-bottom-left-radius: 4px; }
+
+        /* الهيدر */
+        header { backdrop-filter: blur(15px); background: rgba(255, 255, 255, 0.85); }
     </style>
 </head>
 <body>
 
-    <header class="sticky top-0 z-[1000] bg-white border-b-4 border-gold py-4 px-6 shadow-sm">
+    <div class="news-ticker">
+        <div class="ticker-content">
+            <span>🏆 وسام التميز: 50 طالباً ختموا القرآن الكريم هذا العام</span>
+            <span>✨ جديد: انطلاق دورة السند المتصل مع الشيخ محمد العصار</span>
+            <span>🕌 مسجد ذو النورين: قريباً افتتاح أحدث فروعنا القرآنية</span>
+            <span>💎 مركز الطالبات: تسجيل 250 طالبة في حلقات الإتقان بإدارة أ. أفنان</span>
+            <span>🌟 إشراف إداري: خطة تطويرية شاملة لرفع مستوى التثبيت والتمكين</span>
+        </div>
+    </div>
+
+    <header class="sticky top-0 z-[1000] border-b-2 border-gold/20 py-5 px-10 shadow-sm">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-4 cursor-pointer" onclick="nav('home')">
-                <div class="w-12 h-12 bg-[#001a35] rounded-xl flex items-center justify-center text-gold shadow-lg">
-                    <i class="fas fa-quran text-2xl"></i>
+            <div class="flex items-center gap-5 cursor-pointer" onclick="nav('home')">
+                <div class="w-14 h-14 bg-[#001a35] rounded-2xl flex items-center justify-center text-gold shadow-2xl relative overflow-hidden group">
+                    <i class="fas fa-book-quran text-3xl z-10"></i>
+                    <div class="absolute inset-0 bg-gold translate-y-12 group-hover:translate-y-0 transition-transform"></div>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-black text-[#001a35]">التابعين</h1>
-                    <span class="text-[8px] block font-bold text-gold uppercase tracking-widest text-center">إشراف أ. إبراهيم نوفل</span>
+                    <h1 class="text-3xl font-black italic tracking-tighter text-[#001a35]">التابعين</h1>
+                    <span class="text-[9px] block font-black text-gold uppercase tracking-[0.4em]">صرح إبراهيم نوفل التعليمي</span>
                 </div>
             </div>
-            <nav class="hidden lg:flex gap-8 text-[11px] font-black uppercase tracking-widest">
+            <nav class="hidden lg:flex gap-10 text-[11px] font-black uppercase tracking-widest items-center">
                 <button onclick="nav('home')" class="hover:text-gold transition">الرئيسية</button>
-                <button onclick="nav('rings')" class="hover:text-gold transition">الحلقات</button>
-                <button onclick="nav('student')" class="hover:text-gold transition text-blue-600">بوابة الطالب</button>
-                <button onclick="nav('ai')" class="hover:text-gold transition">المساعد الذكي</button>
-                <button onclick="nav('donate')" class="bg-gold text-[#001a35] px-4 py-2 rounded-lg heartbeat">ساهم في الأجر</button>
+                <button onclick="nav('rings')" class="hover:text-gold transition">دليل الحلقات</button>
+                <button onclick="nav('student')" class="text-blue-600 hover:text-blue-800 transition">بوابة الطالب</button>
+                <button onclick="nav('ai')" class="hover:text-gold transition"><i class="fas fa-robot ml-2"></i>المعلم الذكي</button>
+                <button onclick="nav('donate')" class="bg-gold text-[#001a35] px-6 py-3 rounded-xl shadow-lg heartbeat">ساهم بصدقة جارية</button>
             </nav>
         </div>
     </header>
 
-    <main id="homePage" class="page-node active max-w-7xl mx-auto px-6 py-12">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6">
-                <h2 class="text-6xl font-black leading-tight text-[#001a35]">جيلٌ يُبنى <br><span class="text-gold quran-font">بآيات الله</span></h2>
-                <p class="text-lg text-gray-500 font-medium leading-relaxed">
-                    نخبة من الهيئة الإدارية والإعلامية التي تسعى جاهداً لتطوير المركز والوصول بالطالب إلى أعلى مراحل تثبيت القران.
+    <main id="homePage" class="page-node active max-w-7xl mx-auto px-8 py-20">
+        <div class="grid lg:grid-cols-2 gap-24 items-center">
+            <div class="space-y-10">
+                <div class="inline-flex items-center gap-3 bg-gold/10 px-4 py-2 rounded-full border border-gold/20">
+                    <span class="w-2 h-2 bg-gold rounded-full animate-ping"></span>
+                    <span class="text-[10px] font-black text-gold uppercase tracking-widest">مؤسسة قرآنية رائدة</span>
+                </div>
+                <h2 class="text-8xl font-black leading-[1.1] text-[#001a35]">نصنعُ <br><span class="text-gold quran-font font-normal italic">حفاظ الأمة</span></h2>
+                <p class="text-xl text-gray-500 font-medium leading-relaxed max-w-lg">
+                    تحت إشراف الأستاذ <b>إبراهيم نوفل</b>، وبجهود نخبة من الهيئة الإدارية والإعلامية التي تسعى جاهداً لتطوير المركز والوصول بالطالب إلى أعلى مراحل تثبيت القرآن.
                 </p>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="royal-card bg-blue-50 border-r-4 border-blue-600">
-                        <h4 class="text-3xl font-black text-[#001a35]">250+</h4>
-                        <p class="text-xs font-bold text-gray-400">طالب متميز</p>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="royal-card bg-blue-50/50">
+                        <div class="flex items-center gap-4">
+                            <i class="fas fa-users text-3xl text-blue-600"></i>
+                            <div>
+                                <h4 class="text-4xl font-black text-[#001a35]">250+</h4>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase">طالب متميز</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="royal-card bg-pink-50 border-r-4 border-pink-500">
-                        <h4 class="text-3xl font-black text-pink-700">250+</h4>
-                        <p class="text-xs font-bold text-gray-400">طالبة مبدعة</p>
+                    <div class="royal-card bg-pink-50/50">
+                        <div class="flex items-center gap-4">
+                            <i class="fas fa-venus text-3xl text-pink-500"></i>
+                            <div>
+                                <h4 class="text-4xl font-black text-pink-700">250+</h4>
+                                <p class="text-[10px] font-bold text-gray-400 uppercase">طالبة مبدعة</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <button onclick="nav('rings')" class="bg-[#001a35] text-white px-10 py-5 rounded-2xl font-black hover:bg-gold transition shadow-xl">تصفح الحلقات</button>
+                <div class="flex gap-6">
+                    <button onclick="nav('rings')" class="bg-[#001a35] text-white px-12 py-6 rounded-2xl font-black text-lg shadow-2xl hover:scale-105 transition-all">تصفح الحلقات</button>
+                    <button onclick="nav('student')" class="border-2 border-slate-200 px-12 py-6 rounded-2xl font-black text-lg hover:border-gold hover:text-gold transition-all">بوابة الطالب</button>
+                </div>
             </div>
-            <div class="relative rounded-[40px] overflow-hidden shadow-2xl">
-                <img src="https://images.unsplash.com/photo-1584281723351-95561081696b?auto=format&fit=crop&q=80&w=800" class="w-full object-cover h-[500px]">
+            <div class="relative">
+                <div class="absolute -top-10 -left-10 w-40 h-40 bg-gold/10 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-10 -right-10 w-60 h-60 bg-blue-600/10 rounded-full blur-3xl"></div>
+                <img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80&w=800" class="rounded-[60px] shadow-2xl relative z-10 border-l-[20px] border-gold object-cover h-[650px] w-full" alt="Quran">
             </div>
         </div>
     </main>
 
-    <section id="ringsPage" class="page-node max-w-7xl mx-auto px-6 py-16">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-black italic">دليل الحلقات المركزي</h2>
-            <p class="text-gold font-bold mt-2 italic">نخبة من المحفظين (15+ محفظ مجازون بالسند)</p>
+    <section id="ringsPage" class="page-node max-w-7xl mx-auto px-8 py-20">
+        <div class="text-center mb-20 space-y-4">
+            <h2 class="text-5xl font-black italic text-[#001a35]">منظومة الحلقات المركزية</h2>
+            <p class="text-gold font-bold uppercase tracking-[0.3em] text-sm italic">نخبة من 15 محفظاً مجازاً بالسند المتصل والأحكام العليا</p>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="royal-card lg:col-span-2">
-                <h3 class="text-2xl font-black mb-6 text-[#001a35] border-r-4 border-gold pr-4">مسجد التابعين</h3>
-                <div class="grid md:grid-cols-2 gap-4 text-sm font-bold">
-                    <div class="p-4 bg-slate-50 rounded-xl">🔹 محمد العصار (سند متصل)</div>
-                    <div class="p-4 bg-slate-50 rounded-xl">🔹 أحمد يونس (أحكام عليا)</div>
-                    <div class="p-4 bg-slate-50 rounded-xl">🔹 قصي يونس (تثبيت)</div>
-                    <div class="p-4 bg-blue-100 text-blue-800 rounded-xl">⭐ ناهض العصار (جلسة البراعم المتميزة)</div>
-                    <div class="p-4 bg-slate-50 rounded-xl">🔹 أحمد أبو سلمية</div>
-                    <div class="p-4 bg-slate-50 rounded-xl">🔹 أحمد أبو جحجوح</div>
-                    <div class="p-4 bg-slate-50 rounded-xl">🔹 عيسى حلاوة</div>
-                </div>
-            </div>
-
-            <div class="royal-card border-green-200">
-                <h3 class="text-2xl font-black mb-6 text-green-800 border-r-4 border-green-600 pr-4">مسجد معاذ بن جبل</h3>
-                <p class="text-xs font-black text-gray-400 mb-4">بإشراف المحفظ: محمود العمصي</p>
-                <ul class="space-y-4 font-bold text-sm">
-                    <li>• عبد الله العمصي</li>
-                    <li>• محمد فيصل العمصي</li>
-                </ul>
-            </div>
-
-            <div class="royal-card border-pink-200">
-                <h3 class="text-2xl font-black mb-6 text-pink-800 border-r-4 border-pink-500 pr-4">مركز الطالبات</h3>
-                <p class="text-sm font-bold text-gray-500 italic">تحت إدارة أ. أفنان أبو الحسن</p>
-                <p class="mt-4 text-xs leading-relaxed font-medium">أكثر من 250 طالبة في حلقات متميزة لربط القلوب بالقرآن.</p>
-            </div>
-
-            <div class="royal-card bg-gray-100 opacity-60">
-                <h3 class="text-2xl font-black mb-4">مسجد ذو النورين</h3>
-                <p class="text-orange-600 font-black italic">قريباً سنفتتح المركز فيه..</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="aiPage" class="page-node max-w-3xl mx-auto px-6 py-16">
-        <div class="royal-card border-t-8 border-[#001a35]">
-            <div class="flex items-center gap-4 mb-8">
-                <i class="fas fa-robot text-3xl text-gold"></i>
-                <h2 class="text-2xl font-black">المعلم الذكي - التابعين</h2>
-            </div>
-            <div id="ai-chat-box">
-                <div class="msg bot">مرحباً بك يا طالب العلم! أنا مساعدك الذكي، كيف أساعدك في حفظك اليوم؟</div>
-            </div>
-            <div class="flex gap-4 mt-6">
-                <input type="text" id="ai-input" placeholder="اكتب سؤالك هنا..." class="flex-1">
-                <button onclick="askAI()" class="bg-[#001a35] text-gold p-4 rounded-xl"><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </section>
-
-    <section id="studentPage" class="page-node max-w-6xl mx-auto px-6 py-16">
-        <div id="login-section" class="royal-card max-w-md mx-auto text-center">
-            <h2 class="text-2xl font-black mb-6 italic">بوابة الطالب الرقمية</h2>
-            <input type="number" id="stu-id" placeholder="رقم الهوية (123)" class="w-full text-center mb-6">
-            <button onclick="login()" class="w-full bg-[#001a35] text-white py-4 rounded-xl font-black">دخول الملف</button>
-        </div>
-
-        <div id="dash-section" class="hidden space-y-8">
-            <div class="royal-card flex flex-col md:flex-row items-center gap-8 border-r-[12px] border-gold">
-                <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center text-4xl text-[#001a35]"><i class="fas fa-user-graduate"></i></div>
-                <div class="flex-1">
-                    <h3 class="text-3xl font-black">حمزة إبراهيم نوفل</h3>
-                    <p class="font-bold text-gray-400 italic">حلقة البراعم المتميزة • التابعين</p>
-                </div>
-                <div class="flex gap-2">
-                    <div class="badge-icon bg-amber-100 text-amber-600"><i class="fas fa-award"></i></div>
-                    <div class="badge-icon bg-blue-100 text-blue-600"><i class="fas fa-star"></i></div>
-                </div>
-            </div>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="royal-card">
-                    <h4 class="font-black mb-6">سجل الدرجات الأخير</h4>
-                    <div class="space-y-4">
-                        <div class="flex justify-between border-b pb-2"><span>سورة البقرة</span> <span class="text-green-600">98%</span></div>
-                        <div class="flex justify-between border-b pb-2"><span>سورة آل عمران</span> <span class="text-green-600">95%</span></div>
+        <div class="grid lg:grid-cols-3 gap-10">
+            <div class="lg:col-span-2 space-y-8">
+                <div class="bg-white p-10 rounded-[40px] shadow-sm border-t-8 border-[#001a35]">
+                    <h3 class="text-3xl font-black mb-10 flex items-center gap-4">
+                        <i class="fas fa-kaaba text-gold"></i> مسجد التابعين - المقر الرئيسي
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="royal-card bg-slate-50 border-none group">
+                            <h4 class="font-black text-xl mb-1 group-hover:text-gold transition">محمد العصار</h4>
+                            <p class="text-xs text-blue-600 font-bold mb-4 italic">سند متصل | أحكام عليا</p>
+                            <div class="flex justify-between text-[10px] font-black text-gray-400"><span>الفترة: الفجر</span> <span>الحالة: متاح</span></div>
+                        </div>
+                        <div class="royal-card bg-gold/5 border-2 border-gold/20">
+                            <div class="absolute top-4 left-4 text-gold"><i class="fas fa-star animate-pulse"></i></div>
+                            <h4 class="font-black text-xl mb-1">ناهض العصار</h4>
+                            <p class="text-xs text-gold font-black mb-4 italic">جلسة البراعم المتميزة (نخبة الطلاب)</p>
+                            <div class="flex justify-between text-[10px] font-black"><span>الفترة: العصر</span> <span class="text-gold">مميزة</span></div>
+                        </div>
+                        <div class="royal-card bg-slate-50 border-none">
+                            <h4 class="font-black text-xl mb-1">أحمد يونس</h4>
+                            <p class="text-xs text-gray-500 font-bold mb-4 italic">تثبيت وإتقان</p>
+                            <div class="flex justify-between text-[10px] font-black text-gray-400"><span>الفترة: المغرب</span></div>
+                        </div>
+                        <div class="royal-card bg-slate-50 border-none">
+                            <h4 class="font-black text-xl mb-1">قصي يونس</h4>
+                            <p class="text-xs text-gray-500 font-bold mb-4 italic">تحفيظ المرحلة الناشئة</p>
+                            <div class="flex justify-between text-[10px] font-black text-gray-400"><span>الفترة: العصر</span></div>
+                        </div>
+                        <div class="royal-card bg-slate-50 border-none">
+                            <h4 class="font-black text-xl mb-1">عيسى حلاوة</h4>
+                            <p class="text-xs text-gray-500 font-bold mb-4 italic">مراجعة عامة وتجويد</p>
+                            <div class="flex justify-between text-[10px] font-black text-gray-400"><span>الفترة: العشاء</span></div>
+                        </div>
+                        <div class="royal-card bg-slate-50 border-none">
+                            <h4 class="font-black text-xl mb-1">أحمد أبو سلمية</h4>
+                            <p class="text-xs text-gray-500 font-bold mb-4 italic">تحفيظ مكثف</p>
+                            <div class="flex justify-between text-[10px] font-black text-gray-400"><span>الفترة: الفجر</span></div>
+                        </div>
+                        <div class="royal-card bg-slate-50 border-none">
+                            <h4 class="font-black text-xl mb-1">أحمد أبو جحجوح</h4>
+                            <p class="text-xs text-gray-500 font-bold mb-4 italic">القاعدة النورانية</p>
+                            <div class="flex justify-between text-[10px] font-black text-gray-400"><span>الفترة: العصر</span></div>
+                        </div>
                     </div>
                 </div>
-                <div class="royal-card flex items-center justify-center">
-                    <canvas id="myChart" width="200" height="200"></canvas>
+            </div>
+
+            <div class="space-y-8">
+                <div class="bg-white p-10 rounded-[40px] shadow-sm border-t-8 border-green-600">
+                    <h3 class="text-2xl font-black mb-2 text-green-700">مسجد معاذ بن جبل</h3>
+                    <p class="text-[10px] font-black text-gray-400 uppercase mb-8">بإشراف المحفظ: محمود العمصي</p>
+                    <div class="space-y-4">
+                        <div class="p-5 bg-green-50 rounded-2xl flex justify-between items-center border border-green-100">
+                            <span class="font-black">عبد الله العمصي</span>
+                            <i class="fas fa-check-circle text-green-600"></i>
+                        </div>
+                        <div class="p-5 bg-green-50 rounded-2xl flex justify-between items-center border border-green-100">
+                            <span class="font-black">محمد فيصل العمصي</span>
+                            <i class="fas fa-check-circle text-green-600"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-pink-50 p-10 rounded-[40px] shadow-sm border-t-8 border-pink-500 text-center">
+                    <div class="w-20 h-20 bg-pink-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                        <i class="fas fa-venus text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-black mb-2 text-pink-700">مركز الطالبات</h3>
+                    <p class="text-[10px] font-black text-pink-400 uppercase mb-6 tracking-widest">إدارة: أ. أفنان أبو الحسن</p>
+                    <p class="text-xs font-bold leading-relaxed text-pink-900 opacity-70">بيئة إيمانية تعليمية مخصصة لأكثر من 250 طالبة تسعى للإتقان والتثبيت.</p>
+                </div>
+
+                <div class="bg-slate-800 p-10 rounded-[40px] shadow-2xl text-center text-white relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <i class="fas fa-clock text-4xl text-gold mb-4 heartbeat"></i>
+                    <h3 class="text-xl font-black mb-2">مسجد ذو النورين</h3>
+                    <p class="text-xs font-bold text-gold italic uppercase">قريباً سنفتتح المركز فيه..</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="donatePage" class="page-node max-w-5xl mx-auto px-6 py-16">
-        <div class="bg-gradient-to-br from-[#001a35] to-[#003366] p-16 rounded-[40px] text-center text-white shadow-2xl relative">
-            <i class="fas fa-hand-holding-heart text-6xl text-gold mb-8 heartbeat"></i>
-            <h2 class="text-5xl font-black quran-font mb-6">"تِجَارَةً لَنْ تَبُورَ"</h2>
-            <p class="text-xl opacity-90 leading-relaxed max-w-3xl mx-auto mb-12">
-                تبرعك اليوم يبني صرحاً يخرّج مئات الحفاظ. مساهمتك القليلة هي بذرة بركة في ميزان حسناتك للأبد. كُن شريكاً في تعليم كتاب الله.
-            </p>
-            <div class="grid md:grid-cols-3 gap-6 mb-10 text-[#001a35]">
-                <div class="bg-white p-8 rounded-3xl hover:bg-gold transition cursor-pointer">
-                    <h5 class="font-black">سهم الخير</h5>
-                    <p class="text-3xl font-black mt-2">10$</p>
+    <section id="aiPage" class="page-node max-w-4xl mx-auto px-8 py-20">
+        <div class="bg-white rounded-[40px] shadow-2xl border-b-[15px] border-[#001a35] overflow-hidden">
+            <div class="p-10 bg-[#001a35] text-white flex items-center justify-between">
+                <div class="flex items-center gap-6">
+                    <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center text-[#001a35] shadow-inner badge-spin">
+                        <i class="fas fa-brain text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-black italic">مساعد التابعين الذكي</h3>
+                        <p class="text-[10px] text-gold font-bold uppercase tracking-widest">إرشاد قرآني مدعوم بالذكاء الاصطناعي</p>
+                    </div>
                 </div>
-                <div class="bg-gold p-8 rounded-3xl scale-110 shadow-xl">
-                    <h5 class="font-black">سهم البركة</h5>
-                    <p class="text-3xl font-black mt-2">50$</p>
-                </div>
-                <div class="bg-white p-8 rounded-3xl hover:bg-gold transition cursor-pointer">
-                    <h5 class="font-black">سهم الوقف</h5>
-                    <p class="text-3xl font-black mt-2">100$+</p>
+                <div class="text-right">
+                    <div class="text-[10px] font-bold opacity-60">حالة النظام</div>
+                    <div class="text-green-400 font-black text-xs">متصل الآن</div>
                 </div>
             </div>
-            <p class="text-xs font-bold text-gold italic">🎁 نظام تحفيز: يحصل المتبرعون على تحديثات دورية وصور لإنجازات الطلاب الذين تمت كفالتهم.</p>
+            <div id="ai-chat-container">
+                <div class="ai-bubble bot">مرحباً بك في رحاب صرح التابعين. أنا هنا لأرشدك في رحلة الحفظ والتثبيت. هل لديك سؤال عن سورة معينة؟ أو تحتاج لخطة مراجعة لليوم؟</div>
+            </div>
+            <div class="p-8 border-t bg-white flex gap-4">
+                <input type="text" id="ai-input" placeholder="اكتب سؤالك بوضوح هنا..." class="flex-1 outline-none focus:ring-4 ring-gold/20 transition-all">
+                <button onclick="askAI()" class="w-16 h-16 bg-[#001a35] text-gold rounded-2xl shadow-xl flex items-center justify-center hover:bg-gold hover:text-[#001a35] transition-all">
+                    <i class="fas fa-paper-plane text-xl"></i>
+                </button>
+            </div>
         </div>
     </section>
+
+    <section id="studentPage" class="page-node max-w-7xl mx-auto px-8 py-20">
+        <div id="login-screen" class="max-w-md mx-auto bg-white p-16 rounded-[50px] shadow-2xl border-t-8 border-gold text-center">
+            <div class="w-24 h-24 bg-slate-50 text-[#001a35] rounded-full flex items-center justify-center mx-auto mb-10 border-4 border-gold shadow-lg">
+                <i class="fas fa-fingerprint text-4xl"></i>
+            </div>
+            <h2 class="text-3xl font-black mb-4">هوية الطالب الرقمية</h2>
+            <p class="text-xs text-gray-400 font-bold mb-10">يرجى إدخال رقم الهوية للولوج للملف الشخصي</p>
+            <input type="number" id="stu-id" placeholder="رقم الهوية (مثلاً: 123)" class="w-full text-center text-2xl mb-8 py-5 border-2 rounded-2xl focus:border-gold">
+            <button onclick="login()" class="w-full bg-[#001a35] text-white py-6 rounded-2xl font-black text-xl shadow-xl hover:bg-gold hover:text-[#001a35] transition-all">دخول النظام الآمن</button>
+        </div>
+
+        <div id="dashboard-screen" class="hidden space-y-10">
+            <div class="bg-white p-12 rounded-[50px] shadow-sm flex flex-col lg:flex-row items-center gap-12 border-r-[20px] border-gold">
+                <div class="relative">
+                    <div class="w-48 h-48 bg-slate-100 rounded-[40px] flex items-center justify-center text-7xl text-[#001a35] border-2 border-gold/20 shadow-inner">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="absolute -bottom-4 -right-4 bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center border-4 border-white">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="flex-1 text-center lg:text-right space-y-4">
+                    <h3 class="text-5xl font-black italic">حمزة إبراهيم نوفل</h3>
+                    <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                        <span class="bg-blue-50 text-blue-700 px-6 py-2 rounded-full font-black text-xs border border-blue-100">حلقة ناهض العصار</span>
+                        <span class="bg-gold/10 text-gold px-6 py-2 rounded-full font-black text-xs border border-gold/20">المستوى: متميز جداً</span>
+                        <span class="bg-slate-100 text-slate-600 px-6 py-2 rounded-full font-black text-xs italic underline">المقر: مسجد التابعين</span>
+                    </div>
+                    <div class="pt-6 grid grid-cols-3 gap-4 max-w-sm">
+                        <div class="text-center"><p class="text-[10px] font-bold text-gray-400 uppercase">النقاط</p><p class="text-2xl font-black text-gold">2,845</p></div>
+                        <div class="text-center border-x"><p class="text-[10px] font-bold text-gray-400 uppercase">الأجزاء</p><p class="text-2xl font-black text-[#001a35]">18</p></div>
+                        <div class="text-center"><p class="text-[10px] font-bold text-gray-400 uppercase">الرتبة</p><p class="text-2xl font-black text-green-600">الأول</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-2 royal-card">
+                    <h4 class="text-xl font-black mb-10 flex items-center gap-4"><i class="fas fa-history text-gold"></i> سجل الاختبارات الرباعي</h4>
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center p-6 bg-slate-50 rounded-3xl group hover:bg-[#001a35] transition-all">
+                            <div><p class="font-black group-hover:text-gold transition">اختبار جزء (تبارك)</p><p class="text-[10px] text-gray-400 font-bold">التاريخ: 2026/01/05</p></div>
+                            <div class="text-right text-green-600 font-black text-2xl group-hover:text-white transition">99%</div>
+                        </div>
+                        <div class="flex justify-between items-center p-6 bg-slate-50 rounded-3xl group hover:bg-[#001a35] transition-all">
+                            <div><p class="font-black group-hover:text-gold transition">اختبار سورة البقرة</p><p class="text-[10px] text-gray-400 font-bold">التاريخ: 2025/12/20</p></div>
+                            <div class="text-right text-green-600 font-black text-2xl group-hover:text-white transition">97%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="royal-card flex flex-col items-center justify-center">
+                    <h4 class="text-lg font-black mb-8 italic">منحنى التثبيت الكلي</h4>
+                    <canvas id="stuChart" width="220" height="220"></canvas>
+                    <div class="mt-8 text-[10px] font-bold text-gray-400 flex gap-4">
+                        <span class="flex items-center gap-2"><i class="fas fa-square text-gold"></i> محفوظ</span>
+                        <span class="flex items-center gap-2"><i class="fas fa-square text-slate-100"></i> متبقي</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="donatePage" class="page-node max-w-6xl mx-auto px-8 py-20">
+        <div class="bg-gradient-to-br from-[#001a35] to-[#00284d] p-20 rounded-[60px] text-center shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: url('https://www.transparenttextures.com/patterns/islamic-art.png');"></div>
+            <div class="relative z-10">
+                <i class="fas fa-hand-holding-heart text-8xl text-gold mb-10 heartbeat inline-block"></i>
+                <h2 class="text-6xl font-black quran-font text-white mb-8">"إِنَّ الَّذِينَ يَتْلُونَ كِتَابَ اللَّهِ... يَرْجُونَ تِجَارَةً لَنْ تَبُورَ"</h2>
+                <p class="text-2xl text-blue-100 font-medium max-w-4xl mx-auto leading-relaxed italic opacity-80 mb-16">
+                    مساهمتك اليوم ليست مجرد مال، بل هي نور يوضع في صدور 500 طالب وطالبة. كل حرف يُتلى، وكل آية تُحفظ، هي في ميزان حسناتك كصدقة جارية لا تنقطع.
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-8 mb-16">
+                    <div class="bg-white/5 backdrop-blur-md p-10 rounded-[40px] border border-white/10 hover:bg-gold hover:text-[#001a35] transition-all cursor-pointer group scale-95 hover:scale-100">
+                        <h4 class="text-xl font-black mb-4">سهم الوفاء</h4>
+                        <div class="text-5xl font-black mb-6">$10</div>
+                        <p class="text-[10px] font-bold opacity-60 group-hover:opacity-100">كفالة تعليم طالب لمدة يوم كامل</p>
+                    </div>
+                    <div class="bg-gold text-[#001a35] p-12 rounded-[40px] shadow-2xl relative border-4 border-white/20 transform scale-110">
+                        <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-white text-[#001a35] px-6 py-2 rounded-full text-xs font-black italic shadow-lg">سهم البركة - الأكثر اختياراً</div>
+                        <h4 class="text-xl font-black mb-4">سهم البركة</h4>
+                        <div class="text-6xl font-black mb-6">$50</div>
+                        <p class="text-[10px] font-black opacity-80 uppercase tracking-widest">توفير المصاحف والجوائز التحفيزية</p>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-md p-10 rounded-[40px] border border-white/10 hover:bg-gold hover:text-[#001a35] transition-all cursor-pointer group scale-95 hover:scale-100">
+                        <h4 class="text-xl font-black mb-4">سهم الإتقان</h4>
+                        <div class="text-5xl font-black mb-6">$100+</div>
+                        <p class="text-[10px] font-bold opacity-60 group-hover:opacity-100">المساهمة في تطوير البنية التقنية للمركز</p>
+                    </div>
+                </div>
+
+                <div class="bg-white/10 p-8 rounded-3xl inline-block border border-gold/20">
+                    <p class="text-sm font-black text-gold flex items-center gap-3">
+                        <i class="fas fa-gift"></i> نظام الولاء للمتبرعين: تقرير مصور شهري يوضح أثر تبرعك في حياة الطلاب.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white border-t py-20 px-10 text-center space-y-6">
+        <div class="flex justify-center gap-6 text-2xl text-slate-300">
+            <i class="fab fa-facebook hover:text-[#001a35] transition-colors"></i>
+            <i class="fab fa-whatsapp hover:text-green-600 transition-colors"></i>
+            <i class="fab fa-instagram hover:text-pink-500 transition-colors"></i>
+        </div>
+        <h4 class="text-2xl font-black italic text-[#001a35]">صرح التابعين العالمي</h4>
+        <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.5em]">Visionary Leadership By Ibrahim Nofal</p>
+    </footer>
 
     <script>
-        // نظام التنقل
+        // 1. نظام التنقل السلس
         function nav(id) {
             document.querySelectorAll('.page-node').forEach(p => p.classList.remove('active'));
-            document.getElementById(id + 'Page').classList.add('active');
-            window.scrollTo(0,0);
+            const target = document.getElementById(id + 'Page');
+            target.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            
+            // تحريك العناصر باستخدام GSAP عند دخول الصفحة
+            gsap.from(target.children, {opacity: 0, y: 30, stagger: 0.1, duration: 0.8});
         }
 
-        // الذكاء الاصطناعي
+        // 2. المساعد الذكي AI
         function askAI() {
             const input = document.getElementById('ai-input');
-            const box = document.getElementById('ai-chat-box');
-            if(!input.value) return;
+            const container = document.getElementById('ai-chat-container');
+            if(!input.value.trim()) return;
 
-            box.innerHTML += `<div class="msg user">${input.value}</div>`;
-            const q = input.value;
+            // رسالة المستخدم
+            container.innerHTML += `<div class="ai-bubble user">${input.value}</div>`;
+            const query = input.value.toLowerCase();
             input.value = "";
+            container.scrollTop = container.scrollHeight;
 
+            // محاكاة استجابة المعلم الذكي
             setTimeout(() => {
-                let r = "أهلاً بك يا بطل القرآن! سؤال جميل، أنصحك بمراجعة هذا الورد قبل النوم لتثبيته.";
-                if(q.includes("البقرة")) r = "سورة البقرة تثبت بكثرة الاستماع والقراءة في قيام الليل.";
-                box.innerHTML += `<div class="msg bot">${r}</div>`;
-                box.scrollTop = box.scrollHeight;
-            }, 600);
+                let response = "سؤال مبارك يا بني! أنصحك بالاستمرار في المراجعة المكثفة والتواصل مع محفظك في مركز التابعين.";
+                if(query.includes("البقرة")) response = "سورة البقرة هي سنام القرآن. لتثبيتها، أنصحك بقراءة حزب يومياً في قيام الليل، وسوف تتقنها خلال 20 يوماً بإذن الله.";
+                if(query.includes("مواعيد") || query.includes("حلقة")) response = "لدينا حلقات من الفجر حتى العشاء. جلسة البراعم مع الشيخ ناهض تكون في العصر، وحلقة السند مع الشيخ محمد تكون بعد الفجر.";
+                
+                container.innerHTML += `<div class="ai-bubble bot">${response}</div>`;
+                container.scrollTop = container.scrollHeight;
+                
+                // صوت بسيط للتنبيه (اختياري)
+                // window.speechSynthesis.speak(new SpeechSynthesisUtterance(response));
+            }, 800);
         }
 
-        // بوابة الطالب
+        // 3. نظام بوابة الطالب
         function login() {
-            if(document.getElementById('stu-id').value === "123") {
-                document.getElementById('login-section').classList.add('hidden');
-                document.getElementById('dash-section').classList.remove('hidden');
-                initChart();
-            } else { alert("رقم الهوية هو 123 للتجربة"); }
+            const id = document.getElementById('stu-id').value;
+            if(id === "123") {
+                gsap.to("#login-screen", {opacity: 0, scale: 0.9, duration: 0.5, onComplete: () => {
+                    document.getElementById('login-screen').classList.add('hidden');
+                    document.getElementById('dashboard-screen').classList.remove('hidden');
+                    gsap.from("#dashboard-screen", {opacity: 0, y: 50, duration: 0.8});
+                    renderStudentChart();
+                }});
+            } else {
+                alert("يرجى إدخال رقم الهوية الصحيح (123 للتجربة)");
+            }
         }
 
-        function initChart() {
-            const ctx = document.getElementById('myChart').getContext('2d');
+        // 4. الرسوم البيانية للأداء
+        function renderStudentChart() {
+            const ctx = document.getElementById('stuChart').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['تم حفظه', 'متبقي'],
-                    datasets: [{ data: [80, 20], backgroundColor: ['#c5a059', '#f1f5f9'] }]
+                    labels: ['محفوظ', 'متبقي'],
+                    datasets: [{
+                        data: [18, 12],
+                        backgroundColor: ['#c5a059', '#f1f5f9'],
+                        hoverOffset: 10,
+                        borderWidth: 0
+                    }]
                 },
-                options: { cutout: '80%', plugins: { legend: { display: false } } }
+                options: {
+                    cutout: '85%',
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    animation: { animateScale: true }
+                }
             });
         }
+
+        // تحريك العناصر عند تحميل الموقع لأول مرة
+        window.onload = () => {
+            gsap.from("header", {y: -100, opacity: 0, duration: 1});
+            gsap.from("#homePage h2", {x: 100, opacity: 0, duration: 1, delay: 0.5});
+        };
     </script>
 </body>
 </html>
