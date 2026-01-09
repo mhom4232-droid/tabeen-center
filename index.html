@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة التابعين العالمية | الصرح القرآني الرقمي 2026</title>
+    <title>منصة التابعين العالمية | الإصدار الاحترافي 2026</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -12,540 +12,380 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
 
     <style>
-        /* 1. إعدادات الهوية الملكية (Royal Branding) */
         :root {
-            --royal-blue: #002349;      /* أزرق ملكي عميق */
-            --royal-light: #003a7a;     /* أزرق فاتح للتدرجات */
-            --gold-premium: #c5a059;    /* ذهبي مطفي فاخر */
-            --gold-bright: #e5c07b;     /* ذهبي مشرق */
+            --royal-blue: #002349;
+            --royal-light: #003a7a;
+            --gold-premium: #c5a059;
+            --gold-bright: #e5c07b;
             --bg-soft: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #002349;
             --success: #10b981;
+        }
+
+        .dark-mode-vars {
+            --royal-blue: #ffffff;
+            --royal-light: #334155;
+            --bg-soft: #020617;
+            --card-bg: #0f172a;
+            --text-main: #f1f5f9;
         }
 
         body {
             font-family: 'Tajawal', sans-serif;
             background: var(--bg-soft);
-            color: var(--royal-blue);
+            color: var(--text-main);
+            transition: all 0.4s ease;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
         .quran-font { font-family: 'Amiri', serif; }
 
-        /* 2. أنظمة التنقل (Navigation System) */
-        .page-node {
-            display: none;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        /* 🌙 Dark Mode Class */
+        body.dark-mode {
+            background: #020617;
+            color: #f1f5f9;
         }
-        .page-node.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
+        body.dark-mode .glass-card { background: #0f172a; border-color: #1e293b; color: white; }
+        body.dark-mode header { background: #0f172a; border-color: #1e293b; }
+        body.dark-mode .bg-white { background: #1e293b !important; }
+        body.dark-mode .text-slate-500 { color: #94a3b8; }
 
-        /* 3. الكروت الفاخرة (Premium Cards) */
+        .page-node { display: none; opacity: 0; transform: translateY(20px); transition: 0.5s; }
+        .page-node.active { display: block; opacity: 1; transform: translateY(0); }
+
         .glass-card {
-            background: white;
-            border-radius: 40px;
+            background: var(--card-bg);
+            border-radius: 35px;
             border: 1px solid rgba(0, 35, 73, 0.05);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.03);
-            transition: 0.4s all ease;
-        }
-        .glass-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0, 35, 73, 0.1);
-            border-color: var(--gold-premium);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            transition: 0.4s;
         }
 
-        /* 4. أزرار المؤسسات (Corporate Buttons) */
         .btn-royal {
-            background: linear-gradient(135deg, var(--royal-blue), var(--royal-light));
-            color: white;
-            padding: 16px 32px;
-            border-radius: 20px;
-            font-weight: 800;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: 0.3s all;
-            box-shadow: 0 10px 20px rgba(0, 35, 73, 0.15);
-        }
-        .btn-royal:hover {
-            filter: brightness(1.2);
-            transform: scale(1.05);
-            box-shadow: 0 15px 30px rgba(0, 35, 73, 0.25);
+            background: linear-gradient(135deg, #002349, #003a7a);
+            color: white; padding: 14px 28px; border-radius: 18px;
+            font-weight: 800; display: inline-flex; align-items: center; gap: 10px;
+            box-shadow: 0 10px 20px rgba(0, 35, 73, 0.1);
         }
 
-        /* 5. شريط الأخبار (News Ticker) */
-        .news-ticker {
-            background: var(--gold-premium);
-            color: var(--royal-blue);
-            padding: 12px 0;
-            font-weight: 900;
-            border-bottom: 2px solid var(--royal-blue);
-        }
-        .ticker-content {
-            display: inline-block;
-            white-space: nowrap;
-            animation: ticker 45s linear infinite;
-        }
-        @keyframes ticker {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
+        .news-ticker { background: var(--gold-premium); color: #002349; padding: 10px 0; }
+        .ticker-content { display: inline-block; white-space: nowrap; animation: ticker 50s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* 6. فقاعات الذكاء الاصطناعي (AI Interface) */
-        .ai-bubble {
-            max-width: 80%;
-            padding: 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            line-height: 1.8;
-        }
-        .ai-msg { background: var(--royal-blue); color: white; border-bottom-right-radius: 5px; }
-        .user-msg { background: #e2e8f0; color: var(--royal-blue); border-bottom-left-radius: 5px; align-self: flex-end; }
+        .ai-bubble { max-width: 85%; padding: 18px; border-radius: 25px; line-height: 1.7; }
+        .ai-msg { background: #002349; color: white; }
+        .user-msg { background: #e2e8f0; color: #002349; align-self: flex-end; }
 
-        /* 7. لوحة الشرف (Honor Wall) */
-        .crown-float { animation: floating 3s ease-in-out infinite; }
-        @keyframes floating {
-            0%, 100% { transform: translateY(0) rotate(0); }
-            50% { transform: translateY(-15px) rotate(5deg); }
+        .badge-icon {
+            width: 60px; h-60px; background: rgba(197, 160, 89, 0.1);
+            border-radius: 15px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; color: var(--gold-premium); border: 1px solid var(--gold-premium);
+            transition: 0.3s; cursor: pointer;
         }
+        .badge-icon:hover { transform: scale(1.1) rotate(5deg); background: var(--gold-premium); color: white; }
 
-        /* بدون صور - بدائل بصرية (Gradients & Icons) */
-        .no-image-placeholder {
-            background: linear-gradient(45deg, var(--royal-blue), var(--royal-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 40px;
-        }
+        .stat-circle { transform: rotate(-90deg); transition: stroke-dashoffset 1s ease-out; }
+
+        /* Animation for Voice Visualizer */
+        .v-bar { width: 4px; height: 10px; background: var(--gold-premium); border-radius: 10px; animation: wave 1s infinite ease-in-out; }
+        @keyframes wave { 0%, 100% { height: 10px; } 50% { height: 30px; } }
     </style>
 </head>
-<body>
+<body id="mainBody">
 
-    <div class="news-ticker overflow-hidden">
-        <div class="ticker-content font-bold text-sm">
-             📢 بشرى سارة: افتتاح التسجيل في "مقرأة التابعين الدولية" للمتميزين .. 🕋 المركز يهنئ الطالب "حمزة العصار" لختمه القرآن الكريم .. 🌟 الأستاذ إسماعيل نوفل يكرم أوائل حلقة التميز يوم الخميس .. 💡 فكرة اليوم: اجعل لك وردًا يوميًا من المراجعة لتثبت حفظك ..
+    <div class="news-ticker font-black text-xs uppercase tracking-tighter">
+        <div class="ticker-content">
+            🌟 إنجاز اليوم: تم مراجعة 1,245 صفحة من طلابنا حتى الآن .. 🎖️ وسام "حافظ الشهر" يذهب للطالب عمر الفاروق .. 🕋 رحلة عمرة للمتميزين في حفظ سورة البقرة قريباً .. 💡 نصيحة: التكرار هو سر التثبيت، كرر لوحك 20 مرة.
         </div>
     </div>
 
-    <header class="sticky top-0 z-[1000] bg-white/95 backdrop-blur-md border-b-4 border-royal-blue px-6 py-5 shadow-sm">
+    <header class="sticky top-0 z-[1000] bg-white/90 backdrop-blur-md border-b-2 px-6 py-4 shadow-sm">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-4 cursor-pointer" onclick="navigateTo('home')">
-                <div class="w-14 h-14 bg-royal-blue rounded-2xl flex items-center justify-center shadow-lg border-b-4 border-gold-premium">
-                    <i class="fas fa-quran text-gold-premium text-2xl"></i>
+            <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+                <div class="w-12 h-12 bg-[#002349] rounded-xl flex items-center justify-center border-b-4 border-gold-premium">
+                    <i class="fas fa-quran text-gold-premium text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-black quran-font">مركز التابعين القرآني</h1>
-                    <p class="text-[9px] text-gold-premium font-bold tracking-[0.3em]">THE ELITE QURANIC CENTER</p>
+                    <h1 class="text-xl font-black quran-font">مركز التابعين</h1>
+                    <p class="text-[8px] text-gold-premium font-bold tracking-widest uppercase">Elite Quranic System</p>
                 </div>
             </div>
 
-            <nav class="hidden lg:flex items-center gap-8 font-black text-xs uppercase tracking-widest">
+            <nav class="hidden lg:flex items-center gap-6 font-black text-[10px] uppercase">
                 <button onclick="navigateTo('home')" class="hover:text-gold-premium transition">الرئيسية</button>
-                <button onclick="navigateTo('mosques')" class="hover:text-gold-premium transition">إدارة الحلقات</button>
-                <button onclick="navigateTo('ai')" class="flex items-center gap-2 text-royal-blue bg-slate-100 px-5 py-2.5 rounded-xl hover:bg-royal-blue hover:text-white transition-all">
-                    <i class="fas fa-robot animate-pulse"></i> المساعد الذكي
-                </button>
+                <button onclick="navigateTo('mosques')" class="hover:text-gold-premium transition">الحلقات</button>
+                <button onclick="navigateTo('ai')" class="px-4 py-2 bg-slate-100 rounded-lg flex items-center gap-2"><i class="fas fa-robot animate-bounce"></i> المعلم الذكي</button>
                 <button onclick="navigateTo('student')" class="hover:text-gold-premium transition">بوابة الطالب</button>
-                <button onclick="navigateTo('donate')" class="btn-royal !py-3 !px-8 text-[10px]">ادعم الصرح</button>
+                <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-gold-premium transition"><i id="modeIcon" class="fas fa-moon text-xs"></i></button>
+                <button onclick="navigateTo('donate')" class="btn-royal !py-2 !px-6 text-[9px]">ادعمنا</button>
             </nav>
 
-            <button id="globalBackBtn" onclick="navigateTo('home')" class="hidden bg-slate-100 p-4 rounded-2xl text-royal-blue"><i class="fas fa-arrow-right"></i></button>
+            <button id="globalBackBtn" onclick="navigateTo('home')" class="hidden bg-slate-100 p-3 rounded-xl"><i class="fas fa-times"></i></button>
         </div>
     </header>
 
-    <main id="homePage" class="page-node active py-16 px-6 max-w-7xl mx-auto">
-        <div class="grid lg:grid-cols-2 gap-20 items-center min-h-[70vh]">
-            <div class="space-y-10">
-                <span class="inline-block px-6 py-2 bg-royal-blue/5 text-royal-blue rounded-full text-xs font-black border border-royal-blue/10 italic">جيل قرآني.. بأدوات عالمية</span>
-                <h2 class="text-6xl md:text-8xl font-black text-royal-blue leading-tight">نصنعُ المستقبل <br><span class="text-gold-premium italic quran-font">بأنوارِ الكتاب</span></h2>
-                <p class="text-xl text-slate-500 leading-[1.8] italic max-w-xl">تحت إشراف الأستاذ <b>إسماعيل نوفل</b>، نقدّم في النصيرات بجوار مدرسة العروبة نموذجاً فريداً يجمع بين هيبة القرآن وتقنيات العصر الحديث.</p>
-                
-                <div class="flex flex-wrap gap-5">
-                    <button onclick="navigateTo('mosques')" class="btn-royal text-lg">استكشف الحلقات <i class="fas fa-chevron-left"></i></button>
-                    <button onclick="navigateTo('student')" class="px-12 py-5 border-4 border-royal-blue/10 rounded-[25px] font-black hover:bg-white hover:border-gold-premium transition-all">بوابة الطالب</button>
+    <main id="homePage" class="page-node active py-12 px-6 max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-12 items-center min-h-[60vh]">
+            <div class="space-y-8">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-gold-premium/10 rounded-full text-gold-premium font-black text-[10px] tracking-widest uppercase">
+                    <i class="fas fa-star"></i> ريادة الحفظ الرقمي 2026
                 </div>
-
-                <div class="flex gap-12 border-t pt-10 border-slate-200">
-                    <div><p class="text-5xl font-black text-royal-blue">500+</p><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">طالب وطالبة</p></div>
-                    <div class="w-[2px] bg-slate-100"></div>
-                    <div><p class="text-5xl font-black text-royal-blue">4</p><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">مساجد تابعة</p></div>
-                    <div class="w-[2px] bg-slate-100"></div>
-                    <div><p class="text-5xl font-black text-gold-premium">145</p><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">خاتم للقرآن</p></div>
+                <h2 class="text-5xl md:text-7xl font-black leading-tight text-royal-blue" id="mainTitle">جيل يحيى <br><span class="text-gold-premium quran-font">بأنوار الوحي</span></h2>
+                <p class="text-lg text-slate-500 max-w-lg leading-relaxed italic">نظام تعليمي ذكي يجمع بين سند المتصل وتقنيات الذكاء الاصطناعي، لتنشئة جيلٍ قرآنيٍّ فريد.</p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="navigateTo('mosques')" class="btn-royal shadow-xl">ابدأ رحلة الحفظ <i class="fas fa-chevron-left text-xs"></i></button>
+                    <button onclick="navigateTo('student')" class="px-8 py-4 border-2 border-slate-200 rounded-2xl font-black hover:border-gold-premium transition">لوحة التحكم</button>
                 </div>
             </div>
 
-            <div class="relative group">
-                <div class="no-image-placeholder h-[600px] rotate-3 group-hover:rotate-0 transition-transform duration-700 shadow-2xl relative">
-                    <i class="fas fa-mosque text-white/10 text-[250px] absolute"></i>
-                    <div class="text-center z-10 p-10">
-                        <i class="fas fa-crown text-gold-premium text-7xl crown-float mb-8"></i>
-                        <h3 class="text-white text-4xl font-black quran-font">منظومة التابعين</h3>
-                        <p class="text-gold-bright/60 font-bold mt-4 uppercase tracking-[0.3em]">Excellence In Quran</p>
+            <div class="relative">
+                <div class="aspect-square bg-gradient-to-br from-[#002349] to-[#003a7a] rounded-[50px] shadow-2xl flex items-center justify-center p-12 rotate-3 hover:rotate-0 transition-transform duration-700">
+                    <div class="text-center space-y-6">
+                        <i class="fas fa-kaaba text-white/10 text-[200px] absolute"></i>
+                        <div class="relative z-10">
+                            <i class="fas fa-crown text-gold-premium text-6xl mb-4 animate-bounce"></i>
+                            <h3 class="text-white text-3xl font-black quran-font">صرح التابعين</h3>
+                            <div class="flex justify-center gap-1 mt-4">
+                                <div class="v-bar" style="animation-delay: 0.1s"></div>
+                                <div class="v-bar" style="animation-delay: 0.2s"></div>
+                                <div class="v-bar" style="animation-delay: 0.3s"></div>
+                                <div class="v-bar" style="animation-delay: 0.4s"></div>
+                                <div class="v-bar" style="animation-delay: 0.5s"></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="absolute -bottom-10 -left-10 bg-white p-10 rounded-[40px] shadow-2xl border-b-8 border-gold-premium animate-bounce">
-                    <i class="fas fa-award text-gold-premium text-5xl"></i>
-                    <p class="mt-4 font-black text-sm italic">المركز الأول في <br>مسابقة غزة الدولية</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <section id="aiPage" class="page-node py-16 px-6 max-w-5xl mx-auto">
-        <div class="glass-card flex flex-col h-[750px] border-b-[15px] border-royal-blue overflow-hidden shadow-2xl">
-            <div class="bg-royal-blue p-8 text-white flex justify-between items-center">
+    <section id="aiPage" class="page-node py-12 px-6 max-w-5xl mx-auto">
+        <div class="glass-card flex flex-col h-[700px] overflow-hidden shadow-2xl border-b-[15px] border-royal-blue">
+            <div class="bg-royal-blue p-6 flex justify-between items-center text-white">
                 <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-2xl text-gold-premium"><i class="fas fa-robot"></i></div>
-                    <div><h4 class="text-xl font-black">مساعد التابعين الذكي</h4><p class="text-[10px] text-gold-premium font-bold uppercase tracking-widest">AI Quranic Tutor</p></div>
+                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-gold-premium"><i class="fas fa-robot"></i></div>
+                    <div><h4 class="font-black text-sm">المساعد الذكي (إصدار 2.0)</h4><p class="text-[8px] text-gold-bright opacity-60 uppercase">Advanced AI Tutor</p></div>
                 </div>
-                <button onclick="resetAI()" class="hover:rotate-180 transition-all duration-500"><i class="fas fa-sync-alt opacity-50"></i></button>
-            </div>
-
-            <div id="chatWindow" class="flex-1 p-8 overflow-y-auto flex flex-col gap-6 bg-slate-50/50">
-                <div class="ai-bubble ai-msg shadow-lg">
-                    أهلاً بك في رحاب القرآن. أنا المعلم الرقمي الخاص بك، صُممت لمساعدتك في رحلتك مع كتاب الله. هل تريد خطة حفظ، أم مراجعة اليوم؟
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        <button onclick="sendAI('اريد خطة لحفظ سورة البقرة')" class="bg-white/10 px-4 py-2 rounded-full text-xs border border-white/20 hover:bg-gold-premium transition">خطة حفظ</button>
-                        <button onclick="sendAI('اختبرني في جزء عم')" class="bg-white/10 px-4 py-2 rounded-full text-xs border border-white/20 hover:bg-gold-premium transition">اختبار سريع</button>
-                        <button onclick="sendAI('ما فضل سورة الكهف')" class="bg-white/10 px-4 py-2 rounded-full text-xs border border-white/20 hover:bg-gold-premium transition">سؤال ديني</button>
-                    </div>
+                <div class="flex gap-2">
+                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                    <span class="text-[8px] font-bold">متصل الآن</span>
                 </div>
             </div>
 
-            <div class="p-8 bg-white border-t-2 border-slate-100 flex gap-4">
-                <input type="text" id="aiInput" placeholder="اكتب سؤالك هنا بوضوح..." class="flex-1 p-5 bg-slate-100 rounded-2xl font-black text-royal-blue outline-none focus:ring-4 ring-gold-premium/20 transition-all">
-                <button onclick="handleAI()" class="w-20 h-20 bg-royal-blue text-white rounded-2xl flex items-center justify-center text-2xl shadow-xl active:scale-90 transition">
+            <div id="chatWindow" class="flex-1 p-6 overflow-y-auto flex flex-col gap-5 bg-slate-50/30">
+                <div class="ai-bubble ai-msg shadow-lg text-sm">
+                    مرحباً بك يا طالب العلم! أنا رفيقك في رحلة الحفظ. يمكنني وضع خطة مخصصة لك، أو اختبارك في الأجزاء التي حفظتها. ماذا سنفعل اليوم؟
+                </div>
+            </div>
+
+            <div class="p-6 bg-white border-t flex gap-3">
+                <input type="text" id="aiInput" placeholder="مثلاً: أريد مراجعة جزء عم خلال أسبوع.." class="flex-1 p-4 bg-slate-100 rounded-xl font-bold text-xs outline-none focus:ring-2 ring-gold-premium/50 transition">
+                <button onclick="handleAI()" class="w-14 h-14 bg-royal-blue text-white rounded-xl flex items-center justify-center shadow-lg hover:scale-105 transition">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
         </div>
     </section>
 
-    <section id="mosquesPage" class="page-node py-16 px-6 max-w-7xl mx-auto">
-        <h2 class="text-5xl font-black text-center mb-4 italic text-royal-blue">مصفوفة المساجد والحلقات</h2>
-        <div class="w-24 h-2 bg-gold-premium mx-auto mb-20 rounded-full"></div>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
-            <div onclick="showRings('tabieen')" class="glass-card p-10 border-t-8 border-gold-premium cursor-pointer group">
-                <div class="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center text-royal-blue text-4xl mb-6 group-hover:bg-royal-blue group-hover:text-white transition-all shadow-inner">
-                    <i class="fas fa-kaaba"></i>
-                </div>
-                <h3 class="text-2xl font-black mb-2">مسجد التابعين</h3>
-                <p class="text-xs text-slate-400 font-bold mb-8 italic uppercase tracking-widest">المقر الرئيسي</p>
-                <div class="flex justify-between items-center border-t pt-6">
-                    <span class="text-xs font-black"><i class="fas fa-users ml-2"></i>12 حلقة</span>
-                    <span class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-[10px] font-black uppercase">متاح</span>
-                </div>
-            </div>
-
-            <div onclick="showRings('moath')" class="glass-card p-10 border-t-8 border-royal-light cursor-pointer group">
-                <div class="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center text-royal-light text-4xl mb-6 group-hover:bg-royal-light group-hover:text-white transition-all shadow-inner">
-                    <i class="fas fa-mosque"></i>
-                </div>
-                <h3 class="text-2xl font-black mb-2">مسجد معاذ</h3>
-                <p class="text-xs text-slate-400 font-bold mb-8 italic uppercase tracking-widest">المخيم الجديد</p>
-                <div class="flex justify-between items-center border-t pt-6">
-                    <span class="text-xs font-black"><i class="fas fa-users ml-2"></i>8 حلقات</span>
-                    <span class="bg-red-100 text-red-700 px-4 py-1.5 rounded-full text-[10px] font-black uppercase">مكتمل</span>
-                </div>
-            </div>
-
-            <div onclick="showRings('noor')" class="glass-card p-10 border-t-8 border-emerald-600 cursor-pointer group">
-                <div class="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center text-emerald-600 text-4xl mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-inner">
-                    <i class="fas fa-star-and-crescent"></i>
-                </div>
-                <h3 class="text-2xl font-black mb-2">ذو النورين</h3>
-                <p class="text-xs text-slate-400 font-bold mb-8 italic uppercase tracking-widest">منطقة العروبة</p>
-                <div class="flex justify-between items-center border-t pt-6">
-                    <span class="text-xs font-black"><i class="fas fa-users ml-2"></i>6 حلقات</span>
-                    <span class="bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-[10px] font-black uppercase">مقاعد محدودة</span>
-                </div>
-            </div>
-
-            <div onclick="showRings('girls')" class="glass-card p-10 border-t-8 border-pink-500 cursor-pointer group">
-                <div class="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center text-pink-500 text-4xl mb-6 group-hover:bg-pink-500 group-hover:text-white transition-all shadow-inner">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <h3 class="text-2xl font-black mb-2">فرع الطالبات</h3>
-                <p class="text-xs text-slate-400 font-bold mb-8 italic uppercase tracking-widest">قسم النساء</p>
-                <div class="flex justify-between items-center border-t pt-6">
-                    <span class="text-xs font-black"><i class="fas fa-users ml-2"></i>10 حلقات</span>
-                    <span class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-[10px] font-black uppercase">متاح</span>
-                </div>
-            </div>
+    <section id="mosquesPage" class="page-node py-12 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-16 space-y-4">
+            <h2 class="text-4xl font-black text-royal-blue italic">مصفوفة الحلقات الذكية</h2>
+            <p class="text-slate-400 font-bold text-xs uppercase tracking-widest">اختر المسجد الأقرب إليك وانضم لركب الحفاظ</p>
         </div>
 
-        <div id="ringsDisplay" class="hidden animate-fade-in space-y-10 max-w-5xl mx-auto">
-            <h4 id="mosqueTitle" class="text-4xl font-black italic border-r-8 border-gold-premium pr-8 text-royal-blue uppercase tracking-widest">--</h4>
-            <div id="ringsGrid" class="grid grid-cols-1 gap-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div onclick="showRings('tabieen')" class="glass-card p-8 border-t-4 border-gold-premium cursor-pointer group">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl text-royal-blue group-hover:bg-royal-blue group-hover:text-white transition"><i class="fas fa-kaaba"></i></div>
+                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-[8px] font-black uppercase">نشط</span>
                 </div>
+                <h3 class="text-xl font-black mb-2">مسجد التابعين</h3>
+                <p class="text-[10px] text-slate-400 font-bold italic mb-6">المخيم الجديد - المقر الرئيسي</p>
+                <div class="flex justify-between text-[10px] font-black">
+                    <span>12 حلقة</span>
+                    <span class="text-gold-premium">240 طالب</span>
+                </div>
+            </div>
+            </div>
+
+        <div id="ringsDisplay" class="hidden animate-fade-in space-y-6">
+            <h4 id="mosqueTitle" class="text-2xl font-black border-r-4 border-gold-premium pr-4 text-royal-blue">--</h4>
+            <div id="ringsGrid" class="grid grid-cols-1 gap-4"></div>
         </div>
     </section>
 
-    <section id="studentPage" class="page-node py-16 px-6 max-w-4xl mx-auto">
-        <div id="loginSection" class="glass-card p-16 text-center shadow-2xl border-b-[20px] border-royal-blue">
-            <i class="fas fa-id-card text-7xl text-gold-premium mb-10"></i>
-            <h2 class="text-4xl font-black mb-4 italic">بوابة الطالب الذكية</h2>
-            <p class="text-slate-400 italic mb-12 font-bold uppercase tracking-widest text-sm">أدخل رقم الهوية لمتابعة إنجازك القرآني</p>
-            <div class="max-w-sm mx-auto space-y-6">
-                <input type="number" id="stdID" placeholder="رقم الهوية" class="w-full p-6 bg-slate-50 rounded-[25px] text-center text-3xl font-black border-4 border-slate-100 focus:border-royal-blue outline-none transition-all">
-                <button onclick="loginStudent()" class="w-full btn-royal py-6 text-2xl tracking-widest shadow-2xl">تأكيـد الدخول</button>
-            </div>
+    <section id="studentPage" class="page-node py-12 px-6 max-w-5xl mx-auto">
+        <div id="loginSection" class="glass-card p-12 text-center max-w-md mx-auto shadow-2xl">
+            <i class="fas fa-fingerprint text-5xl text-gold-premium mb-6"></i>
+            <h2 class="text-2xl font-black mb-6">الدخول السريع</h2>
+            <input type="number" id="stdID" placeholder="رقم الهوية" class="w-full p-4 bg-slate-50 rounded-xl text-center font-black mb-4 outline-none border focus:border-gold-premium">
+            <button onclick="loginStudent()" class="w-full btn-royal justify-center">دخول النظام</button>
         </div>
 
-        <div id="dashboardSection" class="hidden">
-            <div class="glass-card p-12 flex flex-col md:flex-row gap-12 items-center border-b-[15px] border-success">
-                <div class="w-36 h-36 bg-slate-50 rounded-[45px] flex items-center justify-center text-5xl text-royal-blue border-4 border-gold-premium border-dashed">
-                    <i class="fas fa-user-graduate"></i>
-                </div>
-                <div class="flex-1 text-center md:text-right">
-                    <h3 class="text-4xl font-black mb-3 italic" id="studentName">أحمد محمد نوفل</h3>
-                    <p class="text-slate-400 font-bold mb-6 italic text-lg">المسجد: التابعين • المحفظ: الشيخ محمد العصار</p>
-                    <div class="flex gap-5">
-                        <span class="bg-royal-blue text-white px-6 py-3 rounded-2xl text-xs font-black italic">ختم: 15 جزءاً</span>
-                        <span class="bg-gold-premium text-white px-6 py-3 rounded-2xl text-xs font-black italic">نقاط التميز: 1250</span>
+        <div id="dashboardSection" class="hidden space-y-6">
+            <div class="glass-card p-8 flex flex-col md:flex-row gap-8 items-center border-b-8 border-success">
+                <div class="relative">
+                    <svg class="w-32 h-32">
+                        <circle cx="64" cy="64" r="58" stroke="#f1f5f9" stroke-width="8" fill="transparent" />
+                        <circle cx="64" cy="64" r="58" stroke="#10b981" stroke-width="8" fill="transparent" stroke-dasharray="364" stroke-dashoffset="100" class="stat-circle" />
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <span class="text-2xl font-black">72%</span>
+                        <span class="text-[8px] font-bold text-slate-400 uppercase">الخطة</span>
                     </div>
                 </div>
-                <div class="w-32 h-32 relative">
-                    <svg class="w-full h-full transform -rotate-90">
-                        <circle cx="64" cy="64" r="50" stroke="#f1f5f9" stroke-width="14" fill="transparent"></circle>
-                        <circle cx="64" cy="64" r="50" stroke="#10b981" stroke-width="14" fill="transparent" stroke-dasharray="314" stroke-dashoffset="60" stroke-linecap="round"></circle>
-                    </svg>
-                    <span class="absolute inset-0 flex items-center justify-center font-black text-2xl">82%</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="donatePage" class="page-node py-16 px-6 max-w-4xl mx-auto">
-        <div class="glass-card p-16 text-center border-t-[20px] border-gold-premium shadow-2xl">
-            <h2 class="text-5xl font-black mb-6 italic text-royal-blue">بوابة الوفاء للقرآن</h2>
-            <p class="text-slate-500 mb-16 italic text-xl font-medium">"بـ 5 دولار فقط، يمكنك كفالة طالب قرآن وجعل الثواب صدقة جارية لمن تحب."</p>
-            
-            <div class="bg-slate-50 p-12 rounded-[50px] mb-12 border-2 border-dashed border-slate-200">
-                <h4 class="font-black text-xs uppercase tracking-[0.5em] mb-8 text-gold-premium italic">أهدِ ثواب التبرع</h4>
-                <input type="text" id="deadName" placeholder="اسم الفقيد (رحمه الله)" class="w-full p-6 bg-white rounded-3xl border-2 border-slate-100 text-center font-black text-2xl mb-10 outline-none focus:border-gold-premium italic">
                 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <button onclick="setDonation(5, this)" class="donation-btn p-10 bg-white rounded-[35px] font-black text-3xl hover:border-gold-premium border-4 border-transparent transition shadow-sm">$5</button>
-                    <button onclick="setDonation(20, this)" class="donation-btn p-10 bg-white rounded-[35px] font-black text-3xl hover:border-gold-premium border-4 border-transparent transition shadow-sm">$20</button>
-                    <button onclick="setDonation(50, this)" class="donation-btn p-10 bg-white rounded-[35px] font-black text-3xl hover:border-gold-premium border-4 border-transparent transition shadow-sm">$50</button>
-                    <button onclick="setDonation(100, this)" class="donation-btn p-10 bg-white rounded-[35px] font-black text-3xl hover:border-gold-premium border-4 border-transparent transition shadow-sm">$100</button>
+                <div class="flex-1 text-center md:text-right">
+                    <h3 class="text-3xl font-black italic mb-2" id="studentName">حمزة نوفل</h3>
+                    <p class="text-xs text-slate-400 font-bold mb-4 italic">حلقة الشيخ محمد العصار • المستوى الرابع</p>
+                    <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                        <span class="bg-royal-blue text-white px-3 py-1 rounded-lg text-[9px] font-black">15 جزء</span>
+                        <span class="bg-gold-premium text-white px-3 py-1 rounded-lg text-[9px] font-black">1250 نقطة</span>
+                        <span class="bg-amber-100 text-amber-600 px-3 py-1 rounded-lg text-[9px] font-black italic">متفوق</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="badge-icon" title="وسام الالتزام"><i class="fas fa-clock"></i></div>
+                    <div class="badge-icon" title="وسام الحفظ السريع"><i class="fas fa-bolt"></i></div>
+                    <div class="badge-icon" title="وسام الأخلاق"><i class="fas fa-heart"></i></div>
                 </div>
             </div>
-            <button onclick="confirmDonation()" class="btn-royal text-3xl !px-20 !py-8 shadow-2xl">تأكيد السهم <i class="fas fa-heart text-gold-premium ml-3"></i></button>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="glass-card p-6">
+                    <h4 class="text-sm font-black mb-4"><i class="fas fa-chart-line ml-2"></i> الإنجاز الأسبوعي</h4>
+                    <div class="flex items-end justify-between h-32 gap-2">
+                        <div class="bg-slate-100 w-full h-1/2 rounded-t-lg transition-all hover:bg-gold-premium"></div>
+                        <div class="bg-slate-100 w-full h-3/4 rounded-t-lg transition-all hover:bg-gold-premium"></div>
+                        <div class="bg-gold-premium w-full h-full rounded-t-lg transition-all"></div>
+                        <div class="bg-slate-100 w-full h-2/3 rounded-t-lg transition-all hover:bg-gold-premium"></div>
+                        <div class="bg-slate-100 w-full h-1/3 rounded-t-lg transition-all hover:bg-gold-premium"></div>
+                    </div>
+                    <div class="flex justify-between text-[8px] font-bold mt-2 text-slate-400">
+                        <span>السبت</span><span>الأحد</span><span>الاثنين</span><span>الثلاثاء</span><span>الأربعاء</span>
+                    </div>
+                </div>
+                <div class="glass-card p-6 flex flex-col justify-center items-center text-center">
+                    <i class="fas fa-fire text-orange-500 text-4xl mb-4"></i>
+                    <h4 class="text-xl font-black">14 يوم متتالي</h4>
+                    <p class="text-xs text-slate-400 font-bold uppercase mt-2">استمر! أنت في منطقة التميز</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <div id="honorModal" class="fixed inset-0 z-[5000] bg-royal-blue/95 hidden flex items-center justify-center p-6 backdrop-blur-xl">
-        <div class="bg-white rounded-[60px] p-16 max-w-2xl w-full text-center relative overflow-hidden shadow-[0_0_100px_rgba(197,160,89,0.3)]">
-            <div class="absolute top-0 left-0 w-full h-5 bg-gold-premium"></div>
-            <button onclick="closeHonor()" class="absolute top-10 left-10 text-slate-300 hover:text-royal-blue transition text-3xl"><i class="fas fa-times"></i></button>
+    <section id="donatePage" class="page-node py-12 px-6 max-w-4xl mx-auto text-center">
+        <div class="glass-card p-12 border-t-[12px] border-gold-premium">
+            <h2 class="text-3xl font-black mb-4 text-royal-blue">سهم الوفاء القرآني</h2>
+            <p class="text-slate-400 italic mb-10">تبرعك يساهم في بناء أجيالٍ تحفظ كتاب الله وتعمل به</p>
             
-            <i class="fas fa-crown text-gold-premium text-8xl crown-float mb-10"></i>
-            <h2 class="text-4xl font-black mb-3 italic">لوحة شرف الحلقة</h2>
-            <p id="honorRingName" class="text-sm font-black text-slate-400 tracking-widest uppercase mb-16 italic">الشيخ: --</p>
-            
-            <div id="honorStudentsGrid" class="grid grid-cols-3 gap-10">
-                </div>
-            <p class="mt-16 text-[10px] text-slate-300 italic font-black uppercase tracking-[0.3em]">"يتم تحديث هذه اللوحة أسبوعياً بناءً على تقييم المحفظين"</p>
-        </div>
-    </div>
-
-    <footer class="bg-white py-32 px-6 border-t-8 border-royal-blue mt-32">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-20">
-            <div class="col-span-2 space-y-10">
-                <h3 class="text-5xl font-black quran-font text-royal-blue italic">منظومة التابعين</h3>
-                <p class="text-slate-500 italic leading-[2.2] max-w-md text-xl font-medium">المؤسسة الأولى في النصيرات التي تدمج التلقي القرآني الأصيل بالأنظمة الرقمية الحديثة. نحن نبني جيلاً لا يقرأ القرآن فحسب، بل يحياه.</p>
-                <div class="flex gap-6 mt-10">
-                    <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl hover:bg-royal-blue hover:text-white transition cursor-pointer shadow-sm"><i class="fab fa-facebook-f"></i></div>
-                    <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl hover:bg-royal-blue hover:text-white transition cursor-pointer shadow-sm"><i class="fab fa-instagram"></i></div>
-                    <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-2xl hover:bg-royal-blue hover:text-white transition cursor-pointer shadow-sm"><i class="fab fa-youtube"></i></div>
+            <div class="bg-slate-50 p-8 rounded-[30px] mb-8">
+                <input type="text" id="deadName" placeholder="اسم الفقيد (رحمه الله) - اختياري" class="w-full p-4 bg-white rounded-xl text-center font-bold mb-6 outline-none border-2 border-dashed border-slate-200">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button onclick="setDonation(10, this)" class="d-btn p-6 bg-white rounded-2xl font-black border-2 border-transparent hover:border-gold-premium shadow-sm">$10</button>
+                    <button onclick="setDonation(50, this)" class="d-btn p-6 bg-white rounded-2xl font-black border-2 border-transparent hover:border-gold-premium shadow-sm">$50</button>
+                    <button onclick="setDonation(100, this)" class="d-btn p-6 bg-white rounded-2xl font-black border-2 border-transparent hover:border-gold-premium shadow-sm">$100</button>
+                    <button onclick="setDonation('Other', this)" class="d-btn p-6 bg-white rounded-2xl font-black border-2 border-transparent hover:border-gold-premium shadow-sm">آخر</button>
                 </div>
             </div>
-            <div>
-                <h4 class="font-black text-xs uppercase tracking-widest text-gold-premium mb-10 italic">روابط الوصول</h4>
-                <ul class="space-y-6 text-lg font-black text-royal-blue/70">
-                    <li><button onclick="navigateTo('home')" class="hover:text-gold-premium">الرئيسية</button></li>
-                    <li><button onclick="navigateTo('mosques')" class="hover:text-gold-premium">إدارة الحلقات</button></li>
-                    <li><button onclick="navigateTo('ai')" class="hover:text-gold-premium">المعلم الذكي</button></li>
-                    <li><button onclick="navigateTo('donate')" class="text-royal-blue border-b-2 border-gold-premium">دعم الصرح</button></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-black text-xs uppercase tracking-widest text-gold-premium mb-10 italic">تواصل إداري</h4>
-                <p class="text-xl font-black text-royal-blue mb-4">أ. إسماعيل نوفل</p>
-                <p class="text-sm text-slate-400 leading-relaxed italic font-bold">النصيرات - المخيم الجديد <br>بجوار مدرسة العروبة</p>
-                <p class="text-2xl font-black text-royal-blue mt-8 tracking-tighter">+972 56-784-2183</p>
-            </div>
+            <button onclick="confirmDonation()" class="btn-royal !px-16 shadow-2xl">تأكيد السهم</button>
         </div>
-        <div class="text-center mt-32 pt-10 border-t text-[10px] font-black uppercase tracking-[0.8em] opacity-20">
-            حقوق المنصة محفوظة لمركز التابعين القرآني © 2026
-        </div>
-    </footer>
-
-    <a href="https://wa.me/972567842183" class="fixed bottom-12 left-12 w-20 h-20 bg-[#25d366] text-white rounded-full flex items-center justify-center text-4xl shadow-[0_20px_50px_rgba(37,211,102,0.4)] z-[1000] animate-pulse">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    </section>
 
     <script>
-        // 1. نظام التنقل والتحكم بالصفحات
+        // 1. التنقل والوضع الليلي
         function navigateTo(id) {
-            document.querySelectorAll('.page-node').forEach(page => page.classList.remove('active'));
-            const target = document.getElementById(id + 'Page');
-            if(target) target.classList.add('active');
-            
+            document.querySelectorAll('.page-node').forEach(p => p.classList.remove('active'));
+            document.getElementById(id + 'Page').classList.add('active');
             const backBtn = document.getElementById('globalBackBtn');
             id === 'home' ? backBtn.classList.add('hidden') : backBtn.classList.remove('hidden');
-            
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            if(id === 'home') {
-                gsap.from(".no-image-placeholder", { duration: 1.5, x: 100, opacity: 0, ease: "expo.out" });
-            }
         }
 
-        // 2. نظام الذكاء الاصطناعي (AI Core)
-        const aiBrain = {
-            "خطة": "بناءً على مستواك، ننصح ببدء حفظ (سورة الملك). سأقوم بتقسيمها لك لـ 7 أيام. هل نبدأ؟",
-            "اختبار": "سؤال سريع من جزء عم: ما هي السورة التي بدأت بـ 'ويل لكل همزة لمزة'؟",
-            "إسماعيل": "أ. إسماعيل نوفل هو المشرف التقني والتربوي، ورؤيته هي بناء جيل قرآني رقمي متفوق.",
-            "التابعين": "مسجد التابعين هو قلب المنظومة، ويحتوي على أكبر قاعة تحفيظ مكيفة في النصيرات.",
-            "مراجعة": "قاعدة التابعين: 'مراجعة القديم أوجب من حفظ الجديد'. ابدأ بمراجعة جزء عم كاملاً."
-        };
+        function toggleDarkMode() {
+            const body = document.getElementById('mainBody');
+            const icon = document.getElementById('modeIcon');
+            body.classList.toggle('dark-mode');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        }
 
+        // 2. الذكاء الاصطناعي
         function handleAI() {
             const input = document.getElementById('aiInput');
             const chat = document.getElementById('chatWindow');
-            const val = input.value.trim();
-            if(!val) return;
+            if(!input.value) return;
 
-            chat.innerHTML += `<div class="ai-bubble user-msg shadow-md">${val}</div>`;
+            chat.innerHTML += `<div class="ai-bubble user-msg animate-fade-in shadow-sm">${input.value}</div>`;
+            const userVal = input.value;
             input.value = "";
 
             setTimeout(() => {
-                let reply = "سؤال ملهم! في مركز التابعين، نؤمن أن القرآن رحلة لا تنتهي. هل تود أن نضع خطة مخصصة لك؟";
-                for(let key in aiBrain) {
-                    if(val.includes(key)) { reply = aiBrain[key]; break; }
-                }
-                chat.innerHTML += `<div class="ai-bubble ai-msg shadow-xl animate-pulse">${reply}</div>`;
+                let reply = "جميل جداً! في مركز التابعين لدينا خطط مخصصة لهذه الأهداف. هل تريدني أن أرسل لك جدول المراجعة المقترح؟";
+                if(userVal.includes("خطة")) reply = "أهلاً بك! لختم القرآن في سنة، عليك بحفظ 3 صفحات يومياً. سأقوم بتذكيرك كل فجر.";
+                chat.innerHTML += `<div class="ai-bubble ai-msg shadow-md animate-fade-in">${reply}</div>`;
                 chat.scrollTop = chat.scrollHeight;
-            }, 700);
+            }, 600);
         }
 
-        function sendAI(txt) {
-            document.getElementById('aiInput').value = txt;
-            handleAI();
-        }
-
-        function resetAI() {
-            document.getElementById('chatWindow').innerHTML = `<div class="ai-bubble ai-msg">تم تصفية الذاكرة.. أنا جاهز لمساعدتك مجدداً.</div>`;
-        }
-
-        // 3. مصفوفة البيانات (JSON DB)
+        // 3. قاعدة البيانات والحلقات
         const database = {
             tabieen: {
                 name: "مسجد التابعين - المقر الرئيسي",
                 rings: [
-                    { teacher: "الشيخ محمد العصار", students: 20, goal: "صفحة يومياً", tops: ["أحمد نوفل", "ياسين العصار", "سعيد إبراهيم"] },
-                    { teacher: "الشيخ إسماعيل نوفل", students: 12, goal: "نصف صفحة (تميز)", tops: ["حمزة نوفل", "خالد يوسف", "عبدالله عمر"] },
-                    { teacher: "الشيخ أبو عبيدة", students: 15, goal: "تثبيت المكثف", tops: ["ياسر عمار", "بكر محمد", "نور الدين"] }
-                ]
-            },
-            moath: {
-                name: "مسجد معاذ بن جبل",
-                rings: [
-                    { teacher: "الشيخ يوسف خالد", students: 18, goal: "حفظ جزء عم", tops: ["علي حسن", "عمر الفاروق", "سند وليد"] }
+                    { teacher: "الشيخ محمد العصار", goal: "صفحة يومياً", students: 18 },
+                    { teacher: "الشيخ إسماعيل نوفل", goal: "حفظ تميز", students: 12 }
                 ]
             }
         };
 
         function showRings(id) {
             const mosque = database[id];
-            if(!mosque) { alert("سيتم تفعيل بيانات هذا المسجد قريباً جداً."); return; }
-
+            if(!mosque) return;
             document.getElementById('ringsDisplay').classList.remove('hidden');
             document.getElementById('mosqueTitle').innerText = mosque.name;
             const grid = document.getElementById('ringsGrid');
-            grid.innerHTML = "";
-
-            mosque.rings.forEach((ring, idx) => {
-                grid.innerHTML += `
-                    <div class="glass-card p-10 flex flex-col md:flex-row justify-between items-center gap-8 border-r-8 border-gold-premium">
-                        <div class="flex items-center gap-8">
-                            <div class="w-20 h-20 bg-royal-blue/5 rounded-3xl flex items-center justify-center text-royal-blue text-2xl font-black shadow-inner">${idx+1}</div>
-                            <div>
-                                <h5 class="text-2xl font-black italic text-royal-blue">حلقة ${ring.teacher}</h5>
-                                <p class="text-sm text-slate-400 font-bold uppercase tracking-widest mt-2">المقدار المعتمد: ${ring.goal} • عدد الطلاب: ${ring.students}</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <button onclick="openHonor('${id}', ${idx})" class="px-8 py-4 border-2 border-gold-premium text-gold-premium rounded-2xl font-black text-xs hover:bg-gold-premium hover:text-white transition shadow-sm">أوائل التميز ⭐</button>
-                            <button class="bg-royal-blue text-white px-8 py-4 rounded-2xl font-black text-xs shadow-xl active:scale-95 transition">طلب انضمام</button>
-                        </div>
+            grid.innerHTML = mosque.rings.map(r => `
+                <div class="glass-card p-6 flex justify-between items-center border-r-4 border-gold-premium">
+                    <div>
+                        <h5 class="font-black text-royal-blue italic">حلقة ${r.teacher}</h5>
+                        <p class="text-[9px] font-bold text-slate-400 mt-1 uppercase">المستهدف: ${r.goal} • ${r.students} طالباً</p>
                     </div>
-                `;
-            });
-            window.scrollTo({ top: document.getElementById('ringsDisplay').offsetTop - 100, behavior: 'smooth' });
+                    <button class="bg-royal-blue text-white px-5 py-2 rounded-xl text-[9px] font-black">التسجيل</button>
+                </div>
+            `).join('');
+            window.scrollTo({ top: grid.offsetTop - 100, behavior: 'smooth' });
         }
 
-        // 4. لوحة الشرف (Honor Core)
-        function openHonor(mosqueId, ringIdx) {
-            const ring = database[mosqueId].rings[ringIdx];
-            document.getElementById('honorRingName').innerText = `إشراف الشيخ الفاضل: ${ring.teacher}`;
-            const grid = document.getElementById('honorStudentsGrid');
-            grid.innerHTML = "";
-
-            const styles = ["text-gold-premium", "text-slate-400", "text-orange-500"];
-            ring.tops.forEach((name, i) => {
-                grid.innerHTML += `
-                    <div class="space-y-4">
-                        <div class="w-24 h-24 bg-slate-50 rounded-full mx-auto flex items-center justify-center border-4 border-gold-premium shadow-xl">
-                            <i class="fas fa-user-check ${styles[i]} text-4xl"></i>
-                        </div>
-                        <p class="font-black text-lg italic text-royal-blue">${name}</p>
-                        <p class="text-[9px] font-black text-gold-premium uppercase tracking-widest">المركز ${i+1}</p>
-                    </div>
-                `;
-            });
-            document.getElementById('honorModal').classList.remove('hidden');
-        }
-
-        function closeHonor() { document.getElementById('honorModal').classList.add('hidden'); }
-
-        // 5. نظام التبرع والصدقة
-        let selectedAmount = 5;
-        function setDonation(val, btn) {
-            selectedAmount = val;
-            document.querySelectorAll('.donation-btn').forEach(b => b.classList.remove('border-gold-premium', 'bg-gold-premium/5'));
-            btn.classList.add('border-gold-premium', 'bg-gold-premium/5');
-        }
-
-        function confirmDonation() {
-            const dead = document.getElementById('deadName').value;
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#002349', '#c5a059'] });
-            alert(dead ? `بارك الله فيكم! تم رصد تبرع بقيمة $${selectedAmount} كصدقة جارية لروح: ${dead}.` : `بارك الله في عطائكم! تم رصد تبرع بقيمة $${selectedAmount}.`);
-            navigateTo('home');
-        }
-
-        // 6. بوابة الطالب
+        // 4. بوابة الطالب
         function loginStudent() {
             const id = document.getElementById('stdID').value;
             if(id === "123") {
                 document.getElementById('loginSection').classList.add('hidden');
                 document.getElementById('dashboardSection').classList.remove('hidden');
-                confetti({ particleCount: 100, colors: ['#c5a059'] });
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#002349', '#c5a059'] });
             } else {
-                alert("رقم الهوية غير مسجل في منظومة التابعين حالياً.");
+                alert("رقم الهوية غير مسجل.");
             }
         }
 
+        // 5. التبرعات
+        function setDonation(val, btn) {
+            document.querySelectorAll('.d-btn').forEach(b => b.classList.remove('border-gold-premium', 'bg-gold-premium/5'));
+            btn.classList.add('border-gold-premium', 'bg-gold-premium/5');
+        }
+
+        function confirmDonation() {
+            confetti({ particleCount: 100, spread: 70, colors: ['#10b981'] });
+            alert("تقبل الله طاعتكم وبارك في عطائكم.");
+            navigateTo('home');
+        }
+
         window.onload = () => {
-            gsap.from(".glass-card", { duration: 1.2, y: 50, opacity: 0, stagger: 0.1, ease: "power3.out" });
+            gsap.from(".glass-card", { duration: 1, y: 30, opacity: 0, stagger: 0.1 });
         };
     </script>
 </body>
