@@ -3,520 +3,511 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة التابعين العالمية | الصرح الإمبراطوري 2026</title>
+    <title>المنظومة العالمية لصرح التابعين | 2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        /* =========================================
-           1. نظام الألوان المتطور (Luxury Blue Palette)
-           =========================================
-        */
+        /* ============================================================
+           SECTION 1: الأمزجة والألوان الملكية (Advanced CSS Variables)
+           ============================================================ */
         :root {
-            --p-blue: #001f3f;      /* أزرق ملكي عميق */
-            --p-blue-light: #003366; 
-            --p-gold: #c5a059;      /* ذهبي مطفي راقي */
-            --p-gold-shine: #e6cc92;
-            --p-white: #ffffff;
-            --p-slate: #f1f5f9;
-            --p-text: #1e293b;
-            --shadow-king: 0 25px 60px -15px rgba(0, 31, 63, 0.15);
-            --glass-white: rgba(255, 255, 255, 0.9);
+            --royal-dark: #001f3f;      /* الأزرق الملكي العميق */
+            --royal-medium: #003366; 
+            --gold-matte: #c5a059;      /* الذهبي الفاخر */
+            --gold-bright: #e6cc92;
+            --off-white: #f8fafc;
+            --night-bg: #020617;
+            --glass: rgba(255, 255, 255, 0.95);
+            --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body.dark-mode {
-            --p-blue: #020617;
-            --p-blue-light: #0f172a;
-            --p-white: #0f172a;
-            --p-slate: #020617;
-            --p-text: #f1f5f9;
-            --glass-white: rgba(15, 23, 42, 0.95);
+            --off-white: var(--night-bg);
+            --royal-dark: #000814;
+            --glass: rgba(15, 23, 42, 0.98);
         }
 
-        /* =========================================
-           2. التنسيقات العامة والخطوط
-           =========================================
-        */
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.4s, color 0.4s; }
-        body { font-family: 'Tajawal', sans-serif; background: var(--p-slate); color: var(--p-text); overflow-x: hidden; }
-        .quran-font { font-family: 'Amiri', serif; }
+        /* تحسينات الخطوط والوضوح */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            background-color: var(--off-white); 
+            color: var(--royal-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        .quran-text { font-family: 'Amiri', serif; }
+        h1, h2, h3, h4 { font-weight: 900; color: var(--royal-dark); }
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: white; }
 
-        /* =========================================
-           3. شريط المتبرعين العلوي (Luxury Marquee)
-           =========================================
-        */
-        .marquee-top {
-            background: linear-gradient(90deg, var(--p-blue), var(--p-blue-light));
-            border-bottom: 3px solid var(--p-gold);
-            padding: 15px 0;
+        /* ============================================================
+           SECTION 2: أنظمة التحريك المتقدمة (Animations)
+           ============================================================ */
+        @keyframes flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .gradient-gold { background: linear-gradient(-45deg, #c5a059, #e6cc92, #a88543, #c5a059); background-size: 400% 400%; animation: flow 10s ease infinite; }
+        
+        .floating { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating { from { transform: translateY(0px); } 65% { transform: translateY(-15px); } to { transform: translateY(0px); } }
+
+        /* ============================================================
+           SECTION 3: شريط المتبرعين العلوي (The Royal Marquee)
+           ============================================================ */
+        .marquee-container {
+            background: var(--royal-dark);
+            border-bottom: 4px solid var(--gold-matte);
+            padding: 18px 0;
             overflow: hidden;
             position: relative;
-            z-index: 1100;
         }
-        .marquee-track {
+        .marquee-inner {
             display: flex;
-            gap: 50px;
-            animation: scroll-marquee 40s linear infinite;
+            gap: 80px;
+            animation: marquee-run 50s linear infinite;
             width: max-content;
         }
-        @keyframes scroll-marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(100%); }
-        }
-        .donor-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--p-gold);
-            font-weight: 800;
-            font-size: 13px;
+        @keyframes marquee-run { from { transform: translateX(0); } to { transform: translateX(100%); } }
+        .donor-badge {
+            display: flex; align-items: center; gap: 15px;
             background: rgba(197, 160, 89, 0.1);
-            padding: 8px 20px;
-            border-radius: 50px;
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            white-space: nowrap;
+            padding: 10px 25px; border-radius: 100px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            color: var(--gold-matte); font-weight: 800; font-size: 14px;
         }
-        .donor-item span { color: white; font-weight: 400; opacity: 0.8; }
 
-        /* =========================================
-           4. نظام البوابات (Page Management)
-           =========================================
-        */
-        .page-node { display: none; opacity: 0; transform: scale(0.98); transition: all 0.6s ease; }
-        .page-node.active { display: block; opacity: 1; transform: scale(1); }
-
-        /* =========================================
-           5. بوابة التبرع "الروحانية" (Psychological Donation)
-           =========================================
-        */
-        .donation-card {
-            background: var(--p-white);
-            border-radius: 50px;
+        /* ============================================================
+           SECTION 4: البطاقات الإمبراطورية (Imperial Cards)
+           ============================================================ */
+        .i-card {
+            background: var(--glass);
+            border-radius: 40px;
             border: 1px solid rgba(197, 160, 89, 0.1);
-            box-shadow: var(--shadow-king);
-            padding: 60px;
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.05);
+            padding: 45px;
+            transition: var(--transition);
             position: relative;
-            overflow: hidden;
         }
-        .donation-card::before {
-            content: "\f683"; font-family: "Font Awesome 6 Free"; font-weight: 900;
-            position: absolute; top: -50px; left: -50px; font-size: 300px;
-            color: var(--p-gold); opacity: 0.03; pointer-events: none;
-        }
-        .amount-btn {
-            padding: 25px; border: 2px solid #e2e8f0; border-radius: 25px;
-            cursor: pointer; transition: all 0.3s; text-align: center;
-        }
-        .amount-btn:hover, .amount-btn.active {
-            border-color: var(--p-gold); background: var(--p-blue); color: var(--p-gold);
-            transform: translateY(-5px);
+        .i-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--gold-matte);
+            box-shadow: 0 40px 80px -15px rgba(0,31,63,0.2);
         }
 
-        /* =========================================
-           6. المساعد الذكي الصوتي (AI Interface)
-           =========================================
-        */
-        .ai-portal {
-            background: var(--p-blue); border-radius: 60px; overflow: hidden;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.3);
+        /* ============================================================
+           SECTION 5: بوابة التبرع النفسية (Psychological Donation UI)
+           ============================================================ */
+        .donation-btn {
+            background: var(--off-white);
+            border: 3px solid #e2e8f0;
+            padding: 30px; border-radius: 30px;
+            cursor: pointer; transition: all 0.3s;
+            text-align: center; font-weight: 900;
         }
-        .ai-chat-screen { height: 400px; overflow-y: auto; padding: 40px; scroll-behavior: smooth; }
-        .msg { max-width: 80%; padding: 20px; border-radius: 30px; margin-bottom: 20px; font-weight: 600; line-height: 1.6; }
-        .bot { background: rgba(197, 160, 89, 0.15); color: var(--p-gold); border-bottom-right-radius: 5px; }
-        .user { background: var(--p-gold); color: var(--p-blue); margin-right: auto; border-bottom-left-radius: 5px; }
+        .donation-btn.active {
+            border-color: var(--gold-matte);
+            background: var(--royal-dark);
+            color: var(--gold-matte);
+            transform: scale(1.05);
+        }
 
-        /* =========================================
-           7. خريطة الإنجاز (Student Journey)
-           =========================================
-        */
-        .journey-line { position: relative; height: 10px; background: #cbd5e1; border-radius: 20px; margin: 100px 0; }
-        .journey-progress { position: absolute; right: 0; height: 100%; background: var(--p-gold); border-radius: 20px; transition: width 2s ease-in-out; }
-        .stop {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            width: 40px; height: 40px; background: white; border: 5px solid var(--p-gold);
-            border-radius: 50%; z-index: 10;
+        /* ============================================================
+           SECTION 6: المساعد الذكي (AI System Interface)
+           ============================================================ */
+        .ai-window {
+            height: 550px; overflow-y: auto; padding: 40px;
+            background: rgba(248, 250, 252, 0.5);
+            scroll-behavior: smooth;
         }
-        .stop-label { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 11px; font-weight: 900; }
+        .bubble {
+            max-width: 75%; padding: 22px 28px; border-radius: 35px;
+            margin-bottom: 25px; font-weight: 600; font-size: 15px;
+            position: relative; animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes pop { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        .bot-bubble { background: var(--royal-dark); color: white; border-bottom-right-radius: 5px; }
+        .user-bubble { background: var(--gold-matte); color: var(--royal-dark); margin-right: auto; border-bottom-left-radius: 5px; }
+
+        /* خريطة الرحلة */
+        .journey-step {
+            width: 80px; height: 80px; background: white;
+            border: 6px solid #cbd5e1; border-radius: 25px;
+            display: flex; items-center; justify-content: center;
+            font-weight: 900; font-size: 20px; transition: 0.5s;
+            z-index: 5; transform: rotate(45deg);
+        }
+        .journey-step span { transform: rotate(-45deg); }
+        .active-step { background: var(--royal-dark); border-color: var(--gold-matte); color: var(--gold-matte); box-shadow: 0 0 30px var(--gold-matte); }
+        .done-step { background: var(--gold-matte); border-color: var(--gold-matte); color: white; }
 
     </style>
 </head>
 <body>
 
-    <div class="marquee-top">
-        <div class="marquee-track" id="donorTrack">
+    <div class="marquee-container">
+        <div class="marquee-inner" id="marqueeList">
             </div>
     </div>
 
-    <header class="sticky top-0 z-[1000] py-6 px-12 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gold/10">
-        <div class="max-w-[1500px] mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-6 cursor-pointer group" onclick="nav('home')">
-                <div class="w-16 h-16 bg-[#001f3f] rounded-[22px] flex items-center justify-center text-gold shadow-2xl transition-transform group-hover:rotate-12">
-                    <i class="fas fa-quran text-2xl text-[#c5a059]"></i>
+    <nav class="sticky top-0 z-[1000] bg-white/90 dark:bg-black/90 backdrop-blur-xl border-b border-gold-matte/10 py-5 px-10">
+        <div class="max-w-[1600px] mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-6 cursor-pointer" onclick="changePage('home')">
+                <div class="w-16 h-16 bg-[#001f3f] rounded-[24px] flex items-center justify-center text-gold-matte shadow-2xl transition-all hover:rotate-6">
+                    <i class="fas fa-mosque text-3xl"></i>
                 </div>
                 <div>
                     <h1 class="text-3xl font-black text-[#001f3f] dark:text-white tracking-tighter">صرح التابعين</h1>
-                    <p class="text-[9px] font-black text-[#c5a059] uppercase tracking-[0.5em]">الإدارة العامة - النصيرات</p>
+                    <p class="text-[10px] font-black text-gold-matte uppercase tracking-[0.5em]">The Imperial Quranic Center</p>
                 </div>
             </div>
 
-            <nav class="hidden xl:flex items-center gap-12 font-black text-[11px] uppercase tracking-widest">
-                <button onclick="nav('home')" class="hover:text-gold transition">الرئيسية</button>
-                <button onclick="nav('rings')" class="hover:text-gold transition">دليل الحلقات</button>
-                <button onclick="nav('ai')" class="hover:text-gold transition">المعلم الذكي</button>
-                <button onclick="nav('student')" class="bg-[#001f3f] text-white px-8 py-3 rounded-full hover:bg-[#c5a059] transition">بوابة الطالب</button>
-                <button onclick="toggleTheme()" class="text-xl"><i class="fas fa-circle-half-stroke"></i></button>
-                <button onclick="nav('donate')" class="bg-[#c5a059] text-[#001f3f] px-10 py-4 rounded-2xl shadow-xl hover:scale-105 transition-all">مساهمة وقفية</button>
-            </nav>
+            <div class="hidden lg:flex items-center gap-10 font-black text-[11px] uppercase tracking-widest">
+                <button onclick="changePage('home')" class="hover:text-gold-matte transition">الرئيسية</button>
+                <button onclick="changePage('rings')" class="hover:text-gold-matte transition">الحلقات</button>
+                <button onclick="changePage('ai')" class="hover:text-gold-matte transition">المعلم الذكي</button>
+                <button onclick="changePage('donate')" class="text-gold-matte font-black px-6 py-2 border-2 border-gold-matte rounded-xl">ساهم معنا</button>
+                <button onclick="changePage('student')" class="bg-[#001f3f] text-white px-8 py-4 rounded-2xl hover:bg-gold-matte transition">بوابة الطالب</button>
+                <div class="w-[2px] h-6 bg-slate-200"></div>
+                <button onclick="toggleDarkMode()" class="text-xl text-gold-matte"><i class="fas fa-moon"></i></button>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="max-w-[1500px] mx-auto px-12 py-20">
+    <main class="max-w-[1600px] mx-auto px-10 py-16">
 
-        <section id="homePage" class="page-node active">
-            <div class="grid lg:grid-cols-2 gap-32 items-center">
-                <div class="space-y-12">
-                    <span class="inline-flex items-center gap-3 bg-gold/10 text-[#c5a059] px-6 py-3 rounded-full text-xs font-black">
-                        بإشراف الأستاذ: إسماعيل نوفل
-                    </span>
-                    <h2 class="text-9xl font-black text-[#001f3f] dark:text-white leading-[0.85] tracking-tighter">
-                        اصنع <br> <span class="quran-font text-[#c5a059] font-normal italic">أثرك</span> <br> الخالد
+        <section id="homePage" class="content-section active">
+            <div class="grid lg:grid-cols-2 gap-24 items-center min-h-[70vh]">
+                <div class="space-y-10">
+                    <div class="inline-flex items-center gap-3 bg-gold-matte/10 text-gold-matte px-6 py-3 rounded-full text-xs font-black uppercase">
+                        <i class="fas fa-crown"></i> تحت إشراف أ. إسماعيل نوفل
+                    </div>
+                    <h2 class="text-[100px] font-black text-[#001f3f] dark:text-white leading-[0.85] tracking-tighter">
+                        اصنع <br> <span class="quran-text text-gold-matte italic font-normal">أثرك</span> <br> في الجنة
                     </h2>
-                    <p class="text-xl font-medium max-w-xl opacity-70">
-                        من قلب النصيرات، نفتح آفاق التقنية لخدمة الوحيين. انضم لأكبر منظومة قرآنية متكاملة تدمج بين الأصالة والذكاء الاصطناعي.
+                    <p class="text-xl font-medium max-w-xl opacity-60 leading-relaxed">
+                        نحن لا نخرج حفاظاً فقط، نحن نبني قادة الأمة بأنوار الوحي. صرح التابعين بالنصيرات يجمع بين وقار المسجد وذكاء المستقبل التقني.
                     </p>
-                    <div class="flex gap-8">
-                        <button onclick="nav('rings')" class="bg-[#001f3f] text-white px-12 py-7 rounded-[30px] font-black text-xl shadow-2xl hover:bg-[#c5a059] transition-all">تصفح الحلقات ←</button>
-                        <button onclick="nav('donate')" class="bg-white border-4 border-slate-100 px-12 py-7 rounded-[30px] font-black text-xl">دعم الوقف</button>
+                    <div class="flex gap-6">
+                        <button onclick="changePage('rings')" class="bg-[#001f3f] text-white px-12 py-7 rounded-[35px] font-black text-xl shadow-3xl hover:bg-gold-matte transition-all">ابدأ رحلتك الآن</button>
+                        <button onclick="changePage('donate')" class="bg-white border-4 border-slate-100 px-12 py-7 rounded-[35px] font-black text-xl hover:bg-slate-50">ادعم الوقف</button>
                     </div>
                 </div>
-                <div class="relative">
-                    <div class="absolute -inset-10 bg-[#c5a059] rounded-full blur-[120px] opacity-10"></div>
-                    <img src="https://images.unsplash.com/photo-1590076215667-875d45499e67?q=80&w=1000" class="relative z-10 rounded-[80px] border-[25px] border-white dark:border-[#0f172a] shadow-3xl">
+                <div class="relative flex justify-center">
+                    <div class="absolute -inset-20 bg-gold-matte/10 rounded-full blur-[150px]"></div>
+                    <img src="https://images.unsplash.com/photo-1584285418504-005514754394?q=80&w=800" class="floating relative z-10 rounded-[100px] border-[20px] border-white dark:border-[#0f172a] shadow-3xl w-4/5">
                 </div>
             </div>
         </section>
 
-        <section id="donatePage" class="page-node max-w-6xl mx-auto">
-            <div class="text-center mb-20">
-                <h2 class="text-6xl font-black text-[#001f3f] dark:text-white mb-6">بوابة الصدقة الجارية</h2>
-                <p class="text-xl quran-font text-[#c5a059]">"وَمَا تُقَدِّمُوا لِأَنْفُسِكُمْ مِنْ خَيْرٍ تَجِدُوهُ عِنْدَ اللَّهِ"</p>
+        <section id="donatePage" class="content-section hidden max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-6xl font-black mb-4">بوابة الصدقة الجارية</h2>
+                <p class="quran-text text-2xl text-gold-matte italic">"لن تنالوا البر حتى تنفقوا مما تحبون"</p>
             </div>
 
-            <div class="donation-card">
-                <div class="grid lg:grid-cols-2 gap-20">
-                    <div class="space-y-10">
-                        <h3 class="text-4xl font-black">اختر سهمك في بناء الجيل</h3>
-                        <p class="font-medium text-lg leading-relaxed opacity-60">
-                            تبرعك ليس مجرد مال، بل هو ورقة في مصحف، وجلسة في حلقة، ونور في قلب طالب سيبقى أثره جارياً لك في الدنيا والآخرة. نحن في صرح التابعين نضمن لك وصول صدقتك لأهلها.
-                        </p>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="amount-btn active" onclick="setAmount(50, this)">
-                                <div class="text-3xl font-black">$50</div>
-                                <div class="text-[10px] uppercase font-bold mt-2">كفالة حافظ</div>
-                            </div>
-                            <div class="amount-btn" onclick="setAmount(100, this)">
-                                <div class="text-3xl font-black">$100</div>
-                                <div class="text-[10px] uppercase font-bold mt-2">سهم الوقف</div>
-                            </div>
-                            <div class="amount-btn" onclick="setAmount(500, this)">
-                                <div class="text-3xl font-black">$500</div>
-                                <div class="text-[10px] uppercase font-bold mt-2">كفالة حلقة</div>
-                            </div>
-                            <div class="amount-btn" onclick="setAmount('custom', this)">
-                                <div class="text-xl font-black">مبلغ آخر</div>
-                                <div class="text-[10px] uppercase font-bold mt-2">صدقة عامة</div>
-                            </div>
+            <div class="i-card grid lg:grid-cols-2 gap-16">
+                <div class="space-y-8">
+                    <h3 class="text-4xl font-black italic">اختر مساهمتك الوقفية</h3>
+                    <p class="font-medium opacity-60">مساهمتك هي المحرك الرئيسي لتطوير المنظومة التعليمية، كفالة الحلقات، وتكريم الحفاظ المتميزين في مخيم النصيرات.</p>
+                    <div class="grid grid-cols-2 gap-5">
+                        <div class="donation-btn active" onclick="selectDonation(50, this)">
+                            <div class="text-4xl">$50</div>
+                            <div class="text-[10px] mt-2 uppercase">سهم البركة</div>
+                        </div>
+                        <div class="donation-btn" onclick="selectDonation(200, this)">
+                            <div class="text-4xl">$200</div>
+                            <div class="text-[10px] mt-2 uppercase">كفالة حلقة</div>
+                        </div>
+                        <div class="donation-btn" onclick="selectDonation(500, this)">
+                            <div class="text-4xl">$500</div>
+                            <div class="text-[10px] mt-2 uppercase">سهم الذهب</div>
+                        </div>
+                        <div class="donation-btn" onclick="selectDonation('custom', this)">
+                            <div class="text-xl">مبلغ آخر</div>
+                            <div class="text-[10px] mt-2 uppercase">تجود به نفسك</div>
                         </div>
                     </div>
-                    <div class="bg-slate-50 dark:bg-black/20 p-12 rounded-[40px] space-y-8">
-                        <div class="space-y-4">
-                            <label class="font-black text-xs uppercase tracking-widest opacity-50">الاسم (اختياري - سيظهر في حائط الشرف)</label>
-                            <input type="text" id="donorName" placeholder="فاعل خير من النصيرات" class="w-full p-6 rounded-2xl border-2 focus:border-[#c5a059] outline-none font-bold">
+                </div>
+                <div class="bg-slate-50 dark:bg-black/20 p-10 rounded-[40px] space-y-6">
+                    <input type="text" id="d-name" placeholder="اسمك الكريم (ليظهر في حائط الشرف)" class="w-full p-6 rounded-2xl border-2 focus:border-gold-matte outline-none font-bold">
+                    <textarea id="d-msg" placeholder="كلمة طيبة لطلابنا..." class="w-full p-6 rounded-2xl border-2 h-32 focus:border-gold-matte outline-none font-bold"></textarea>
+                    <button onclick="confirmDonation()" class="w-full gradient-gold text-[#001f3f] py-8 rounded-[30px] font-black text-2xl shadow-xl hover:scale-105 transition-all">
+                        تأكيد المساهمة بالسكينة <i class="fas fa-heart ml-2"></i>
+                    </button>
+                    <p class="text-[10px] text-center opacity-40 font-bold uppercase tracking-widest">تتم المعاملة عبر بروتوكول آمن بالكامل</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ringsPage" class="content-section hidden">
+            <h2 class="text-6xl font-black mb-16 text-center italic">صروح التابعين في النصيرات</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12" id="ringsGrid">
+                </div>
+        </section>
+
+        <section id="studentPage" class="content-section hidden max-w-5xl mx-auto">
+            <div id="stuLogin" class="i-card text-center p-20 border-t-[15px] border-gold-matte">
+                <i class="fas fa-id-card-clip text-7xl text-gold-matte mb-8"></i>
+                <h3 class="text-4xl font-black mb-10">تسجيل دخول الطلاب</h3>
+                <input type="number" id="stuIdInput" placeholder="أدخل رقم الهوية (جرب 123)" class="w-full text-center p-8 rounded-3xl border-4 text-3xl font-black mb-8 focus:border-gold-matte outline-none">
+                <button onclick="handleStudentLogin()" class="w-full bg-[#001f3f] text-white py-6 rounded-2xl font-black text-xl shadow-2xl">تحقق ودخول</button>
+            </div>
+
+            <div id="stuDashboard" class="hidden space-y-12">
+                <div class="i-card bg-[#001f3f] text-white flex justify-between items-center overflow-hidden">
+                    <div class="relative z-10">
+                        <h3 id="stuNameDisplay" class="text-5xl font-black mb-4">--</h3>
+                        <p class="text-gold-bright font-black text-lg italic uppercase tracking-widest"><i class="fas fa-crown mr-2"></i> رتبة: الحافظ المتقن</p>
+                        <button onclick="generateExcellenceCard()" class="mt-8 bg-gold-matte text-[#001f3f] px-10 py-4 rounded-xl font-black shadow-xl hover:scale-105 transition">تحميل بطاقة التميز <i class="fas fa-download ml-2"></i></button>
+                    </div>
+                    <i class="fas fa-shield-heart text-[250px] absolute -left-10 opacity-5 text-white"></i>
+                </div>
+
+                <div class="i-card">
+                    <h4 class="text-2xl font-black mb-24"><i class="fas fa-map-location-dot text-gold-matte mr-3"></i> مسارك نحو الختمة</h4>
+                    <div class="relative h-2 bg-slate-200 rounded-full mx-10">
+                        <div id="journeyProgress" class="absolute right-0 h-full bg-gold-matte rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        <div class="absolute top-1/2 -translate-y-1/2 right-0 flex justify-between w-full px-0">
+                            <div class="journey-step done-step"><span>1</span></div>
+                            <div class="journey-step done-step"><span>10</span></div>
+                            <div class="journey-step active-step"><span>20</span></div>
+                            <div class="journey-step"><span>25</span></div>
+                            <div class="journey-step"><span><i class="fas fa-flag-checkered"></i></span></div>
                         </div>
-                        <div class="space-y-4">
-                            <label class="font-black text-xs uppercase tracking-widest opacity-50">رسالة روحانية (تظهر للطلاب)</label>
-                            <textarea id="donorMsg" placeholder="دعوة صادقة لطلابنا..." class="w-full p-6 rounded-2xl border-2 h-32 focus:border-[#c5a059] outline-none font-bold"></textarea>
-                        </div>
-                        <button onclick="processDonation()" class="w-full bg-[#001f3f] text-white py-8 rounded-[25px] font-black text-2xl shadow-3xl hover:bg-[#c5a059] hover:text-[#001f3f] transition-all">
-                            إتمام التبرع بالسكينة <i class="fas fa-heart ml-3"></i>
-                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="ringsPage" class="page-node">
-            <h2 class="text-6xl font-black mb-16 text-center">خارطة الصروح القرآنية</h2>
-            <div class="grid md:grid-cols-3 gap-12" id="ringsContainer">
-                </div>
-        </section>
-
-        <section id="studentPage" class="page-node max-w-5xl mx-auto">
-            <div id="stuAuth" class="donation-card text-center">
-                <div class="w-24 h-24 bg-[#001f3f] text-gold rounded-full flex items-center justify-center mx-auto mb-10 text-4xl shadow-2xl">
-                    <i class="fas fa-fingerprint"></i>
-                </div>
-                <h3 class="text-4xl font-black mb-4">الدخول للمنظومة</h3>
-                <input type="number" id="stuId" placeholder="رقم الهوية (جرب 123)" class="w-full text-center p-8 rounded-3xl border-4 text-3xl mb-10 font-black">
-                <button onclick="studentLogin()" class="w-full bg-[#001f3f] text-white py-6 rounded-2xl font-black text-xl">تحقق ودخول</button>
-            </div>
-
-            <div id="stuDash" class="hidden space-y-12">
-                <div class="donation-card bg-[#001f3f] text-white flex justify-between items-center">
-                    <div>
-                        <h3 id="userName" class="text-5xl font-black mb-4">--</h3>
-                        <p class="text-[#c5a059] font-black text-lg">حافظ متميز | حلقة التابعين المركزية</p>
-                        <button onclick="downloadHonorCard()" class="mt-8 bg-[#c5a059] text-[#001f3f] px-10 py-3 rounded-xl font-black shadow-xl">تحميل بطاقة التميز <i class="fas fa-award"></i></button>
-                    </div>
-                    <div class="text-9xl opacity-10"><i class="fas fa-crown"></i></div>
-                </div>
-
-                <div class="donation-card">
-                    <h4 class="text-2xl font-black mb-20"><i class="fas fa-map-marked-alt text-[#c5a059] mr-3"></i> مسار حفظك للقرآن</h4>
-                    <div class="journey-line">
-                        <div class="journey-progress" id="jProgress" style="width: 0%"></div>
-                        <div class="stop" style="right: 0%"><div class="stop-label">البداية</div></div>
-                        <div class="stop" style="right: 25%"><div class="stop-label">الجزء 7</div></div>
-                        <div class="stop" style="right: 50%"><div class="stop-label">الجزء 15</div></div>
-                        <div class="stop" style="right: 75%"><div class="stop-label">الجزء 22</div></div>
-                        <div class="stop" style="right: 95%"><div class="stop-label font-black text-gold">الختمة</div></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="aiPage" class="page-node max-w-4xl mx-auto">
-            <div class="ai-portal">
-                <div class="p-10 bg-black/20 flex justify-between items-center text-white">
+        <section id="aiPage" class="content-section hidden max-w-4xl mx-auto">
+            <div class="ai-portal rounded-[60px] overflow-hidden shadow-3xl bg-white dark:bg-[#0f172a]">
+                <div class="bg-[#001f3f] p-12 flex justify-between items-center text-white">
                     <div class="flex items-center gap-6">
-                        <button id="micBtn" onclick="toggleMic()" class="w-20 h-20 bg-[#c5a059] text-[#001f3f] rounded-full flex items-center justify-center text-3xl shadow-3xl transition-all">
+                        <button id="aiMic" onclick="aiMicTrigger()" class="w-24 h-24 bg-gold-matte text-[#001f3f] rounded-full flex items-center justify-center text-4xl shadow-3xl hover:scale-110 transition-all">
                             <i class="fas fa-microphone"></i>
                         </button>
                         <div>
-                            <h3 class="text-3xl font-black italic">المعلم الرقمي الذكي</h3>
-                            <p class="text-xs font-black text-[#c5a059] uppercase tracking-widest mt-1">نظام التحليل الصوتي المتقدم</p>
+                            <h3 class="text-3xl font-black">المعلم الصوتي</h3>
+                            <p class="text-gold-matte text-[10px] font-black uppercase tracking-[0.4em] mt-2">نظام تحليل التلاوة AI</p>
                         </div>
                     </div>
+                    <div class="text-right hidden sm:block">
+                        <div class="text-xs font-bold opacity-50">متصل الآن</div>
+                        <div class="text-lg font-black text-green-500">خادم صرح التابعين</div>
+                    </div>
                 </div>
-                <div id="aiChat" class="ai-chat-screen bg-slate-50 dark:bg-black/10">
-                    <div class="msg bot">مرحباً بك في محراب صرح التابعين. أنا معلمك المساعد، كيف أستطيع خدمتك اليوم في رحلتك مع القرآن؟</div>
+
+                <div id="aiBody" class="ai-window">
+                    <div class="bubble bot-bubble">أهلاً بك يا بني في الصرح. أنا هنا لمساعدتك في التسميع، مراجعة أحكام التجويد، أو وضع خطة حفظ مخصصة لك. ماذا تريد أن نفعل اليوم؟</div>
                 </div>
-                <div class="p-8 bg-white dark:bg-black/30 flex gap-4">
-                    <input type="text" id="aiInput" placeholder="اكتب سؤالك هنا أو ابدأ بالتحدث..." class="flex-1 p-6 rounded-2xl border-2 font-bold focus:border-[#c5a059] outline-none">
-                    <button onclick="aiSend()" class="w-20 h-20 bg-[#001f3f] text-[#c5a059] rounded-2xl text-2xl"><i class="fas fa-paper-plane"></i></button>
+
+                <div class="p-10 border-t flex gap-6 bg-slate-50 dark:bg-black/20">
+                    <input type="text" id="aiInput" placeholder="اسألني عن وردك اليومي..." class="flex-1 p-6 rounded-2xl border-2 font-bold focus:border-gold-matte outline-none text-xl shadow-inner">
+                    <button onclick="aiSendMessage()" class="w-20 h-20 bg-[#001f3f] text-gold-matte rounded-2xl text-2xl shadow-xl hover:bg-gold-matte hover:text-[#001f3f] transition-all">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <div id="renderCard" style="width: 800px; height: 500px; background: #001f3f; border: 20px solid #c5a059; padding: 60px; color: white; position: fixed; left: -9999px; text-align: center;">
-        <h1 style="font-size: 55px; font-weight: 900; color: #c5a059; margin-bottom: 10px;">شهادة تميز وإبداع</h1>
-        <p style="letter-spacing: 5px; opacity: 0.6; margin-bottom: 50px;">مركز التابعين القرآني - النصيرات</p>
-        <div style="border-top: 2px solid rgba(197, 160, 89, 0.3); border-bottom: 2px solid rgba(197, 160, 89, 0.3); padding: 40px 0;">
-            <p style="font-size: 20px;">نحيطكم علماً بأن الطالب المتميز</p>
-            <h2 id="cardName" style="font-size: 60px; font-weight: 900; margin: 20px 0;">--</h2>
-            <p style="font-size: 24px; color: #c5a059;">قد أتمَّ اختبارات التثبيت لشهر يناير 2026 بامتياز</p>
+    <div id="cardRenderer" style="width: 1000px; height: 600px; background: #001f3f; border: 25px solid #c5a059; padding: 80px; color: white; position: fixed; left: -9999px; text-align: center;">
+        <i class="fas fa-quran" style="font-size: 80px; color: #c5a059; margin-bottom: 30px;"></i>
+        <h1 style="font-size: 70px; font-weight: 900; color: #fff; margin-bottom: 10px;">وثيقة تميز قرآنية</h1>
+        <p style="letter-spacing: 8px; opacity: 0.7; font-size: 20px; margin-bottom: 60px;">مركز التابعين القرآني - النصيرات</p>
+        <div style="border-top: 3px solid rgba(197, 160, 89, 0.4); border-bottom: 3px solid rgba(197, 160, 89, 0.4); padding: 50px 0;">
+            <p style="font-size: 25px;">يُشيد المركز بجهود الطالب المتميز</p>
+            <h2 id="cardNameTxt" style="font-size: 80px; font-weight: 900; color: #c5a059; margin: 25px 0;">--</h2>
+            <p style="font-size: 30px;">لتحقيقه درجات الإتقان الكاملة في مراجعة الأجزاء</p>
         </div>
-        <p style="margin-top: 50px; font-weight: 900; font-size: 18px;">بإشراف: أ. إسماعيل نوفل</p>
+        <p style="margin-top: 60px; font-weight: 900; font-size: 24px;">المشرف العام: أ. إسماعيل نوفل</p>
     </div>
 
     <script>
-        /* DATABASE SIMULATION 
-           هنا نقوم ببناء مصفوفات بيانات ضخمة لتوليد المحتوى برمجياً
-        */
-        const SYSTEM_DB = {
+        /* 1. هيكل البيانات (Imperial Database) */
+        const DB = {
             donors: [
-                { name: "عائلة نوفل", amount: 500, msg: "لأجل جيل قرآني فريد" },
-                { name: "فاعل خير من النصيرات", amount: 200, msg: "وقف لوجه الله" },
-                { name: "محبو القرآن", amount: 1000, msg: "دعماً لمسيرة التابعين" },
-                { name: "أبو إبراهيم", amount: 50, msg: "صدقة جارية" },
-                { name: "أهل الخير من غزة", amount: 300, msg: "بالتوفيق لطلابنا" }
+                { name: "عائلة نوفل", amount: 1000, msg: "وقف لله تعالى" },
+                { name: "أهل النصيرات الكرام", amount: 5000, msg: "لدعم صرح التابعين" },
+                { name: "فاعل خير", amount: 200, msg: "صدقة جارية عن والدي" },
+                { name: "لجنة زكاة النصيرات", amount: 1500, msg: "كفالة طلاب الحلقات" },
+                { name: "محبو القرآن", amount: 300, msg: "معكم في بناء الجيل" }
             ],
             rings: [
-                { id: 1, name: "حلقة التابعين المركزية", leader: "أ. إسماعيل نوفل", icon: "kaaba", color: "#001f3f" },
-                { id: 2, name: "حلقة المتميزين", leader: "أ. ناهض العصار", icon: "star", color: "#c5a059" },
-                { id: 3, name: "حلقة صغار الحفاظ", leader: "أ. محمد العمصي", icon: "child", color: "#1e293b" },
-                { id: 4, name: "مركز الطالبات", leader: "أ. أفنان أبو الحسن", icon: "venus", color: "#be185d" },
-                { id: 5, name: "حلقة ذو النورين", leader: "أ. أحمد أبو جحجوح", icon: "moon", color: "#047857" },
-                { id: 6, name: "حلقة الفجر", leader: "أ. إبراهيم نوفل", icon: "sun", color: "#ea580c" }
+                { id: 101, name: "حلقة التابعين المركزية", leader: "أ. إسماعيل نوفل", icon: "kaaba", students: 25 },
+                { id: 102, name: "حلقة المتميزين الفجرية", leader: "أ. ناهض العصار", icon: "sun", students: 15 },
+                { id: 103, name: "حلقة إتقان الصغار", leader: "أ. محمد العمصي", icon: "star", students: 20 },
+                { id: 104, name: "مركز الطالبات", leader: "أ. أفنان أبو الحسن", icon: "venus", students: 40 },
+                { id: 105, name: "حلقة مسجد معاذ", leader: "أ. أحمد أبو جحجوح", icon: "mosque", students: 18 }
             ],
             students: {
-                "123": { name: "حمزة إبراهيم نوفل", progress: 65, status: "Active" },
-                "456": { name: "أحمد محمد ناصر", progress: 30, status: "Active" }
+                "123": { name: "حمزة إبراهيم نوفل", progress: 65, status: "V.VIP", mosque: "التابعين" },
+                "456": { name: "ياسين العصار", progress: 40, status: "VIP", mosque: "التابعين" }
             },
-            aiResponses: {
-                "موعد": "حلقاتنا تبدأ بعد صلاة العصر مباشرة في كافة المساجد التابعة للمركز.",
-                "تسجيل": "يمكنك التسجيل عبر زيارة مقرنا في مسجد التابعين بالنصيرات أو التواصل مع أ. إسماعيل نوفل.",
-                "خطة": "أفضل خطة هي مراجعة جزأين يومياً قبل البدء في الحفظ الجديد لضمان التثبيت.",
-                "بطاقة": "تظهر بطاقة التميز في صفحة الطالب عند تحقيق نسبة إتقان تتجاوز 90%."
+            aiLogic: {
+                "موعد": "حلقاتنا تبدأ رسمياً بعد صلاة العصر مباشرة، وهناك حلقات فجرية خاصة للمتميزين.",
+                "تسجيل": "يمكنك التوجه لمسجد التابعين بالنصيرات وطلب مقابلة الأستاذ إسماعيل نوفل للتقييم.",
+                "تجويد": "أهم حكم يجب أن تركز عليه الآن هو مخارج الحروف، هل تريدني أن أشرح لك مخرج اللسان؟",
+                "خطة": "أنصحك بحفظ صفحة يومياً مع مراجعة 5 صفحات قديمة لضمان عدم النسيان."
             }
         };
 
-        /* CORE SYSTEM FUNCTIONS 
-        */
-
-        // 1. نظام التنقل
-        function nav(id) {
-            document.querySelectorAll('.page-node').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById(id + 'Page');
-            target.classList.add('active');
+        /* 2. محرك التنقل الرئيسي */
+        function changePage(pageId) {
+            document.querySelectorAll('.content-section').forEach(p => {
+                p.classList.add('hidden');
+                p.classList.remove('active');
+            });
+            const target = document.getElementById(pageId + 'Page');
+            target.classList.remove('hidden');
+            setTimeout(() => target.classList.add('active'), 50);
             window.scrollTo({top: 0, behavior: 'smooth'});
-            gsap.from(target, { opacity: 0, y: 50, duration: 0.8 });
+            
+            // تحريك العناصر عند الدخول
+            gsap.from(target, { opacity: 0, y: 40, duration: 1, ease: "power4.out" });
         }
 
-        // 2. نظام الوضع الليلي
-        function toggleTheme() {
+        /* 3. محرك الوضع الليلي */
+        function toggleDarkMode() {
             document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.fa-moon');
+            icon.classList.toggle('fa-sun');
         }
 
-        // 3. بناء شريط المتبرعين (Marquee Engine)
+        /* 4. محرك توليد شريط المتبرعين */
         function initMarquee() {
-            const track = document.getElementById('donorTrack');
-            let content = '';
-            // تكرار البيانات 5 مرات لخلق استمرارية في الشريط
-            for(let i=0; i<5; i++) {
-                SYSTEM_DB.donors.forEach(d => {
+            const container = document.getElementById('marqueeList');
+            let content = "";
+            // تكرار البيانات 6 مرات لضمان عدم وجود فراغ في الشريط الطويل
+            for(let i=0; i<6; i++) {
+                DB.donors.forEach(d => {
                     content += `
-                        <div class="donor-item">
-                            <i class="fas fa-heart"></i>
-                            ${d.name} <span>تبرع بمبلغ</span> $${d.amount} <span>"${d.msg}"</span>
+                        <div class="donor-badge">
+                            <i class="fas fa-heart text-red-500"></i>
+                            <span class="text-white opacity-60">مساهمة من:</span>
+                            <span>${d.name}</span>
+                            <span class="text-white opacity-40">|</span>
+                            <span class="text-gold-bright">$${d.amount}</span>
                         </div>
                     `;
                 });
             }
-            track.innerHTML = content;
+            container.innerHTML = content;
         }
 
-        // 4. بناء كروت الحلقات
+        /* 5. محرك توليد الحلقات */
         function initRings() {
-            const container = document.getElementById('ringsContainer');
-            container.innerHTML = SYSTEM_DB.rings.map(ring => `
-                <div class="donation-card hover:scale-105 transition-all cursor-pointer group" onclick="alert('تفاصيل حلقة ${ring.name} ستتوفر قريباً')">
-                    <div class="w-20 h-20 rounded-3xl mb-8 flex items-center justify-center text-3xl transition-transform group-hover:rotate-12" style="background: ${ring.color}20; color: ${ring.color}">
+            const grid = document.getElementById('ringsGrid');
+            grid.innerHTML = DB.rings.map(ring => `
+                <div class="i-card group cursor-pointer" onclick="changePage('donate')">
+                    <div class="w-24 h-24 rounded-3xl mb-10 flex items-center justify-center text-4xl shadow-inner transition-transform group-hover:rotate-12" style="background: var(--royal-dark); color: var(--gold-matte)">
                         <i class="fas fa-${ring.icon}"></i>
                     </div>
-                    <h3 class="text-3xl font-black text-[#001f3f] dark:text-white mb-3">${ring.name}</h3>
+                    <h3 class="text-3xl font-black mb-4">${ring.name}</h3>
                     <p class="font-bold opacity-50 mb-8 italic">بإشراف: ${ring.leader}</p>
-                    <div class="bg-slate-50 dark:bg-black/20 p-6 rounded-2xl flex justify-between items-center">
-                        <span class="text-[10px] font-black uppercase text-gold">مركز فعال</span>
+                    <div class="bg-slate-100 dark:bg-white/5 p-6 rounded-2xl flex justify-between items-center">
+                        <span class="text-xs font-black uppercase tracking-widest text-gold-matte">${ring.students} طالباً</span>
                         <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                            <span class="text-[10px] font-black text-green-600 uppercase tracking-tighter">نشط الآن</span>
+                            <span class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></span>
+                            <span class="text-[10px] font-black text-green-600">نشط الآن</span>
                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        // 5. نظام التبرع المطور
-        let currentAmount = 50;
-        function setAmount(val, btn) {
-            currentAmount = val;
-            document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        /* 6. نظام التبرع المطور */
+        let selectedValue = 50;
+        function selectDonation(val, el) {
+            selectedValue = val;
+            document.querySelectorAll('.donation-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
             if(val === 'custom') {
-                const custom = prompt("أدخل المبلغ الذي تجود به نفسك:");
-                if(custom) btn.querySelector('.text-xl').innerText = "$" + custom;
+                const c = prompt("أدخل المبلغ الذي تجود به نفسك:");
+                if(c) el.querySelector('.text-xl').innerText = "$" + c;
             }
         }
 
-        function processDonation() {
-            const name = document.getElementById('donorName').value || "فاعل خير";
-            const msg = document.getElementById('donorMsg').value || "تقبل الله منا ومنكم";
-            
-            // محاكاة عملية الدفع بالسكينة
-            const btn = event.target;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> جاري ربط نيتك بالقبول...`;
-            
-            setTimeout(() => {
-                alert(`بارك الله فيك يا ${name}. تم استلام تبرعك بقيمة $${currentAmount}. سيصلك تقرير بأثر تبرعك قريباً.`);
-                btn.innerHTML = originalText;
-                // إضافة المتبرع الجديد للقائمة برمجياً
-                SYSTEM_DB.donors.unshift({ name, amount: currentAmount, msg });
-                initMarquee();
-                nav('home');
-            }, 3000);
+        function confirmDonation() {
+            const name = document.getElementById('d-name').value || "فاعل خير";
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#c5a059', '#001f3f'] });
+            alert(`تقبل الله منك يا ${name}. تبرعك بقيمة $${selectedValue} هو سهم في بناء جيل قرآني. سيتم إضافة اسمك لحائط الشرف فوراً.`);
+            DB.donors.unshift({name, amount: selectedValue, msg: "تبرع جديد"});
+            initMarquee();
+            changePage('home');
         }
 
-        // 6. بوابة الطالب والتحقق
-        function studentLogin() {
-            const id = document.getElementById('stuId').value;
-            const stu = SYSTEM_DB.students[id];
+        /* 7. نظام الطلاب والتحقق */
+        function handleStudentLogin() {
+            const id = document.getElementById('stuIdInput').value;
+            const stu = DB.students[id];
             if(stu) {
-                gsap.to("#stuAuth", { opacity: 0, scale: 0.9, duration: 0.5, onComplete: () => {
-                    document.getElementById('stuAuth').classList.add('hidden');
-                    document.getElementById('stuDash').classList.remove('hidden');
-                    document.getElementById('userName').innerText = stu.name;
-                    document.getElementById('cardName').innerText = stu.name;
+                gsap.to("#stuLogin", { opacity: 0, scale: 0.9, duration: 0.5, onComplete: () => {
+                    document.getElementById('stuLogin').classList.add('hidden');
+                    document.getElementById('stuDashboard').classList.remove('hidden');
+                    document.getElementById('stuNameDisplay').innerText = stu.name;
+                    document.getElementById('cardNameTxt').innerText = stu.name;
                     setTimeout(() => {
-                        document.getElementById('jProgress').style.width = stu.progress + "%";
+                        document.getElementById('journeyProgress').style.width = stu.progress + "%";
                     }, 500);
                 }});
             } else {
-                alert("عذراً، هذا الرقم غير مسجل في سجلاتنا.");
+                alert("رقم الهوية غير موجود في قاعدة بيانات صرح التابعين.");
             }
         }
 
-        // 7. تحميل بطاقة التميز
-        function downloadHonorCard() {
-            const area = document.getElementById('renderCard');
+        /* 8. محرك توليد الشهادات */
+        function generateExcellenceCard() {
+            const area = document.getElementById('cardRenderer');
             html2canvas(area).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `شهادة_تميز_${Date.now()}.png`;
+                link.download = `شهادة_التابعين_${Date.now()}.png`;
                 link.href = canvas.toDataURL();
                 link.click();
             });
         }
 
-        // 8. محرك المعلم الذكي الصوتي
-        function toggleMic() {
-            const btn = document.getElementById('micBtn');
-            btn.classList.toggle('bg-red-500');
-            btn.classList.toggle('animate-pulse');
-            
-            if(btn.classList.contains('bg-red-500')) {
-                // محاكاة استماع صوتي
-                setTimeout(() => {
-                    const simulatedQs = ["متى موعد الحلقة؟", "كيف أسجل؟", "أريد خطة مراجعة"];
-                    const q = simulatedQs[Math.floor(Math.random()*simulatedQs.length)];
-                    document.getElementById('aiInput').value = q;
-                    aiSend();
-                    btn.classList.remove('bg-red-500', 'animate-pulse');
-                }, 3000);
-            }
-        }
+        /* 9. محرك المعلم الذكي */
+        function aiSendMessage() {
+            const inp = document.getElementById('aiInput');
+            const body = document.getElementById('aiBody');
+            if(!inp.value) return;
 
-        function aiSend() {
-            const input = document.getElementById('aiInput');
-            const chat = document.getElementById('aiChat');
-            if(!input.value) return;
-
-            chat.innerHTML += `<div class="msg user">${input.value}</div>`;
+            body.innerHTML += `<div class="bubble user-bubble">${inp.value}</div>`;
             
-            let response = "سؤال قيم جداً. نحن في صرح التابعين نعتز باهتمامك. يرجى مراجعة الإدارة لمزيد من التفاصيل الدقيقة.";
+            let reply = "سؤال رائع. نحن في صرح التابعين نهتم جداً بتفاصيل تلاوتك. يرجى توجيه هذا السؤال للأستاذ إسماعيل في الحلقة القادمة لمزيد من الإتقان.";
             
-            Object.keys(SYSTEM_DB.aiResponses).forEach(key => {
-                if(input.value.includes(key)) response = SYSTEM_DB.aiResponses[key];
+            Object.keys(DB.aiLogic).forEach(key => {
+                if(inp.value.includes(key)) reply = DB.aiLogic[key];
             });
 
             setTimeout(() => {
-                chat.innerHTML += `<div class="msg bot">${response}</div>`;
-                chat.scrollTop = chat.scrollHeight;
-            }, 1000);
-            input.value = "";
+                body.innerHTML += `<div class="bubble bot-bubble">${reply}</div>`;
+                body.scrollTop = body.scrollHeight;
+            }, 800);
+            inp.value = "";
         }
 
-        /* INITIALIZATION */
+        function aiMicTrigger() {
+            const btn = document.getElementById('aiMic');
+            btn.classList.add('bg-red-500', 'animate-pulse');
+            setTimeout(() => {
+                btn.classList.remove('bg-red-500', 'animate-pulse');
+                document.getElementById('aiInput').value = "متى موعد الحلقة؟";
+                aiSendMessage();
+            }, 3000);
+        }
+
+        /* 10. التشغيل الأولي للنظام */
         window.onload = () => {
             initMarquee();
             initRings();
-            console.log("Tabeen System V6.0 Fully Loaded.");
+            console.log("Tabeen Master System V10.0 Initialized Successfully.");
         };
     </script>
 </body>
