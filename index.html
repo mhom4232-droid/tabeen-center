@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مركز التابعين | الصرح الإمبراطوري</title>
+    <title>منصة التابعين | الإدارة الرقمية</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
@@ -11,285 +11,250 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
-        :root { 
-            --gold: #D4AF37; 
-            --royal: #001a33; 
-            --deep-bg: #000c18;
-        }
+        :root { --gold: #D4AF37; --royal: #001a33; --deep: #000810; }
         
         body { 
             font-family: 'Tajawal', sans-serif; 
-            background-color: var(--deep-bg);
+            background: radial-gradient(circle at top, #001a33 0%, #000810 100%);
             color: white;
-            overflow-x: hidden;
-        }
-
-        /* التصميم الإمبراطوري - خلفية متحركة */
-        .imperial-bg {
-            background: radial-gradient(circle at top right, #001f3f, #000000);
             min-height: 100vh;
         }
 
-        .font-amiri { font-family: 'Amiri', serif; }
-
-        /* الكروت الفخمة */
-        .glass-card {
+        /* تجربة المستخدم - بطاقات زجاجية */
+        .glass-panel {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 30px;
-            transition: 0.5s;
-        }
-        .glass-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-radius: 25px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* نظام الرحلة التفاعلية (The Journey) */
-        .journey-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
-            gap: 12px;
-        }
-        .step-dot {
-            aspect-ratio: 1;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 900;
+        /* رحلة الطالب - المربعات الذهبية */
+        .step-box {
+            width: 45px; height: 45px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 10px;
             border: 1px solid rgba(212, 175, 55, 0.3);
-            transition: 0.4s;
+            font-size: 0.8rem; font-weight: bold;
+            transition: all 0.3s ease;
         }
-        .step-active {
+        .step-done {
             background: linear-gradient(135deg, var(--gold), #8a6d1a);
-            color: var(--royal);
-            box-shadow: 0 0 15px var(--gold);
+            color: black;
             border: none;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
         }
 
-        /* الأزرار الذهبية */
-        .btn-imperial {
-            background: linear-gradient(135deg, #D4AF37 0%, #AA8928 100%);
-            color: #000;
-            font-weight: 900;
-            padding: 12px 30px;
-            border-radius: 15px;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        /* أزرار UX */
+        .btn-action {
+            background: linear-gradient(135deg, var(--gold), #AA8928);
+            color: black; font-weight: 800;
+            padding: 12px 25px; border-radius: 12px;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .btn-imperial:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-        }
+        .btn-action:hover { transform: scale(1.05) translateY(-3px); }
 
-        /* المدخلات */
-        .imperial-input {
+        .input-field {
             background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(212,175,55,0.2);
-            border-radius: 15px;
-            padding: 15px;
-            color: white;
-            outline: none;
-            width: 100%;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 12px; border-radius: 12px; color: white; width: 100%;
+            outline: none; transition: 0.3s;
         }
-        .imperial-input:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
+        .input-field:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
 
-        /* الأقسام */
-        .page { display: none; animation: fadeIn 0.8s ease-out; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* الأنيميشن */
+        .page { display: none; }
+        .page.active { display: block; animation: slideUp 0.6s ease; }
+        @keyframes slideUp { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
 
-        /* شريط التمرير الذهبي */
-        .marquee-gold {
-            background: rgba(212, 175, 55, 0.1);
-            border-y: 1px solid var(--gold);
-            padding: 10px 0;
-            color: var(--gold);
-            font-weight: bold;
-        }
+        .nav-link { position: relative; cursor: pointer; font-size: 0.9rem; font-weight: 700; opacity: 0.7; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { opacity: 1; color: var(--gold); }
     </style>
 </head>
-<body class="imperial-bg">
+<body>
 
-    <div class="marquee-gold overflow-hidden whitespace-nowrap border-b border-yellow-600/30">
-        <div class="inline-block animate-marquee">
-            <span class="mx-10">✨ "خيركم من تعلم القرآن وعلمه" ✨</span>
-            <span class="mx-10">🕌 مركز التابعين - النصيرات - بإشراف أ. إسماعيل نوفل</span>
-            <span class="mx-10">📈 تم إنجاز 65% من المنظومة الرقمية بنجاح</span>
-        </div>
-    </div>
-
-    <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-gradient-to-br from-yellow-600 to-yellow-300 rounded-full flex items-center justify-center text-black text-2xl shadow-lg shadow-yellow-600/20">
-                <i class="fas fa-quran"></i>
+    <header class="p-6 border-b border-white/5 sticky top-0 bg-[#000810]/80 backdrop-blur-md z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gold rounded-lg flex items-center justify-center text-black shadow-lg">
+                    <i class="fas fa-mosque"></i>
+                </div>
+                <span class="text-xl font-black tracking-widest uppercase">التابعين</span>
             </div>
-            <div>
-                <h1 class="text-2xl font-black tracking-tighter text-white">مركز <span class="text-yellow-500">التابعين</span></h1>
-                <p class="text-[9px] uppercase tracking-[0.3em] text-gray-400">Imperial Quranic Center</p>
-            </div>
+            
+            <nav class="hidden md:flex gap-8 items-center">
+                <span onclick="showPage('home')" class="nav-link active">الرئيسية</span>
+                <span onclick="showPage('student')" class="nav-link">بوابة الطالب</span>
+                <span onclick="showPage('teacher')" class="nav-link">لوحة التحكم</span>
+                <span onclick="showPage('donate')" class="nav-link text-yellow-500 underline">تبرع الآن</span>
+            </nav>
+            
+            <button onclick="showPage('login')" class="text-xs border border-gold/40 px-4 py-2 rounded-full hover:bg-gold hover:text-black transition">دخول الأطقم</button>
         </div>
-        <div class="hidden md:flex gap-8 text-xs font-bold uppercase">
-            <a href="#" onclick="showPage('home')" class="hover:text-yellow-500 transition">الرئيسية</a>
-            <a href="#" onclick="showPage('student')" class="hover:text-yellow-500 transition">بوابة الطالب</a>
-            <a href="#" onclick="showPage('donate')" class="hover:text-yellow-500 transition text-yellow-500">الوقف القرآني</a>
-        </div>
-        <button onclick="showPage('login')" class="btn-imperial text-[10px]">دخول المسؤولين</button>
-    </nav>
+    </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-12">
+    <main class="max-w-5xl mx-auto p-6 mt-10">
         
-        <section id="home" class="page active">
-            <div class="grid lg:grid-cols-2 gap-12 items-center min-h-[70vh]">
-                <div class="space-y-8">
-                    <h2 class="text-6xl md:text-8xl font-black font-amiri leading-tight">صناعة <br><span class="text-yellow-500">الأجيال</span> بالنور</h2>
-                    <p class="text-gray-400 text-xl max-w-md leading-relaxed italic border-r-4 border-yellow-600 pr-4">من قلب النصيرات، نخرج حُفاظاً يحملون كتاب الله في صدورهم، ليكونوا مشاعل هداية.</p>
-                    <div class="flex gap-4">
-                        <button onclick="showPage('student')" class="btn-imperial">ملف المتابعة</button>
-                        <button onclick="showPage('donate')" class="px-8 py-3 border border-yellow-600 rounded-xl font-bold hover:bg-yellow-600/10 transition">ادعم حلقاتنا</button>
-                    </div>
+        <section id="home" class="page active text-center space-y-8">
+            <h1 class="text-5xl md:text-7xl font-amiri font-bold">منصة التابعين <span class="text-gold italic">الرقمية</span></h1>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">نظام إدارة حلقات القرآن الكريم الأول بمواصفات عالمية وتجربة مستخدم ذكية.</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+                <div class="glass-panel p-6">
+                    <i class="fas fa-users text-gold text-2xl mb-2"></i>
+                    <h3 class="block text-2xl font-bold">450+</h3>
+                    <p class="text-xs text-gray-500 uppercase">طالب وطالبة</p>
                 </div>
-                <div class="relative">
-                    <div class="absolute -inset-20 bg-yellow-600/10 blur-[100px] rounded-full"></div>
-                    <img src="https://images.unsplash.com/photo-1590076175574-e8893110534b?q=80&w=1000" class="rounded-[50px] shadow-2xl border-2 border-yellow-600/20 relative z-10">
                 </div>
-            </div>
         </section>
 
         <section id="student" class="page">
-            <div class="max-w-4xl mx-auto space-y-8">
-                <div class="glass-card p-12 text-center" id="stdLogin">
-                    <h2 class="text-3xl font-black mb-8 font-amiri italic text-yellow-500">خريطة الطالب نحو الختمة</h2>
-                    <input type="text" id="stdID" class="imperial-input text-center text-2xl mb-6" placeholder="أدخل رقم الـ ID">
-                    <button onclick="fetchStudent()" id="queryBtn" class="btn-imperial w-full">فتح الملف السحابي</button>
+            <div class="glass-panel p-8 max-w-2xl mx-auto shadow-2xl">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold">ملف المتابعة السحابي</h2>
+                    <p class="text-gray-400 mt-2">أدخل رقم الـ ID الخاص بك لمتابعة حفظك</p>
+                </div>
+                <div class="relative flex items-center mb-8">
+                    <input type="text" id="stdID" class="input-field text-center text-2xl py-4" placeholder="ID - 0000">
+                    <button onclick="fetchStudent()" class="absolute left-2 bg-gold text-black p-3 rounded-xl hover:scale-105 transition">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
 
-                <div id="stdProfile" class="hidden space-y-6">
-                    <div class="glass-card p-8 flex flex-col md:flex-row justify-between items-center gap-6">
-                        <div class="flex items-center gap-6">
-                            <div class="w-20 h-20 bg-yellow-500 rounded-2xl flex items-center justify-center text-black text-4xl font-black">أ</div>
-                            <div>
-                                <h3 id="stdName" class="text-3xl font-black">...</h3>
-                                <p id="stdInfo" class="text-yellow-500 font-bold italic"></p>
-                            </div>
+                <div id="stdResult" class="hidden animate-fade-in border-t border-white/10 pt-8 mt-8">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <h3 id="resName" class="text-3xl font-bold text-gold"></h3>
+                            <p id="resInfo" class="text-gray-400"></p>
                         </div>
-                        <div class="text-center">
-                            <p class="text-xs text-gray-400 uppercase">المستوى الحالي</p>
-                            <p id="stdLevel" class="text-2xl font-black text-yellow-500">...</p>
+                        <div class="text-left bg-gold/10 p-4 rounded-2xl">
+                            <span class="text-xs text-gold block">التقدير العام</span>
+                            <span id="resGrade" class="text-xl font-black"></span>
                         </div>
                     </div>
-
-                    <div class="grid md:grid-cols-3 gap-6">
-                        <div class="md:col-span-2 glass-card p-8">
-                            <h4 class="mb-6 font-bold flex items-center gap-2"><i class="fas fa-map-marked-alt text-yellow-500"></i> خريطة الـ 30 جزء</h4>
-                            <div id="journeyMap" class="journey-grid"></div>
-                        </div>
-                        <div class="glass-card p-8 bg-yellow-600/5">
-                            <h4 class="mb-4 font-bold text-yellow-500">رسالة اليوم:</h4>
-                            <p id="stdMsg" class="italic text-gray-300 leading-relaxed text-sm">...</p>
-                        </div>
-                    </div>
+                    
+                    <h4 class="text-sm font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-route text-gold"></i> رحلة الختمة (الأجزاء المنجزة)
+                    </h4>
+                    <div id="journeyGrid" class="grid grid-cols-6 md:grid-cols-10 gap-2"></div>
                 </div>
             </div>
         </section>
 
         <section id="teacher" class="page">
-            <div class="glass-card p-10 max-w-4xl mx-auto">
-                <h2 class="text-3xl font-black mb-10 font-amiri italic border-b border-yellow-600/30 pb-4">تحديث السجل الرقمي</h2>
-                <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <input type="text" id="tID" class="imperial-input" placeholder="ID الطالب">
-                    <input type="number" id="tParts" class="imperial-input" placeholder="عدد الأجزاء">
-                    <select id="tGrade" class="imperial-input">
-                        <option>ممتاز 🌟</option>
-                        <option>جيد جداً 👍</option>
-                    </select>
-                    <input type="text" id="tToday" class="imperial-input" placeholder="تسميع اليوم">
+            <div class="glass-panel p-10 max-w-3xl mx-auto border-t-4 border-gold">
+                <h2 class="text-2xl font-black mb-8"><i class="fas fa-edit ml-2"></i>تحديث بيانات الحلقة</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="text-xs text-gray-400 mb-2 block">رقم الطالب</label>
+                        <input type="text" id="upID" class="input-field" placeholder="ID">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 mb-2 block">عدد الأجزاء المكتملة</label>
+                        <input type="number" id="upParts" class="input-field" placeholder="30">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 mb-2 block">التقدير</label>
+                        <select id="upGrade" class="input-field">
+                            <option>ممتاز 🌟</option>
+                            <option>جيد جداً 👍</option>
+                            <option>جيد 📚</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 mb-2 block">تسميع اليوم</label>
+                        <input type="text" id="upToday" class="input-field" placeholder="سورة...">
+                    </div>
                 </div>
-                <textarea id="tMsg" class="imperial-input h-32 mb-6" placeholder="رسالة تشجيعية..."></textarea>
-                <button onclick="updateData()" id="upBtn" class="btn-imperial w-full">تأمين وحفظ البيانات</button>
+                <div class="mt-6">
+                    <label class="text-xs text-gray-400 mb-2 block">رسالة للمعلم الذكي / تشجيع</label>
+                    <textarea id="upMsg" class="input-field h-24"></textarea>
+                </div>
+                <button onclick="updateStudent()" id="saveBtn" class="btn-action w-full mt-8">حفظ البيانات وتزامنها سحابياً</button>
             </div>
         </section>
 
         <section id="login" class="page">
-            <div class="glass-card p-12 max-w-md mx-auto text-center border-t-4 border-yellow-600">
-                <h2 class="text-3xl font-black mb-8">نظام الدخول الآمن</h2>
-                <input type="password" id="pass" class="imperial-input text-center mb-6" placeholder="••••••••">
-                <button onclick="login()" class="btn-imperial w-full">دخول</button>
+            <div class="glass-panel p-12 max-w-md mx-auto text-center">
+                <i class="fas fa-lock text-gold text-4xl mb-6"></i>
+                <h2 class="text-2xl font-bold mb-6">دخول الإدارة</h2>
+                <input type="password" id="adminPass" class="input-field text-center mb-6" placeholder="رمز الدخول">
+                <button onclick="checkLogin()" class="btn-action w-full">دخول</button>
             </div>
         </section>
 
     </main>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycby9TJ1YcsrhZm5O3TWP41B49KP2rR-2BBP2g8lzULTQvgTacOEIPk-1_GGTliBKUxNrOw/exec';
+        // الرابط الخاص بك من Google Apps Script
+        const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
 
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            window.scrollTo(0,0);
-        }
-
-        function login() {
-            const p = document.getElementById('pass').value;
-            if(p === "Admin2026" || p === "2026") showPage('teacher');
-            else Swal.fire('خطأ', 'كلمة المرور غير صحيحة', 'error');
+            // تحديث حالة الروابط
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            event.target.classList?.add('active');
         }
 
         async function fetchStudent() {
             const id = document.getElementById('stdID').value;
-            if(!id) return;
-            
-            Swal.fire({title: 'جاري جلب البيانات...', allowOutsideClick: false, didOpen: () => Swal.showLoading()});
-            
+            if(!id) return Swal.fire('تنبيه', 'يرجى إدخال الـ ID', 'warning');
+
+            Swal.fire({ title: 'جاري البحث في السجلات...', didOpen: () => Swal.showLoading() });
+
             try {
-                const res = await fetch(`${scriptURL}?action=getStudent&id=${id}`);
-                const data = await res.json();
+                const response = await fetch(`${scriptURL}?action=getStudent&id=${id}`);
+                const data = await response.json();
                 Swal.close();
 
                 if(data.found) {
-                    document.getElementById('stdLogin').classList.add('hidden');
-                    document.getElementById('stdProfile').classList.remove('hidden');
-                    document.getElementById('stdName').innerText = data.name;
-                    document.getElementById('stdInfo').innerText = `حلقة ${data.teacher} - ${data.mosque}`;
-                    document.getElementById('stdLevel').innerText = data.grade || 'منتظم';
-                    document.getElementById('stdMsg').innerText = data.studentMsg || 'استمر في طريق النور يا بطل!';
+                    document.getElementById('stdResult').classList.remove('hidden');
+                    document.getElementById('resName').innerText = data.name;
+                    document.getElementById('resInfo').innerText = `حلقة: ${data.teacher} | ${data.mosque}`;
+                    document.getElementById('resGrade').innerText = data.grade || '---';
                     
-                    // رسم الرحلة
-                    const map = document.getElementById('journeyMap');
-                    map.innerHTML = '';
+                    const grid = document.getElementById('journeyGrid');
+                    grid.innerHTML = '';
                     for(let i=1; i<=30; i++) {
-                        const dot = document.createElement('div');
-                        dot.className = `step-dot ${i <= data.parts ? 'step-active' : ''}`;
-                        dot.innerText = i;
-                        map.appendChild(dot);
+                        const div = document.createElement('div');
+                        div.className = `step-box ${i <= data.parts ? 'step-done' : ''}`;
+                        div.innerText = i;
+                        grid.appendChild(div);
                     }
                 } else {
-                    Swal.fire('خطأ', 'الرقم غير مسجل', 'error');
+                    Swal.fire('غير موجود', 'لم يتم العثور على طالب بهذا الرقم', 'error');
                 }
-            } catch(e) { Swal.fire('خطأ', 'فشل الاتصال بالسحابة', 'error'); }
+            } catch(e) {
+                Swal.fire('عذراً', 'تأكد من ربط الـ Script URL بشكل صحيح', 'info');
+            }
         }
 
-        async function updateData() {
-            const btn = document.getElementById('upBtn');
-            const data = {
+        async function updateStudent() {
+            const btn = document.getElementById('saveBtn');
+            const payload = {
                 action: 'updateScore',
-                id: document.getElementById('tID').value,
-                parts: document.getElementById('tParts').value,
-                grade: document.getElementById('tGrade').value,
-                today: document.getElementById('tToday').value,
-                msg: document.getElementById('tMsg').value
+                id: document.getElementById('upID').value,
+                parts: document.getElementById('upParts').value,
+                grade: document.getElementById('upGrade').value,
+                today: document.getElementById('upToday').value,
+                msg: document.getElementById('upMsg').value
             };
-            
-            btn.innerText = "... جاري الحفظ"; btn.disabled = true;
+
+            btn.disabled = true; btn.innerText = "جاري الحفظ...";
+
             try {
-                await fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) });
-                Swal.fire('تم', 'تم تحديث البيانات بنجاح', 'success');
-            } catch(e) { Swal.fire('خطأ', 'حدث خطأ', 'error'); }
-            btn.innerText = "تأمين وحفظ البيانات"; btn.disabled = false;
+                await fetch(scriptURL, { method: 'POST', body: JSON.stringify(payload) });
+                Swal.fire('تم التحديث', 'تم حفظ بيانات الطالب بنجاح', 'success');
+            } catch(e) {
+                Swal.fire('خطأ', 'حدثت مشكلة أثناء الحفظ', 'error');
+            }
+            btn.disabled = false; btn.innerText = "حفظ البيانات وتزامنها سحابياً";
+        }
+
+        function checkLogin() {
+            const pass = document.getElementById('adminPass').value;
+            if(pass === "2026") showPage('teacher');
+            else Swal.fire('خطأ', 'رمز الدخول غير صحيح', 'error');
         }
     </script>
 </body>
