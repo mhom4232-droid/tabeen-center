@@ -3,242 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة التابعين | الصرح الإمبراطوري الرقمي</title>
+    <title>منصة التابعين | مركز التابعين القرآني</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
     <style>
-        :root { 
-            --gold: #D4AF37; 
-            --gold-light: #f1d592;
-            --royal-blue: #001a33; 
-            --deep-black: #000c18;
+        :root {
+            --primary-gold: #D4AF37;
+            --royal-blue: #002347;
+            --deep-dark: #000c18;
+            --accent-gold: #FFD700;
         }
-        
-        body { 
-            font-family: 'Tajawal', sans-serif; 
-            background: radial-gradient(circle at center, var(--royal-blue) 0%, var(--deep-black) 100%);
-            color: white;
-            min-height: 100vh;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-gold) var(--deep-dark);
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--deep-dark);
+            color: #fff;
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 35, 71, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
         }
 
         .font-amiri { font-family: 'Amiri', serif; }
 
-        /* تأثيرات الزجاج الإمبراطورية */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            border-radius: 30px;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .glass-card:hover {
-            border-color: var(--gold);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
-            transform: translateY(-5px);
+        /* التصميم الإمبراطوري الفخم */
+        .imperial-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* نظام الرحلة التفاعلية */
+        .imperial-card:hover {
+            border-color: var(--primary-gold);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+        }
+
+        /* شريط التنقل */
+        nav {
+            background: rgba(0, 12, 24, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            top: 0;
+        }
+
+        .nav-link {
+            position: relative;
+            color: #fff;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            transition: 0.3s;
+        }
+
+        .nav-link:hover::after { width: 100%; }
+
+        /* الأزرار الذهبية */
+        .btn-gold {
+            background: linear-gradient(45deg, #D4AF37, #F1D592);
+            color: var(--royal-blue);
+            font-weight: 900;
+            padding: 12px 30px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-gold:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        /* نظام الأجزاء (Journey) */
         .journey-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
-        .part-node {
-            aspect-ratio: 1;
-            border-radius: 10px;
+
+        .part-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
             font-weight: 900;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            background: rgba(0,0,0,0.3);
             transition: 0.4s;
         }
-        .part-node.completed {
-            background: linear-gradient(135deg, var(--gold), #8a6d1a);
-            color: var(--deep-black);
-            border: none;
-            box-shadow: 0 0 15px var(--gold);
+
+        .part-dot.completed {
+            background: var(--primary-gold);
+            color: var(--royal-blue);
+            box-shadow: 0 0 15px var(--primary-gold);
         }
 
-        /* أزرار UX */
-        .btn-imperial {
-            background: linear-gradient(135deg, var(--gold) 0%, #AA8928 100%);
-            color: #000;
-            font-weight: 800;
-            padding: 14px 35px;
-            border-radius: 15px;
-            transition: 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .btn-imperial:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        /* الأقسام */
+        .section-panel { display: none; padding-top: 100px; animation: fadeIn 0.8s ease; }
+        .section-panel.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .input-imperial {
+        /* التذييل */
+        footer {
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(0, 8, 16, 0.9);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        /* المدخلات */
+        .custom-input {
             background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 15px;
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 12px;
             padding: 15px;
             color: white;
-            width: 100%;
-            transition: 0.3s;
-        }
-        .input-imperial:focus {
-            border-color: var(--gold);
-            background: rgba(255,255,255,0.07);
             outline: none;
+            width: 100%;
         }
-
-        /* التنقل بين الصفحات */
-        .page { display: none; opacity: 0; transform: translateY(20px); transition: 0.5s; }
-        .page.active { display: block; opacity: 1; transform: translateY(0); }
-
-        /* الأنيميشن */
-        @keyframes goldPulse {
-            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-        }
-        .pulse { animation: goldPulse 2s infinite; }
     </style>
 </head>
 <body>
 
-    <header class="p-6 sticky top-0 z-50 backdrop-blur-lg border-b border-white/5">
+    <nav class="p-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-4 cursor-pointer" onclick="showPage('home')">
-                <div class="w-12 h-12 bg-gradient-to-br from-gold to-yellow-600 rounded-2xl flex items-center justify-center text-black shadow-lg">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-gradient-to-br from-gold-500 to-yellow-700 rounded-full flex items-center justify-center text-black shadow-lg shadow-yellow-500/20">
                     <i class="fas fa-quran text-2xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-black tracking-tighter">منصة <span class="text-gold">التابعين</span></h1>
-                    <p class="text-[9px] text-gray-400 uppercase tracking-widest italic">The Followers Center</p>
+                    <h1 class="text-xl font-black">منصة <span class="text-yellow-500">التابعين</span></h1>
+                    <p class="text-[10px] uppercase tracking-widest text-gray-400">مركز التابعين القرآني</p>
                 </div>
             </div>
-            
-            <nav class="hidden md:flex gap-8 font-bold text-sm">
-                <a href="javascript:void(0)" onclick="showPage('home')" class="hover:text-gold transition">الرئيسية</a>
-                <a href="javascript:void(0)" onclick="showPage('student-portal')" class="hover:text-gold transition">ملف الطالب</a>
-                <a href="javascript:void(0)" onclick="showPage('donations')" class="text-gold border-b border-gold px-1">الوقف القرآني</a>
-            </nav>
-
-            <button onclick="showPage('login')" class="text-xs bg-white/5 px-5 py-2.5 rounded-xl border border-white/10 hover:border-gold transition">
-                <i class="fas fa-user-shield ml-2"></i> لوحة المعلم
-            </button>
+            <div class="hidden md:flex gap-10">
+                <a href="#" onclick="showSection('home')" class="nav-link">الرئيسية</a>
+                <a href="#" onclick="showSection('student')" class="nav-link">بوابة الطالب</a>
+                <a href="#" onclick="showSection('donation')" class="nav-link">التبرعات</a>
+                <a href="#" onclick="showSection('admin')" class="nav-link">لوحة التحكم</a>
+            </div>
+            <button onclick="showSection('admin')" class="btn-gold text-xs">دخول المعلمين</button>
         </div>
-    </header>
+    </nav>
 
-    <main class="max-w-6xl mx-auto px-6 py-12">
+    <main class="max-w-7xl mx-auto px-6">
         
-        <section id="home" class="page active">
-            <div class="flex flex-col items-center text-center space-y-8 mt-10">
-                <span class="px-4 py-1 bg-gold/10 text-gold rounded-full text-xs font-bold border border-gold/20">قريباً: افتتاح فرع مسجد ذو النورين</span>
-                <h2 class="text-6xl md:text-8xl font-amiri font-bold leading-tight">وَرَتِّلِ الْقُرْآنَ <br><span class="text-gold italic">تَرْتِيلًا</span></h2>
-                <p class="text-gray-400 text-lg max-w-2xl leading-relaxed">أول منصة رقمية متكاملة لإدارة حلقات التحفيظ بمسجد التابعين، نجمع بين أصالة التعليم وحداثة التقنية.</p>
-                <div class="flex gap-4">
-                    <button onclick="showPage('student-portal')" class="btn-imperial pulse">ابدأ رحلتك الآن</button>
-                    <button onclick="showPage('donations')" class="px-8 py-4 rounded-15 font-bold border border-white/20 hover:bg-white/5 transition">ساهم في الوقف</button>
+        <div id="home" class="section-panel active">
+            <div class="grid lg:grid-cols-2 gap-12 items-center min-h-[70vh]">
+                <div class="space-y-8">
+                    <h2 class="text-6xl md:text-8xl font-amiri font-bold leading-tight">وحيٌ يحيي <br><span class="text-yellow-500 italic">القلوب</span></h2>
+                    <p class="text-gray-400 text-xl leading-relaxed border-r-4 border-yellow-600 pr-6">المنصة الرسمية لإدارة مسجد التابعين ومتابعة حلقات التحفيظ لجيل النصر القادم.</p>
+                    <div class="flex gap-4">
+                        <button onclick="showSection('student')" class="btn-gold">متابعة الطالب</button>
+                        <button onclick="showSection('donation')" class="px-8 py-3 border border-yellow-600 rounded-xl hover:bg-yellow-600/10 transition">دعم المراكز</button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="absolute -inset-10 bg-yellow-600/10 blur-[100px] rounded-full"></div>
+                    <img src="https://images.unsplash.com/photo-1584281722573-f9389278280f?q=80&w=1000" class="rounded-[40px] shadow-2xl border border-yellow-600/20 relative z-10 opacity-80">
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="student-portal" class="page">
-            <div class="max-w-3xl mx-auto">
-                <div class="glass-card p-10 text-center" id="searchBox">
-                    <h3 class="text-3xl font-black mb-6 font-amiri text-gold">استعلم عن محفوظك</h3>
-                    <div class="flex gap-3">
-                        <input type="text" id="studentID" class="input-imperial text-center text-2xl" placeholder="أدخل رقم الـ ID">
-                        <button onclick="fetchStudentData()" class="btn-imperial py-2">
-                            <i class="fas fa-search"></i>
-                        </button>
+        <div id="student" class="section-panel">
+            <div class="max-w-4xl mx-auto">
+                <div class="imperial-card p-12 text-center" id="search-container">
+                    <h3 class="text-3xl font-black mb-6 font-amiri text-yellow-500">سجل الطالب الرقمي</h3>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <input type="text" id="studentID" class="custom-input text-center text-2xl" placeholder="أدخل رقم الـ ID">
+                        <button onclick="fetchStudent()" class="btn-gold whitespace-nowrap">عرض السجل</button>
                     </div>
                 </div>
 
-                <div id="studentCard" class="hidden mt-8 space-y-6">
-                    <div class="glass-card p-8 flex justify-between items-center border-r-4 border-r-gold">
+                <div id="student-result" class="hidden space-y-6 mt-10">
+                    <div class="imperial-card p-8 flex flex-col md:flex-row justify-between items-center gap-6 border-r-8 border-yellow-600">
                         <div>
-                            <h2 id="sName" class="text-4xl font-black">---</h2>
-                            <p id="sTeacher" class="text-gold font-bold mt-1"></p>
+                            <h4 id="s-name" class="text-4xl font-black">---</h4>
+                            <p id="s-details" class="text-yellow-500 font-bold mt-2"></p>
                         </div>
                         <div class="text-center">
-                            <span class="block text-xs text-gray-400 uppercase italic">التقدير</span>
-                            <span id="sGrade" class="text-3xl font-black text-gold">---</span>
+                            <span class="text-xs uppercase text-gray-400">المرتبة</span>
+                            <div id="s-rank" class="text-3xl font-black text-yellow-500 italic">...</div>
                         </div>
                     </div>
 
-                    <div class="glass-card p-8">
-                        <h4 class="mb-6 font-bold flex items-center gap-3 italic text-gray-300 underline decoration-gold">
-                            <i class="fas fa-star text-gold"></i> خريطة الإنجاز (30 جزء)
-                        </h4>
-                        <div id="journeyGrid" class="journey-grid"></div>
-                    </div>
-
-                    <div class="glass-card p-8 bg-gold/5 border-dashed">
-                        <h4 class="text-gold font-bold mb-2">رسالة المحفظ لك:</h4>
-                        <p id="sMsg" class="italic text-gray-300">أبشر يا بني، فبكل حرف حسنة..</p>
+                    <div class="imperial-card p-8">
+                        <h5 class="font-bold mb-6 flex items-center gap-3">
+                            <i class="fas fa-chess-king text-yellow-500"></i> خريطة الحفظ التفاعلية (30 جزء)
+                        </h5>
+                        <div id="journey-grid" class="journey-grid"></div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="teacher-panel" class="page">
-            <div class="glass-card p-10 max-w-4xl mx-auto border-t-4 border-gold">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-2xl font-black">تحديث سجل الحلقة</h2>
-                    <span class="text-xs bg-white/5 px-3 py-1 rounded text-gray-400">بوابة المحفظين</span>
-                </div>
+        <div id="admin" class="section-panel">
+            <div class="max-w-4xl mx-auto imperial-card p-10">
+                <h3 class="text-3xl font-black mb-8 border-b border-yellow-600 pb-4">الإدارة المركزية</h3>
                 <div class="grid md:grid-cols-2 gap-6">
-                    <input type="text" id="upId" class="input-imperial" placeholder="ID الطالب">
-                    <input type="number" id="upParts" class="input-imperial" placeholder="عدد الأجزاء المنجزة">
-                    <select id="upGrade" class="input-imperial">
-                        <option>امتياز 🌟</option>
-                        <option>جيد جداً 👍</option>
-                        <option>جيد ✨</option>
-                    </select>
-                    <input type="text" id="upToday" class="input-imperial" placeholder="آخر سورة تم تسميعها">
+                    <div class="space-y-4">
+                        <label class="text-xs text-gray-500 uppercase">هوية الطالب</label>
+                        <input type="text" id="up-id" class="custom-input" placeholder="مثلاً: 101">
+                        
+                        <label class="text-xs text-gray-500 uppercase">الأجزاء المنجزة</label>
+                        <input type="number" id="up-parts" class="custom-input" placeholder="0 - 30">
+                        
+                        <label class="text-xs text-gray-500 uppercase">التقدير</label>
+                        <select id="up-grade" class="custom-input">
+                            <option>ممتاز 🌟</option>
+                            <option>جيد جداً 👍</option>
+                        </select>
+                    </div>
+                    <div class="space-y-4">
+                        <label class="text-xs text-gray-500 uppercase">رسالة اليوم</label>
+                        <textarea id="up-msg" class="custom-input h-[190px]" placeholder="اكتب تشجيعاً للطالب..."></textarea>
+                    </div>
                 </div>
-                <textarea id="upMsg" class="input-imperial mt-6 h-32" placeholder="اكتب رسالة تحفيزية للطالب..."></textarea>
-                <button onclick="updateSheet()" id="saveBtn" class="btn-imperial w-full mt-8 justify-center">حفظ التغييرات ومزامنتها</button>
+                <button onclick="updateData()" id="saveBtn" class="btn-gold w-full mt-8">تحديث ومزامنة البيانات</button>
             </div>
-        </section>
+        </div>
 
-        <section id="login" class="page">
-            <div class="glass-card p-12 max-w-md mx-auto text-center">
-                <h2 class="text-2xl font-black mb-8">تسجيل دخول المحفظين</h2>
-                <input type="password" id="adminPass" class="input-imperial text-center mb-6" placeholder="كلمة المرور">
-                <button onclick="auth()" class="btn-imperial w-full justify-center">دخول آمن</button>
+        <div id="donation" class="section-panel">
+            <div class="text-center mb-12">
+                <h2 class="text-5xl font-amiri font-bold mb-4 text-yellow-500">الصدقة الجارية</h2>
+                <p class="text-gray-400">ساهم في كفالة حلقات مسجد التابعين وكن شريكاً في الأجر.</p>
             </div>
-        </section>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="imperial-card p-8 text-center border-b-4 border-yellow-600">
+                    <h4 class="text-xl font-black mb-4">كفالة طالب</h4>
+                    <p class="text-3xl font-bold text-yellow-500 mb-6">50 ₪ <small class="text-sm">/ شهرياً</small></p>
+                    <button class="btn-gold w-full">اختر هذا السهم</button>
+                </div>
+                <div class="imperial-card p-8 text-center border-b-4 border-yellow-600">
+                    <h4 class="text-xl font-black mb-4">كفالة حلقة</h4>
+                    <p class="text-3xl font-bold text-yellow-500 mb-6">500 ₪ <small class="text-sm">/ شهرياً</small></p>
+                    <button class="btn-gold w-full">اختر هذا السهم</button>
+                </div>
+                <div class="imperial-card p-8 text-center border-b-4 border-yellow-600">
+                    <h4 class="text-xl font-black mb-4">صيانة المسجد</h4>
+                    <p class="text-3xl font-bold text-yellow-500 mb-6">مبلغ مفتوح</p>
+                    <button class="btn-gold w-full">تبرع الآن</button>
+                </div>
+            </div>
+        </div>
 
     </main>
 
-    <script>
-        // الرابط الخاص بجوجل شيت (سيتم استبداله برابطك)
-        const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL';
+    <footer class="mt-20">
+        <p class="text-gray-500 text-sm">© 2026 جميع الحقوق محفوظة لمركز التابعين القرآني - النصيرات</p>
+        <div class="flex justify-center gap-6 mt-4">
+            <i class="fab fa-facebook hover:text-yellow-500 cursor-pointer"></i>
+            <i class="fab fa-whatsapp hover:text-yellow-500 cursor-pointer"></i>
+        </div>
+    </footer>
 
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById(id);
-            target.style.display = 'block';
-            setTimeout(() => target.classList.add('active'), 50);
+    <script>
+        // رابط جوجل شيت (يجب تغييره بعد النشر)
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby9TJ1YcsrhZm5O3TWP41B49KP2rR-2BBP2g8lzULTQvgTacOEIPk-1_GGTliBKUxNrOw/exec';
+
+        function showSection(id) {
+            document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
             window.scrollTo(0,0);
         }
 
-        async function fetchStudentData() {
+        async function fetchStudent() {
             const id = document.getElementById('studentID').value;
-            if(!id) return;
+            if(!id) return Swal.fire('تنبيه', 'أدخل الرقم التعريفي', 'info');
 
-            Swal.fire({ title: 'جاري جلب سجلاتك...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            Swal.fire({title: 'جاري استدعاء البيانات...', didOpen: () => Swal.showLoading()});
 
             try {
                 const response = await fetch(`${scriptURL}?action=getStudent&id=${id}`);
@@ -246,54 +315,46 @@
                 Swal.close();
 
                 if(data.found) {
-                    document.getElementById('studentCard').classList.remove('hidden');
-                    document.getElementById('sName').innerText = data.name;
-                    document.getElementById('sTeacher').innerText = `بإشراف المحفظ: ${data.teacher}`;
-                    document.getElementById('sGrade').innerText = data.grade || '---';
-                    document.getElementById('sMsg').innerText = data.studentMsg || 'استمر في حفظ الله ورعايته.';
+                    document.getElementById('student-result').classList.remove('hidden');
+                    document.getElementById('s-name').innerText = data.name;
+                    document.getElementById('s-details').innerText = `حلقة: ${data.teacher} - ${data.mosque}`;
+                    document.getElementById('s-rank').innerText = data.grade || 'طالب مجتهد';
                     
-                    const grid = document.getElementById('journeyGrid');
+                    const grid = document.getElementById('journey-grid');
                     grid.innerHTML = '';
                     for(let i=1; i<=30; i++) {
-                        const node = document.createElement('div');
-                        node.className = `part-node ${i <= data.parts ? 'completed' : ''}`;
-                        node.innerText = i;
-                        grid.appendChild(node);
+                        const dot = document.createElement('div');
+                        dot.className = `part-dot ${i <= data.parts ? 'completed' : ''}`;
+                        dot.innerText = i;
+                        grid.appendChild(dot);
                     }
                 } else {
-                    Swal.fire('عذراً', 'رقم الطالب غير صحيح أو غير مسجل', 'error');
+                    Swal.fire('خطأ', 'رقم الطالب غير موجود بالسجلات', 'error');
                 }
             } catch(e) {
-                Swal.fire('خطأ في الاتصال', 'يرجى التأكد من ربط قاعدة البيانات', 'warning');
+                Swal.fire('عذراً', 'حدث خطأ في الاتصال بالخادم', 'error');
             }
         }
 
-        async function updateSheet() {
+        async function updateData() {
             const btn = document.getElementById('saveBtn');
-            const payload = {
+            const data = {
                 action: 'updateScore',
-                id: document.getElementById('upId').value,
-                parts: document.getElementById('upParts').value,
-                grade: document.getElementById('upGrade').value,
-                today: document.getElementById('upToday').value,
-                msg: document.getElementById('upMsg').value
+                id: document.getElementById('up-id').value,
+                parts: document.getElementById('up-parts').value,
+                grade: document.getElementById('up-grade').value,
+                msg: document.getElementById('up-msg').value
             };
 
             btn.disabled = true; btn.innerText = "جاري الحفظ...";
 
             try {
-                await fetch(scriptURL, { method: 'POST', body: JSON.stringify(payload) });
-                Swal.fire('نجح الأمر', 'تم تحديث بيانات الطالب بنجاح', 'success');
+                await fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) });
+                Swal.fire('تم بنجاح', 'تم تحديث سجل الطالب ومزامنته', 'success');
             } catch(e) {
-                Swal.fire('خطأ', 'فشل تحديث البيانات', 'error');
+                Swal.fire('خطأ', 'فشلت العملية', 'error');
             }
-            btn.disabled = false; btn.innerText = "حفظ التغييرات ومزامنتها";
-        }
-
-        function auth() {
-            const pass = document.getElementById('adminPass').value;
-            if(pass === "2026") showPage('teacher-panel');
-            else Swal.fire('خطأ', 'كلمة المرور غير صحيحة', 'error');
+            btn.disabled = false; btn.innerText = "تحديث ومزامنة البيانات";
         }
     </script>
 </body>
