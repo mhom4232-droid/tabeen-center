@@ -3,358 +3,544 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة التابعين | مركز التابعين القرآني</title>
+    <title>منظومة صرح التابعين | غزة - النصيرات</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
+    
     <style>
-        :root {
-            --primary-gold: #D4AF37;
-            --royal-blue: #002347;
-            --deep-dark: #000c18;
-            --accent-gold: #FFD700;
+        :root { 
+            --royal-blue: #00235a; 
+            --gold-deep: #a67c00; 
+            --gold-light: #d4af37;
+            --bg-silk: #fcfcfc; 
+            --emerald: #065f46;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary-gold) var(--deep-dark);
+        
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            background: var(--bg-silk); 
+            scroll-behavior: smooth; 
+            overflow-x: hidden; 
         }
-
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--deep-dark);
-            color: #fff;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 35, 71, 0.3) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
-        }
-
+        
         .font-amiri { font-family: 'Amiri', serif; }
 
-        /* التصميم الإمبراطوري الفخم */
-        .imperial-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* شريط الإعلانات المتطور */
+        .marquee-slow { 
+            background: var(--royal-blue); 
+            color: white; 
+            padding: 12px 0; 
+            overflow: hidden; 
+            border-bottom: 2px solid var(--gold-deep); 
+            position: relative; 
+            z-index: 1001; 
+        }
+        .marquee-track { 
+            display: flex; 
+            gap: 150px; 
+            animation: move-very-slow 80s linear infinite; 
+            width: max-content; 
+        }
+        @keyframes move-very-slow { 
+            from { transform: translateX(0); } 
+            to { transform: translateX(100%); } 
         }
 
-        .imperial-card:hover {
-            border-color: var(--primary-gold);
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+        /* نظام الصفحات */
+        .page { display: none; opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .page.active { display: block; opacity: 1; transform: translateY(0); }
+
+        /* الأزرار الملكية */
+        .btn-gold { 
+            background: linear-gradient(135deg, var(--gold-deep) 0%, var(--gold-light) 100%); 
+            color: white; 
+            font-weight: 800; 
+            border-radius: 15px; 
+            transition: 0.4s; 
+            cursor: pointer;
         }
-
-        /* شريط التنقل */
-        nav {
-            background: rgba(0, 12, 24, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            top: 0;
+        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(166, 124, 0, 0.3); }
+        
+        /* المدخلات الآمنة */
+        .secure-input { 
+            background: #f9f9f9; 
+            border: 2px solid transparent; 
+            border-radius: 18px; 
+            padding: 16px; 
+            width: 100%; 
+            transition: 0.3s; 
+            outline: none; 
+            font-weight: 700; 
         }
+        .secure-input:focus { border-color: var(--royal-blue); background: white; box-shadow: 0 0 20px rgba(0,35,90,0.05); }
 
-        .nav-link {
-            position: relative;
-            color: #fff;
-            font-weight: 700;
-            transition: 0.3s;
-        }
+        /* نظام النقاط/الرحلة */
+        .part-dot { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; transition: 0.4s; }
+        .part-active { background: var(--gold-deep); color: white; box-shadow: 0 5px 15px rgba(166,124,0,0.3); }
+        .part-inactive { background: #f3f4f6; color: #9ca3af; border: 1px dashed #d1d5db; }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-gold);
-            transition: 0.3s;
-        }
-
-        .nav-link:hover::after { width: 100%; }
-
-        /* الأزرار الذهبية */
-        .btn-gold {
-            background: linear-gradient(45deg, #D4AF37, #F1D592);
-            color: var(--royal-blue);
-            font-weight: 900;
-            padding: 12px 30px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-            transition: 0.3s;
-        }
-
-        .btn-gold:hover {
-            transform: scale(1.05);
-            filter: brightness(1.1);
-        }
-
-        /* نظام الأجزاء (Journey) */
-        .journey-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .part-dot {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            transition: 0.4s;
-        }
-
-        .part-dot.completed {
-            background: var(--primary-gold);
-            color: var(--royal-blue);
-            box-shadow: 0 0 15px var(--primary-gold);
-        }
-
-        /* الأقسام */
-        .section-panel { display: none; padding-top: 100px; animation: fadeIn 0.8s ease; }
-        .section-panel.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* التذييل */
-        footer {
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            background: rgba(0, 8, 16, 0.9);
-            padding: 40px 0;
-            text-align: center;
-        }
-
-        /* المدخلات */
-        .custom-input {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(212,175,55,0.2);
-            border-radius: 12px;
-            padding: 15px;
-            color: white;
-            outline: none;
-            width: 100%;
-        }
+        /* أنيميشن */
+        .float { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
     </style>
 </head>
 <body>
 
-    <nav class="p-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-gradient-to-br from-gold-500 to-yellow-700 rounded-full flex items-center justify-center text-black shadow-lg shadow-yellow-500/20">
-                    <i class="fas fa-quran text-2xl"></i>
+    <div class="marquee-slow text-[11px] font-black tracking-widest uppercase">
+        <div class="marquee-track" id="mainMarquee">
+            <span>🔹 صرح التابعين: غزة - النصيرات - المخيم الجديد - بجوار مدرسة العروبة</span>
+            <span>🔹 كفالتك لحافظ هي نور لك في قبرك.. ساهم في الوقف القرآني الآن</span>
+            <span>🔹 بإشراف الأستاذ إسماعيل نوفل.. جيلٌ قرآني متميز على خطى التابعين</span>
+            <span id="latestDonation" class="text-amber-400">🔹 شكراً للمتبرعين الذين ساندوا الوقف هذا اليوم</span>
+        </div>
+    </div>
+
+    <nav class="bg-white/95 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4 cursor-pointer" onclick="goToPage('home')">
+                <div class="w-14 h-14 bg-blue-900 rounded-2xl flex items-center justify-center text-white text-2xl shadow-xl">
+                    <i class="fas fa-quran"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-black">منصة <span class="text-yellow-500">التابعين</span></h1>
-                    <p class="text-[10px] uppercase tracking-widest text-gray-400">مركز التابعين القرآني</p>
+                    <h1 class="text-xl font-black text-blue-900 leading-none">صرح التابعين</h1>
+                    <p class="text-[9px] text-amber-600 font-bold mt-1 uppercase tracking-widest">The Imperial Quranic Center</p>
                 </div>
             </div>
-            <div class="hidden md:flex gap-10">
-                <a href="#" onclick="showSection('home')" class="nav-link">الرئيسية</a>
-                <a href="#" onclick="showSection('student')" class="nav-link">بوابة الطالب</a>
-                <a href="#" onclick="showSection('donation')" class="nav-link">التبرعات</a>
-                <a href="#" onclick="showSection('admin')" class="nav-link">لوحة التحكم</a>
+            
+            <div class="hidden lg:flex gap-10 font-black text-[11px] text-blue-900 uppercase">
+                <button onclick="goToPage('home')" class="hover:text-amber-600 transition">الرئيسية</button>
+                <button onclick="goToPage('studentPortal')" class="hover:text-amber-600 transition">بوابة الطالب</button>
+                <button onclick="goToPage('donation')" class="hover:text-amber-600 transition text-amber-600">الوقف القرآني</button>
+                <button onclick="goToPage('registration')" class="hover:text-amber-600 transition">سجل طفلك</button>
             </div>
-            <button onclick="showSection('admin')" class="btn-gold text-xs">دخول المعلمين</button>
+
+            <button onclick="goToPage('loginGate')" class="btn-gold px-6 py-3 text-[10px] uppercase">دخول المسؤولين <i class="fas fa-shield-halved mr-2"></i></button>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6">
-        
-        <div id="home" class="section-panel active">
-            <div class="grid lg:grid-cols-2 gap-12 items-center min-h-[70vh]">
-                <div class="space-y-8">
-                    <h2 class="text-6xl md:text-8xl font-amiri font-bold leading-tight">وحيٌ يحيي <br><span class="text-yellow-500 italic">القلوب</span></h2>
-                    <p class="text-gray-400 text-xl leading-relaxed border-r-4 border-yellow-600 pr-6">المنصة الرسمية لإدارة مسجد التابعين ومتابعة حلقات التحفيظ لجيل النصر القادم.</p>
-                    <div class="flex gap-4">
-                        <button onclick="showSection('student')" class="btn-gold">متابعة الطالب</button>
-                        <button onclick="showSection('donation')" class="px-8 py-3 border border-yellow-600 rounded-xl hover:bg-yellow-600/10 transition">دعم المراكز</button>
+    <main>
+        <section id="home" class="page active max-w-7xl mx-auto px-6 py-20">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="space-y-10">
+                    <div class="inline-flex items-center gap-3 bg-blue-50 text-blue-900 px-6 py-2 rounded-full text-[10px] font-black border border-blue-100">
+                        <i class="fas fa-star text-amber-500"></i> مجمع التابعين القرآني - النصيرات
+                    </div>
+                    <h2 class="text-7xl font-black text-blue-900 leading-[1.1]">نورٌ في قلب <br> <span class="text-amber-600 font-amiri italic">مخيمنا</span></h2>
+                    <p class="text-xl text-gray-500 font-medium leading-relaxed max-w-lg italic">"لا نبني جدراناً، بل نبني صدوراً تحفظ النور.. انضم إلينا في رحلة صناعة جيل القرآن."</p>
+                    <div class="flex flex-wrap gap-5">
+                        <button onclick="goToPage('donation')" class="btn-gold px-12 py-6 text-lg shadow-2xl">ادعم الوقف القرآني</button>
+                        <button onclick="goToPage('studentPortal')" class="bg-white border-2 border-gray-100 px-10 py-5 rounded-2xl font-black hover:bg-gray-50 transition">بوابة الطالب</button>
                     </div>
                 </div>
-                <div class="relative">
-                    <div class="absolute -inset-10 bg-yellow-600/10 blur-[100px] rounded-full"></div>
-                    <img src="https://images.unsplash.com/photo-1584281722573-f9389278280f?q=80&w=1000" class="rounded-[40px] shadow-2xl border border-yellow-600/20 relative z-10 opacity-80">
+                <div class="relative group">
+                    <div class="absolute -inset-10 bg-gradient-to-tr from-blue-900/10 to-amber-500/10 rounded-[80px] blur-3xl"></div>
+                    <img src="https://images.unsplash.com/photo-1590076175574-e8893110534b?q=80&w=1000" class="relative z-10 rounded-[60px] shadow-3xl border-[12px] border-white transform hover:scale-[1.02] transition-transform duration-700">
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="student" class="section-panel">
-            <div class="max-w-4xl mx-auto">
-                <div class="imperial-card p-12 text-center" id="search-container">
-                    <h3 class="text-3xl font-black mb-6 font-amiri text-yellow-500">سجل الطالب الرقمي</h3>
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <input type="text" id="studentID" class="custom-input text-center text-2xl" placeholder="أدخل رقم الـ ID">
-                        <button onclick="fetchStudent()" class="btn-gold whitespace-nowrap">عرض السجل</button>
+        <section id="donation" class="page max-w-5xl mx-auto px-6 py-12">
+            <div class="text-center mb-16 space-y-4">
+                <h2 class="text-5xl font-black text-blue-900 font-amiri italic underline decoration-amber-500 underline-offset-8">الوقف القرآني الدائم</h2>
+                <p class="text-2xl text-gray-600 font-bold italic pt-4">"أرأيت إن انقطع عملك وبقي أثرك؟ هنا يُكتب اسمك في صدور الحُفاظ"</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                <div class="bg-white p-8 rounded-[40px] shadow-sm border-b-4 border-blue-900 text-center float">
+                    <i class="fas fa-hands-holding-child text-4xl text-blue-900 mb-4"></i>
+                    <h4 class="text-4xl font-black text-blue-900">$3,500</h4>
+                    <p class="text-gray-400 font-bold text-xs mt-2 uppercase">إجمالي كفالات هذا الشهر</p>
+                </div>
+                <div class="bg-white p-8 rounded-[40px] shadow-sm border-b-4 border-amber-500 text-center float" style="animation-delay: 0.5s">
+                    <i class="fas fa-users-line text-4xl text-amber-500 mb-4"></i>
+                    <h4 class="text-4xl font-black text-blue-900">120</h4>
+                    <p class="text-gray-400 font-bold text-xs mt-2 uppercase">طالب ينتظر كفالتك</p>
+                </div>
+                <div class="bg-white p-8 rounded-[40px] shadow-sm border-b-4 border-emerald text-center float" style="animation-delay: 1s">
+                    <i class="fas fa-mosque text-4xl text-emerald-600 mb-4"></i>
+                    <h4 class="text-4xl font-black text-blue-900">8</h4>
+                    <p class="text-gray-400 font-bold text-xs mt-2 uppercase">حلقات تحتاج تطوير</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-12 rounded-[60px] shadow-3xl border border-blue-50 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-900 via-amber-500 to-blue-900"></div>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-black text-blue-900">ساهم الآن</h3>
+                        <p class="text-gray-500 font-bold italic leading-relaxed">تبرعك اليوم هو استثمار في جيل غزة القادم، كل دولار يساهم في دفع رواتب المحفظين وتوفير الجوائز للطلاب المتميزين.</p>
+                        <div class="space-y-4">
+                            <input type="text" id="donorName" class="secure-input" placeholder="الاسم (أو اتركه لفاعل خير)">
+                            <input type="number" id="donorAmount" class="secure-input" placeholder="مبلغ التبرع ($)">
+                            
+                            <div class="bg-amber-50 p-6 rounded-3xl border border-amber-100">
+                                <p class="text-sm font-black text-blue-900 mb-4">هل ترغب في ظهور اسمك في "لوحة شرف" الموقع؟</p>
+                                <div class="flex gap-6">
+                                    <label class="flex items-center gap-2 cursor-pointer font-bold text-sm">
+                                        <input type="radio" name="showInMarquee" value="yes" checked> نعم، فخرٌ لي
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer font-bold text-sm">
+                                        <input type="radio" name="showInMarquee" value="no"> اجعلها صدقة خفية
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="submitDonation()" id="donBtn" class="w-full btn-gold py-6 text-xl shadow-xl">تأكيد الوقف والمساهمة</button>
+                    </div>
+                    <div class="bg-blue-900 rounded-[40px] p-10 text-white flex flex-col justify-center space-y-6">
+                        <h4 class="text-2xl font-black font-amiri italic">"إذا مات ابن آدم انقطع عمله إلا من ثلاث..."</h4>
+                        <p class="opacity-80 font-medium leading-relaxed italic">منها صدقة جارية.. وأي صدقة أعظم من دعم من يرتل كلام الله آناء الليل وأطراف النهار في قلب غزة الصابرة؟</p>
+                        <div class="pt-6 border-t border-white/10 text-center">
+                            <p class="text-[10px] uppercase tracking-[0.3em]">بإشراف اللجنة المالية للمركز</p>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div id="student-result" class="hidden space-y-6 mt-10">
-                    <div class="imperial-card p-8 flex flex-col md:flex-row justify-between items-center gap-6 border-r-8 border-yellow-600">
+        <section id="studentPortal" class="page max-w-5xl mx-auto px-6 py-12">
+            <div id="studentLoginSection" class="max-w-md mx-auto text-center mb-10">
+                <div class="w-20 h-20 bg-blue-900 rounded-3xl mx-auto mb-6 flex items-center justify-center text-white text-3xl shadow-xl">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h3 class="text-3xl font-black text-blue-900 mb-6 font-amiri italic">ملف المتابعة الإلكتروني</h3>
+                <input type="text" id="studentID" class="secure-input mb-4 text-center text-2xl tracking-widest" placeholder="أدخل رقم الـ ID">
+                <button onclick="fetchStudentData()" id="stdQueryBtn" class="btn-gold w-full py-5">فتح الملف الشخصي</button>
+                <button onclick="goToPage('home')" class="mt-4 text-gray-400 font-black text-xs hover:text-blue-900">العودة للرئيسية</button>
+            </div>
+
+            <div id="studentDisplayArea" class="hidden animate-in fade-in slide-in-from-bottom-10 duration-700">
+                <div class="bg-white rounded-[50px] p-10 shadow-sm border border-gray-100 mb-10 flex flex-col md:flex-row justify-between items-center gap-8">
+                    <div class="flex items-center gap-8">
+                        <div id="stdAvatar" class="w-24 h-24 bg-gradient-to-br from-blue-900 to-blue-700 rounded-3xl flex items-center justify-center text-white text-4xl font-black shadow-2xl">أ</div>
                         <div>
-                            <h4 id="s-name" class="text-4xl font-black">---</h4>
-                            <p id="s-details" class="text-yellow-500 font-bold mt-2"></p>
-                        </div>
-                        <div class="text-center">
-                            <span class="text-xs uppercase text-gray-400">المرتبة</span>
-                            <div id="s-rank" class="text-3xl font-black text-yellow-500 italic">...</div>
+                            <h2 id="displayName" class="text-4xl font-black text-blue-900">...</h2>
+                            <p id="displayRing" class="text-amber-600 font-bold mt-2 text-sm italic uppercase tracking-wider"></p>
                         </div>
                     </div>
+                    <button onclick="location.reload()" class="bg-red-50 text-red-600 px-8 py-3 rounded-2xl font-black text-xs hover:bg-red-100 transition">تسجيل الخروج</button>
+                </div>
 
-                    <div class="imperial-card p-8">
-                        <h5 class="font-bold mb-6 flex items-center gap-3">
-                            <i class="fas fa-chess-king text-yellow-500"></i> خريطة الحفظ التفاعلية (30 جزء)
-                        </h5>
-                        <div id="journey-grid" class="journey-grid"></div>
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 bg-white rounded-[50px] p-12 border border-gray-100 shadow-sm">
+                        <h3 class="text-2xl font-black text-blue-900 mb-12 flex items-center gap-4">
+                            <i class="fas fa-map-marked-alt text-amber-600"></i> خريطتك نحو التاج الوقور
+                        </h3>
+                        <div id="journeyDots" class="flex flex-wrap justify-center gap-3"></div>
+                        <p id="journeyText" class="mt-10 text-center font-black text-blue-900 italic text-lg">...</p>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div class="bg-blue-900 p-8 rounded-[40px] text-white shadow-xl relative overflow-hidden group">
+                            <i class="fas fa-quote-right absolute top-4 left-4 text-white/10 text-6xl"></i>
+                            <h4 class="font-black mb-4 relative z-10"><i class="fas fa-lightbulb text-amber-400 mr-2"></i> رسالتنا لك:</h4>
+                            <p id="studentInspiration" class="font-bold italic opacity-90 leading-relaxed relative z-10">...</p>
+                        </div>
+                        <div class="bg-amber-50 p-8 rounded-[40px] border border-amber-100 shadow-sm">
+                            <h4 class="font-black text-blue-900 mb-4"><i class="fas fa-heart text-red-500 mr-2"></i> لولي الأمر:</h4>
+                            <p id="parentMessage" class="font-bold text-gray-600 italic leading-relaxed">...</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="admin" class="section-panel">
-            <div class="max-w-4xl mx-auto imperial-card p-10">
-                <h3 class="text-3xl font-black mb-8 border-b border-yellow-600 pb-4">الإدارة المركزية</h3>
-                <div class="grid md:grid-cols-2 gap-6">
+        <section id="loginGate" class="page max-w-lg mx-auto px-6 py-20">
+            <div class="bg-white p-12 rounded-[50px] shadow-3xl border border-gray-100 text-center">
+                <div class="w-20 h-20 bg-amber-500 rounded-3xl mx-auto mb-8 flex items-center justify-center text-white text-3xl shadow-xl">
+                    <i class="fas fa-key"></i>
+                </div>
+                <h2 class="text-3xl font-black text-blue-900 mb-4 font-amiri italic">منظومة التحكم</h2>
+                <p class="text-gray-400 font-bold text-xs mb-8 uppercase tracking-widest">يرجى إدخال كلمة المرور السرية</p>
+                <input type="password" id="sysPassword" class="secure-input text-center mb-6 text-2xl" placeholder="••••••••">
+                <button onclick="checkAccess()" class="w-full btn-gold py-5 text-lg">دخول النظام</button>
+            </div>
+        </section>
+
+        <section id="adminDashboard" class="page max-w-7xl mx-auto px-6 py-12">
+            <div class="flex justify-between items-center bg-blue-900 p-10 rounded-[40px] text-white mb-12 shadow-2xl relative overflow-hidden">
+                <div class="relative z-10">
+                    <h2 class="text-4xl font-black font-amiri italic">عرش الإدارة العليا</h2>
+                    <p class="opacity-70 mt-2 font-bold italic">مرحباً بك أستاذ إسماعيل نوفل | مدير صرح التابعين</p>
+                </div>
+                <button onclick="location.reload()" class="bg-white/10 hover:bg-white/20 px-8 py-3 rounded-2xl font-black text-xs relative z-10">تسجيل الخروج الآمن</button>
+                <i class="fas fa-mosque absolute -right-10 -bottom-10 text-[200px] text-white/5"></i>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border-r-8 border-blue-900">
+                    <h4 class="text-gray-400 font-black text-[10px] uppercase">إجمالي الطلاب</h4>
+                    <p class="text-4xl font-black text-blue-900 mt-2">342</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border-r-8 border-amber-500">
+                    <h4 class="text-gray-400 font-black text-[10px] uppercase">صندوق الوقف</h4>
+                    <p class="text-4xl font-black text-emerald-600 mt-2">$14,250</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border-r-8 border-red-500">
+                    <h4 class="text-gray-400 font-black text-[10px] uppercase">طلبات جديدة</h4>
+                    <p class="text-4xl font-black text-blue-900 mt-2">12</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border-r-8 border-emerald">
+                    <h4 class="text-gray-400 font-black text-[10px] uppercase">المحفظين</h4>
+                    <p class="text-4xl font-black text-blue-900 mt-2">9</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-10 rounded-[50px] shadow-sm border border-gray-100">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-2xl font-black text-blue-900">سجل البيانات المركزي</h3>
+                    <button class="bg-blue-50 text-blue-900 px-6 py-2 rounded-xl font-bold text-xs">تصدير لملف Excel</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right">
+                        <thead class="bg-gray-50 border-b border-gray-100">
+                            <tr>
+                                <th class="p-4 font-black text-xs text-gray-500 uppercase">الطالب</th>
+                                <th class="p-4 font-black text-xs text-gray-500 uppercase">المسجد</th>
+                                <th class="p-4 font-black text-xs text-gray-500 uppercase">المحفظ</th>
+                                <th class="p-4 font-black text-xs text-gray-500 uppercase">الإنجاز</th>
+                                <th class="p-4 font-black text-xs text-gray-500 uppercase">آخر تحديث</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 font-bold text-sm">
+                            <tr>
+                                <td class="p-4">أحمد محمد العصار</td>
+                                <td class="p-4">مسجد التابعين</td>
+                                <td class="p-4">أ. ناهض العصار</td>
+                                <td class="p-4 text-amber-600">22 جزء</td>
+                                <td class="p-4 text-gray-400">منذ ساعتين</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="teacherDashboard" class="page max-w-5xl mx-auto px-6 py-12">
+            <div class="bg-white p-12 rounded-[50px] shadow-2xl">
+                <h2 class="text-3xl font-black text-blue-900 mb-10 font-amiri italic border-b pb-6">تحديث سجلات الطلاب</h2>
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
                     <div class="space-y-4">
-                        <label class="text-xs text-gray-500 uppercase">هوية الطالب</label>
-                        <input type="text" id="up-id" class="custom-input" placeholder="مثلاً: 101">
-                        
-                        <label class="text-xs text-gray-500 uppercase">الأجزاء المنجزة</label>
-                        <input type="number" id="up-parts" class="custom-input" placeholder="0 - 30">
-                        
-                        <label class="text-xs text-gray-500 uppercase">التقدير</label>
-                        <select id="up-grade" class="custom-input">
-                            <option>ممتاز 🌟</option>
+                        <label class="text-xs font-black text-gray-400 uppercase mr-2">ID الطالب المستهدف</label>
+                        <input type="text" id="tTargetID" class="secure-input" placeholder="أدخل ID الطالب">
+                    </div>
+                    <div class="space-y-4">
+                        <label class="text-xs font-black text-gray-400 uppercase mr-2">عدد الأجزاء المنجزة</label>
+                        <input type="number" id="tParts" class="secure-input" placeholder="مثلاً: 15">
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="space-y-4">
+                        <label class="text-xs font-black text-gray-400 uppercase mr-2">التقييم الحالي</label>
+                        <select id="tGrade" class="secure-input">
+                            <option>ممتاز مرتفع 🌟</option>
+                            <option>ممتاز ✅</option>
                             <option>جيد جداً 👍</option>
+                            <option>يحتاج مراجعة ⚠️</option>
                         </select>
                     </div>
                     <div class="space-y-4">
-                        <label class="text-xs text-gray-500 uppercase">رسالة اليوم</label>
-                        <textarea id="up-msg" class="custom-input h-[190px]" placeholder="اكتب تشجيعاً للطالب..."></textarea>
+                        <label class="text-xs font-black text-gray-400 uppercase mr-2">تسميع اليوم</label>
+                        <input type="text" id="tTodayRecord" class="secure-input" placeholder="مثلاً: من سورة البقرة إلى آل عمران">
                     </div>
                 </div>
-                <button onclick="updateData()" id="saveBtn" class="btn-gold w-full mt-8">تحديث ومزامنة البيانات</button>
+                <div class="space-y-4 mb-10">
+                    <label class="text-xs font-black text-gray-400 uppercase mr-2">رسائل تحفيزية (خاصة)</label>
+                    <textarea id="tMsg" class="secure-input h-32" placeholder="اكتب رسالة ستظهر للطالب وولي أمره..."></textarea>
+                </div>
+                <button onclick="submitTeacherUpdate()" id="tUpdateBtn" class="w-full btn-gold py-6 text-xl">حفظ البيانات في السجل السحابي</button>
             </div>
-        </div>
+        </section>
 
-        <div id="donation" class="section-panel">
-            <div class="text-center mb-12">
-                <h2 class="text-5xl font-amiri font-bold mb-4 text-yellow-500">الصدقة الجارية</h2>
-                <p class="text-gray-400">ساهم في كفالة حلقات مسجد التابعين وكن شريكاً في الأجر.</p>
+        <section id="registration" class="page max-w-5xl mx-auto px-6 py-20">
+            <div class="bg-white p-16 rounded-[60px] shadow-3xl text-center">
+                <h2 class="text-4xl font-black text-blue-900 font-amiri italic mb-4">بوابة الانتساب الرسمية</h2>
+                <p class="text-gray-400 font-bold text-xs uppercase tracking-widest mb-12">سجل طفلك ليكون من حُفاظ كتاب الله</p>
+                <div class="grid md:grid-cols-2 gap-8 mb-10">
+                    <input type="text" id="regName" class="secure-input" placeholder="اسم الطالب رباعياً">
+                    <input type="text" id="regPhone" class="secure-input" placeholder="رقم واتساب ولي الأمر">
+                    <select id="regMosque" class="secure-input">
+                        <option value="">اختر المسجد</option>
+                        <option>مسجد التابعين</option>
+                        <option>مسجد معاذ بن جبل</option>
+                        <option>مسجد التابعين (للنساء)</option>
+                    </select>
+                    <select id="regTeacher" class="secure-input">
+                        <option value="">اختر المحفظ</option>
+                        <option>أ. ناهض العصار</option>
+                        <option>أ. محمد العصار</option>
+                        <option>أ. محمود العمصي</option>
+                    </select>
+                </div>
+                <button onclick="submitNewStudent()" id="regBtn" class="btn-gold px-16 py-6 text-xl">إرسال طلب الالتحاق</button>
             </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="imperial-card p-8 text-center border-b-4 border-yellow-600">
-                    <h4 class="text-xl font-black mb-4">كفالة طالب</h4>
-                    <p class="text-3xl font-bold text-yellow-500 mb-6">50 ₪ <small class="text-sm">/ شهرياً</small></p>
-                    <button class="btn-gold w-full">اختر هذا السهم</button>
-                </div>
-                <div class="imperial-card p-8 text-center border-b-4 border-yellow-600">
-                    <h4 class="text-xl font-black mb-4">كفالة حلقة</h4>
-                    <p class="text-3xl font-bold text-yellow-500 mb-6">500 ₪ <small class="text-sm">/ شهرياً</small></p>
-                    <button class="btn-gold w-full">اختر هذا السهم</button>
-                </div>
-                <div class="imperial-card p-8 text-center border-b-4 border-yellow-600">
-                    <h4 class="text-xl font-black mb-4">صيانة المسجد</h4>
-                    <p class="text-3xl font-bold text-yellow-500 mb-6">مبلغ مفتوح</p>
-                    <button class="btn-gold w-full">تبرع الآن</button>
-                </div>
-            </div>
-        </div>
-
+        </section>
     </main>
 
-    <footer class="mt-20">
-        <p class="text-gray-500 text-sm">© 2026 جميع الحقوق محفوظة لمركز التابعين القرآني - النصيرات</p>
-        <div class="flex justify-center gap-6 mt-4">
-            <i class="fab fa-facebook hover:text-yellow-500 cursor-pointer"></i>
-            <i class="fab fa-whatsapp hover:text-yellow-500 cursor-pointer"></i>
+    <footer class="py-20 bg-white border-t mt-24 text-center">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-center gap-8 mb-10 text-blue-900 text-2xl">
+                <i class="fab fa-facebook hover:text-amber-500 cursor-pointer transition"></i>
+                <i class="fab fa-whatsapp hover:text-amber-500 cursor-pointer transition"></i>
+                <i class="fab fa-youtube hover:text-amber-500 cursor-pointer transition"></i>
+            </div>
+            <p class="text-gray-400 font-black text-[10px] tracking-[0.5em] uppercase italic">
+                حقوق الطبع محفوظة © 2026 صرح التابعين - النصيرات - المخيم الجديد
+            </p>
         </div>
     </footer>
 
     <script>
-        // رابط جوجل شيت (يجب تغييره بعد النشر)
         const scriptURL = 'https://script.google.com/macros/s/AKfycby9TJ1YcsrhZm5O3TWP41B49KP2rR-2BBP2g8lzULTQvgTacOEIPk-1_GGTliBKUxNrOw/exec';
 
-        function showSection(id) {
-            document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            window.scrollTo(0,0);
+        // 1. التنقل بين الصفحات
+        function goToPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            setTimeout(() => { document.getElementById(id).classList.add('active'); }, 50);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        async function fetchStudent() {
-            const id = document.getElementById('studentID').value;
-            if(!id) return Swal.fire('تنبيه', 'أدخل الرقم التعريفي', 'info');
-
-            Swal.fire({title: 'جاري استدعاء البيانات...', didOpen: () => Swal.showLoading()});
-
-            try {
-                const response = await fetch(`${scriptURL}?action=getStudent&id=${id}`);
-                const data = await response.json();
-                Swal.close();
-
-                if(data.found) {
-                    document.getElementById('student-result').classList.remove('hidden');
-                    document.getElementById('s-name').innerText = data.name;
-                    document.getElementById('s-details').innerText = `حلقة: ${data.teacher} - ${data.mosque}`;
-                    document.getElementById('s-rank').innerText = data.grade || 'طالب مجتهد';
-                    
-                    const grid = document.getElementById('journey-grid');
-                    grid.innerHTML = '';
-                    for(let i=1; i<=30; i++) {
-                        const dot = document.createElement('div');
-                        dot.className = `part-dot ${i <= data.parts ? 'completed' : ''}`;
-                        dot.innerText = i;
-                        grid.appendChild(dot);
-                    }
-                } else {
-                    Swal.fire('خطأ', 'رقم الطالب غير موجود بالسجلات', 'error');
-                }
-            } catch(e) {
-                Swal.fire('عذراً', 'حدث خطأ في الاتصال بالخادم', 'error');
+        // 2. فحص الدخول (المدير والمحفظ)
+        function checkAccess() {
+            const pass = document.getElementById('sysPassword').value;
+            if (pass === "Admin2026") {
+                goToPage('adminDashboard');
+            } else if (pass === "2026") {
+                goToPage('teacherDashboard');
+            } else {
+                alert("❌ كلمة المرور خاطئة، يرجى المحاولة مرة أخرى.");
             }
         }
 
-        async function updateData() {
-            const btn = document.getElementById('saveBtn');
+        // 3. استعلام بيانات الطالب من Google Sheets
+        async function fetchStudentData() {
+            const id = document.getElementById('studentID').value;
+            const btn = document.getElementById('stdQueryBtn');
+            if(!id) return alert("يرجى إدخال الرقم التعريفي");
+
+            btn.innerText = "جاري الاتصال بالسجل..."; btn.disabled = true;
+
+            try {
+                const res = await fetch(`${scriptURL}?action=getStudent&id=${id}`);
+                const data = await res.json();
+
+                if(data.found) {
+                    document.getElementById('studentLoginSection').classList.add('hidden');
+                    document.getElementById('studentDisplayArea').classList.remove('hidden');
+                    document.getElementById('displayName').innerText = data.name;
+                    document.getElementById('displayRing').innerText = `حلقة ${data.teacher} - ${data.mosque}`;
+                    document.getElementById('studentInspiration').innerText = data.studentMsg || "القرآن هو رفيقك الأوفى، فاستمسك به يرفعك في الدنيا والآخرة.";
+                    document.getElementById('parentMessage').innerText = data.parentMsg || "نبارك لكم هذا الغرس الطيب، فابنكم اليوم هو ثمرة فخر للمركز ولكم.";
+                    
+                    updateJourneyMap(data.parts);
+                } else {
+                    alert("⚠️ عذراً، هذا الرقم غير مسجل في قاعدة بيانات المركز.");
+                }
+            } catch (e) {
+                alert("❌ فشل الاتصال بالخادم، تأكد من اتصال الإنترنت.");
+            }
+            btn.innerText = "فتح الملف الشخصي"; btn.disabled = false;
+        }
+
+        // 4. تحديث خريطة الختمة (30 جزء)
+        function updateJourneyMap(parts) {
+            const container = document.getElementById('journeyDots');
+            container.innerHTML = '';
+            // عرض الـ 30 جزء بشكل عكسي (من 30 إلى 1) ليكون الـ 30 هو القمة
+            for (let i = 30; i >= 1; i--) {
+                const d = document.createElement('div');
+                d.className = `part-dot ${i >= (31 - parts) ? 'part-active' : 'part-inactive'}`;
+                d.innerText = i;
+                container.appendChild(d);
+            }
+            document.getElementById('journeyText').innerText = `بفضل الله، أنجزت ${parts} أجزاء من كتاب الله.. تبقى لك ${30-parts} خطوات نحو الختمة!`;
+        }
+
+        // 5. إرسال تبرع جديد وتحديث شريط الشرف
+        async function submitDonation() {
+            const name = document.getElementById('donorName').value || "فاعل خير";
+            const amount = document.getElementById('donorAmount').value;
+            const isVisible = document.querySelector('input[name="showInMarquee"]:checked').value;
+            const btn = document.getElementById('donBtn');
+
+            if(!amount) return alert("يرجى إدخال مبلغ المساهمة");
+
+            btn.innerText = "جاري تأكيد الوقف..."; btn.disabled = true;
+
+            try {
+                const data = { action: 'addDonation', name, amount, visible: isVisible };
+                await fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) });
+                
+                if (isVisible === "yes") {
+                    const marquee = document.getElementById('mainMarquee');
+                    const span = document.createElement('span');
+                    span.className = "text-amber-400 font-black";
+                    span.innerHTML = `🔹 شكراً للمتبرع: ${name} (مساهمة بقيمة ${amount}$)`;
+                    marquee.prepend(span);
+                    alert(`✅ تقبل الله منك يا ${name}. تم تسجيل مساهمتك وظهورها في لوحة الشرف.`);
+                } else {
+                    alert("✅ تم تسجيل تبرعك بنجاح. جعله الله في ميزان حسناتك (صدقة خفية).");
+                }
+                goToPage('home');
+            } catch (e) {
+                alert("❌ حدث خطأ في الربط");
+            }
+            btn.innerText = "تأكيد الوقف والمساهمة"; btn.disabled = false;
+        }
+
+        // 6. تحديث بيانات الطالب (للمحفظ)
+        async function submitTeacherUpdate() {
+            const btn = document.getElementById('tUpdateBtn');
             const data = {
                 action: 'updateScore',
-                id: document.getElementById('up-id').value,
-                parts: document.getElementById('up-parts').value,
-                grade: document.getElementById('up-grade').value,
-                msg: document.getElementById('up-msg').value
+                id: document.getElementById('tTargetID').value,
+                parts: document.getElementById('tParts').value,
+                grade: document.getElementById('tGrade').value,
+                today: document.getElementById('tTodayRecord').value,
+                msg: document.getElementById('tMsg').value
             };
 
-            btn.disabled = true; btn.innerText = "جاري الحفظ...";
+            if(!data.id || !data.parts) return alert("يرجى تعبئة الحقول الأساسية");
+
+            btn.innerText = "جاري الحفظ في السحابة..."; btn.disabled = true;
 
             try {
                 await fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) });
-                Swal.fire('تم بنجاح', 'تم تحديث سجل الطالب ومزامنته', 'success');
-            } catch(e) {
-                Swal.fire('خطأ', 'فشلت العملية', 'error');
+                alert("✅ تم تحديث بيانات الطالب بنجاح!");
+                document.getElementById('tTargetID').value = "";
+                document.getElementById('tParts').value = "";
+                document.getElementById('tMsg').value = "";
+            } catch (e) {
+                alert("❌ فشل التحديث");
             }
-            btn.disabled = false; btn.innerText = "تحديث ومزامنة البيانات";
+            btn.innerText = "حفظ البيانات في السجل السحابي"; btn.disabled = false;
+        }
+
+        // 7. تسجيل طالب جديد
+        async function submitNewStudent() {
+            const btn = document.getElementById('regBtn');
+            const data = {
+                action: 'register',
+                name: document.getElementById('regName').value,
+                phone: document.getElementById('regPhone').value,
+                mosque: document.getElementById('regMosque').value,
+                teacher: document.getElementById('regTeacher').value
+            };
+
+            if(!data.name || !data.phone) return alert("يرجى إكمال البيانات");
+
+            btn.innerText = "جاري إرسال الطلب..."; btn.disabled = true;
+
+            try {
+                await fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) });
+                alert("✅ تم إرسال طلبك بنجاح. سنتواصل معكم قريباً عبر واتساب.");
+                goToPage('home');
+            } catch (e) {
+                alert("❌ حدث خطأ أثناء التسجيل");
+            }
+            btn.innerText = "إرسال طلب الالتحاق"; btn.disabled = false;
         }
     </script>
 </body>
